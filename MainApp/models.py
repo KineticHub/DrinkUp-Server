@@ -22,10 +22,10 @@ class SerializedDataField(models.TextField):
 		#value = pickle.loads(base64.b64decode(value))
 		return value
 
-	def get_db_prep_save(self, value):
+	def get_db_prep_save(self, value, connection):
 		if value is None: return
 		if value == '': return
-		return (pickle.loads(value), None)
+		return (pickle.loads(value), connection)
 		#return base64.b64encode(pickle.dumps(value))
 #==============================================
 
