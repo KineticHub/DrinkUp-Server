@@ -12,7 +12,7 @@ class FilterUserAdmin(admin.ModelAdmin):
 
 	def queryset(self, request): 
 		qs = super(FilterUserAdmin, self).queryset(request) 
-		return qs.filter(created_by=request.user)
+		return qs.filter(user=request.user)
 
 	def has_change_permission(self, request, obj=None):
 		if not obj:
