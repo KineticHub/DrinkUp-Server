@@ -20,29 +20,29 @@ from MainApp.models import *
 ##		return obj.user === request.user
 ###===================================================#
 ##
-##class BarModelAdmin(FilterUserAdmin):
-##	pass # (replace this with anything else you need)
-##	
-##class DrinkModelAdmin(FilterUserAdmin):
-##	pass # (replace this with anything else you need)
-##	
-##class DrinkTypeModelAdmin(FilterUserAdmin):
-##	pass # (replace this with anything else you need)
-##	
-##class OrderModelAdmin(FilterUserAdmin):
-##	pass # (replace this with anything else you need)
-##	
-##class AppUserModelAdmin(FilterUserAdmin):
-##	pass # (replace this with anything else you need)
-##
-##admin.site.register(Bar, BarModelAdmin)
-##admin.site.register(DrinkType, DrinkTypeModelAdmin)
-##admin.site.register(Drink, DrinkModelAdmin)
-##admin.site.register(Order, OrderModelAdmin)
-##admin.site.register(AppUser, AppUserModelAdmin)
+class BarModelAdmin(FilterUserAdmin):
+	exclude = ('user',)
+	
+class DrinkModelAdmin(FilterUserAdmin):
+	exclude = ('user',)
+	
+class DrinkTypeModelAdmin(FilterUserAdmin):
+	exclude = ('user',)
+	
+class OrderModelAdmin(FilterUserAdmin):
+	exclude = ('user',)
+	
+class AppUserModelAdmin(FilterUserAdmin):
+	exclude = ('user',)
 
-admin.site.register(Bar)
-admin.site.register(DrinkType)
-admin.site.register(Drink)
-admin.site.register(Order)
-admin.site.register(AppUser)
+admin.site.register(Bar, BarModelAdmin)
+admin.site.register(DrinkType, DrinkTypeModelAdmin)
+admin.site.register(Drink, DrinkModelAdmin)
+admin.site.register(Order, OrderModelAdmin)
+admin.site.register(AppUser, AppUserModelAdmin)
+
+##admin.site.register(Bar)
+##admin.site.register(DrinkType)
+##admin.site.register(Drink)
+##admin.site.register(Order)
+##admin.site.register(AppUser)
