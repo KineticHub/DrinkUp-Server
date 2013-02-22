@@ -23,10 +23,10 @@ class FilterUserAdmin(admin.ModelAdmin):
 	def formfield_for_foreignkey(self, db_field, request, **kwargs):
 		if db_field.name == "bar":
 			kwargs["queryset"] = Bar.objects.filter(user=request.user)
-			return db_field.formfield(**kwargs)
+			#return db_field.formfield(**kwargs)
 		if db_field.name == "drink_type":
 			kwargs["queryset"] = DrinkType.objects.filter(user=request.user)
-			return db_field.formfield(**kwargs)
+			#return db_field.formfield(**kwargs)
 		return super(FilterUserAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 #===================================================#
 
