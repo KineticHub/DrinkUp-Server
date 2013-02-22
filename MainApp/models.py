@@ -17,14 +17,16 @@ class SerializedDataField(models.TextField):
 	def to_python(self, value):
 		if value is None: return
 		if value == '': return
-		if not isinstance(value, basestring): return value
-		value = pickle.loads(base64.b64decode(value))
+		value = pickle.dumps(value)
+		#if not isinstance(value, basestring): return value
+		#value = pickle.loads(base64.b64decode(value))
 		return value
 
 	def get_db_prep_save(self, value):
 		if value is None: return
 		if value == '': return
-		return base64.b64encode(pickle.dumps(value))
+		return pickle.loads(value)
+		#return base64.b64encode(pickle.dumps(value))
 #==============================================
 
 class Bar(BaseModel):
