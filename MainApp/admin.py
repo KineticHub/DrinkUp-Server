@@ -4,8 +4,10 @@ from ApiApp.models import BaseModel
 from MainApp.models import *
 
 #===================================================#
-class FilterUserAdmin(admin.ModelAdmin): def save_model(self, request,
-	obj, form, change): obj.user = request.user obj.save()
+class FilterUserAdmin(admin.ModelAdmin):
+
+	def save_model(self, request, obj, form, change):
+		obj.user = request.user obj.save()
 
 	def queryset(self, request): 
 		qs = super(self, FilterUserAdmin).queryset(request) 
