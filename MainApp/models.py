@@ -29,7 +29,7 @@ class Bar(BaseModel):
 	email = models.EmailField(max_length=254)
 	#secret = models.CharField()
 	#salt = models.CharField()
-	name = models.CharField()
+	name = models.CharField(max_length=200)
 	icon = models.URLField()
 	lattitude = models.FloatField()
 	longitude = models.FloatField()
@@ -38,34 +38,34 @@ class Bar(BaseModel):
 class AppUser(BaseModel):
 	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
 
-	nickname = models.CharField()
+	nickname = models.CharField(max_length=200)
 	email = models.EmailField(max_length=254)
-	secret = models.CharField()
-	salt = models.CharField()
+	secret = models.CharField(max_length=200)
+	salt = models.CharField(max_length=200)
 	age = models.PositiveIntegerField()
 	sex = models.CharField(choices=Gender_Options)
 	zipcode = models.PositiveIntegerField()
-	favorite = models.CharField()
+	favorite = models.CharField(max_length=200)
 
 class DrinkType(BaseModel):
 	bar = models.ForeignKey(Bar)
-	type_name = models.CharField()
+	type_name = models.CharField(max_length=200)
 	
 class Drink(BaseModel):
 	bar = models.ForeignKey(Bar)
 	drink_type = models.ForeignKey(DrinkType)
-	name = models.CharField()
-	price = models.DecimalField(decimal_places=2)
+	name = models.CharField(max_length=200)
+	price = models.DecimalField(decimal_places=2, max_digits=6)
 	
 class Order(BaseModel):
 	bar = models.ForeignKey(Bar)
 	appuser = models.ForeignKey(AppUser)
 	datetime = models.DateTimeField(auto_now_add=True)
-	total = models.DecimalField(decimal_places=2)
-	tax = models.DecimalField(decimal_places=2)
-	sub_total = models.DecimalField(decimal_places=2)
-	tip = models.DecimalField(decimal_places=2)
-	grand_total = models.DecimalField(decimal_places=2)
+	total = models.DecimalField(decimal_places=2, max_digits=6)
+	tax = models.DecimalField(decimal_places=2, max_digits=6)
+	sub_total = models.DecimalField(decimal_places=2, max_digits=6)
+	tip = models.DecimalField(decimal_places=2, max_digits=6)
+	grand_total = models.DecimalField(decimal_places=2, max_digits=6)
 	description = models.TextField(blank=True)
 	drinks = SerializedDataField()
 
