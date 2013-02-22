@@ -43,7 +43,7 @@ class AppUser(BaseModel):
 	secret = models.CharField(max_length=200)
 	salt = models.CharField(max_length=200)
 	age = models.PositiveIntegerField()
-	sex = models.CharField(choices=Gender_Options)
+	sex = models.CharField(choices=Gender_Options, max_length=15)
 	zipcode = models.PositiveIntegerField()
 	favorite = models.CharField(max_length=200)
 
