@@ -19,6 +19,15 @@ class FilterUserAdmin(admin.ModelAdmin):
 			# the changelist itself
 			return True
 		return obj.user == request.user
+		
+	def formfield_for_foreignkey(self, db_field, request, **kwargs):
+		if db_field.name == "bar":
+			kwargs["queryset"] = Bar.objects.filter(user=request.user)
+			return db_field.formfield(**kwargs)
+		if db_field.name == "drink_type":
+			kwargs["queryset"] = DrinkType.objects.filter(user=request.user)
+			return db_field.formfield(**kwargs)
+		return super(DrinkTypeModelAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 #===================================================#
 
 class BarModelAdmin(FilterUserAdmin):
@@ -28,16 +37,16 @@ class DrinkModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 	
 class DrinkTypeModelAdmin(FilterUserAdmin):
-
-	def formfield_for_foreignkey(self, db_field, request, **kwargs):
-		if db_field.name == "bar":
-			kwargs["queryset"] = Bar.objects.filter(user=request.user)
-			return db_field.formfield(**kwargs)
-		return super(DrinkTypeModelAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-
 	exclude = ('user',)
 	
 class OrderModelAdmin(FilterUserAdmin):
+
+	def queryset(self, request): 
+		qs = super(OrderModelAdmin, self).queryset(request)
+		bars = Bar.objects.filter(user=request.user)
+		return qs.filter(bar__pk__in = [bar.pk for bar in bars])
+		#return qs.filter(user=request.user)
+
 	exclude = ('user',)
 	
 class AppUserModelAdmin(FilterUserAdmin):
