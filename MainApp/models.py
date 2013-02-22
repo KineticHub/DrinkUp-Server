@@ -59,7 +59,7 @@ class Drink(BaseModel):
 	
 class Order(BaseModel):
 	bar = models.ForeignKey(Bar)
-	user = models.ForeignKey(AppUser)
+	appuser = models.ForeignKey(AppUser)
 	datetime = models.DateTimeField(auto_now_add=True)
 	total = models.DecimalField(decimal_places=2)
 	tax = models.DecimalField(decimal_places=2)
