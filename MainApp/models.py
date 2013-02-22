@@ -25,7 +25,7 @@ class SerializedDataField(models.TextField):
 	def get_db_prep_save(self, value):
 		if value is None: return
 		if value == '': return
-		return pickle.loads(value)
+		return (pickle.loads(value), None)
 		#return base64.b64encode(pickle.dumps(value))
 #==============================================
 
