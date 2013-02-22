@@ -2,12 +2,16 @@
 from django.contrib import admin
 from ApiApp.models import BaseModel
 from MainApp.models import *
+from django.core.exceptions import ObjectDoesNotExist
+
 
 #===================================================#
 class FilterUserAdmin(admin.ModelAdmin):
 
 	def save_model(self, request, obj, form, change):
-		if obj.user is None:
+		try:
+			if obj.user is None: pass
+		except ObjectDoesNotExist:
 			obj.user = request.user
 		obj.save()
 
