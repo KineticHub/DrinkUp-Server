@@ -28,6 +28,13 @@ class DrinkModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 	
 class DrinkTypeModelAdmin(FilterUserAdmin):
+
+	def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "bar":
+            kwargs["queryset"] = Bar.objects.filter(user=request.user)
+            return db_field.formfield(**kwargs)
+        return super(DrinkTypeModelAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
 	exclude = ('user',)
 	
 class OrderModelAdmin(FilterUserAdmin):
