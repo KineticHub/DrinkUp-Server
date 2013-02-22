@@ -7,7 +7,8 @@ from MainApp.models import *
 class FilterUserAdmin(admin.ModelAdmin):
 
 	def save_model(self, request, obj, form, change):
-		obj.user = request.user
+		if not obj.user:
+			obj.user = request.user
 		obj.save()
 
 	def queryset(self, request): 
