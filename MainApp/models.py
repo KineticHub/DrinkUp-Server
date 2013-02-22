@@ -35,6 +35,18 @@ class Bar(BaseModel):
 	longitude = models.FloatField()
 	zipcode = models.PositiveIntegerField()
 
+class AppUser(BaseModel):
+	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
+
+	nickname = models.CharField()
+	email = models.EmailField(max_length=254)
+	secret = models.CharField()
+	salt = models.CharField()
+	age = models.PositiveIntegerField()
+	sex = models.CharField(choices=Gender_Options)
+	zipcode = models.PositiveIntegerField()
+	favorite = models.CharField()
+
 class DrinkType(BaseModel):
 	bar = models.ForeignKey(Bar)
 	type_name = models.CharField()
@@ -56,17 +68,5 @@ class Order(BaseModel):
 	grand_total = models.DecimalField(decimal_places=2)
 	description = models.TextField(blank=True)
 	drinks = SerializedDataField()
-	
-class AppUser(BaseModel):
-	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
-
-	nickname = models.CharField()
-	email = models.EmailField(max_length=254)
-	secret = models.CharField()
-	salt = models.CharField()
-	age = models.PositiveIntegerField()
-	sex = models.CharField(choices=Gender_Options)
-	zipcode = models.PositiveIntegerField()
-	favorite = models.CharField()
 
 
