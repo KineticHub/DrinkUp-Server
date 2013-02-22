@@ -57,7 +57,6 @@ var CalendarNamespace = {
         var calDiv = document.getElementById(div_id);
         removeChildren(calDiv);
         var calTable = document.createElement('table');
-        calTable.className = 'table table-bordered'
         quickElement('caption', calTable, CalendarNamespace.monthsOfYear[month-1] + ' ' + year);
         var tableBody = quickElement('tbody', calTable);
 
