@@ -27,7 +27,7 @@ class FilterUserAdmin(admin.ModelAdmin):
 		if db_field.name == "drink_type":
 			kwargs["queryset"] = DrinkType.objects.filter(user=request.user)
 			return db_field.formfield(**kwargs)
-		return super(DrinkTypeModelAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+		return super(FilterUserAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 #===================================================#
 
 class BarModelAdmin(FilterUserAdmin):
@@ -42,7 +42,7 @@ class DrinkTypeModelAdmin(FilterUserAdmin):
 class OrderModelAdmin(FilterUserAdmin):
 
 	def queryset(self, request): 
-		qs = super(OrderModelAdmin, self).queryset(request)
+		qs = super(FilterUserAdmin, self).queryset(request)
 		bars = Bar.objects.filter(user=request.user)
 		return qs.filter(bar__pk__in = [bar.pk for bar in bars])
 		#return qs.filter(user=request.user)
