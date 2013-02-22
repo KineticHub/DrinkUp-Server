@@ -36,7 +36,7 @@ class AppUserModelAdmin(FilterUserAdmin):
 	pass # (replace this with anything else you need)
 
 admin.site.register(Bar, BarModelAdmin)
-admin.site.register(Drink, DrinkModelAdmin)
 admin.site.register(DrinkType, DrinkTypeModelAdmin)
+admin.site.register(Drink, DrinkModelAdmin)
 admin.site.register(Order, OrderModelAdmin)
 admin.site.register(AppUser, AppUserModelAdmin)

@@ -34,16 +34,16 @@ class Bar(BaseModel):
 	lattitude = models.FloatField()
 	longitude = models.FloatField()
 	zipcode = models.PositiveIntegerField()
+
+class DrinkType(BaseModel):
+	bar = models.ForeignKey(Bar)
+	type_name = models.CharField()
 	
 class Drink(BaseModel):
 	bar = models.ForeignKey(Bar)
 	drink_type = models.ForeignKey(DrinkType)
 	name = models.CharField()
 	price = models.DecimalField(decimal_places=2)
-	
-class DrinkType(BaseModel):
-	bar = models.ForeignKey(Bar)
-	type_name = models.CharField()
 	
 class Order(BaseModel):
 	bar = models.ForeignKey(Bar)
