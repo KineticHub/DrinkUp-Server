@@ -20,14 +20,14 @@ class FilterUserAdmin(admin.ModelAdmin):
 			return True
 		return obj.user == request.user
 		
-	# def formfield_for_foreignkey(self, db_field, request, **kwargs):
-		# if db_field.name == "bar":
-			# kwargs["queryset"] = Bar.objects.filter(user=request.user)
-			# return db_field.formfield(**kwargs)
-		# if db_field.name == "drink_type":
-			# kwargs["queryset"] = DrinkType.objects.filter(user=request.user)
-			# return db_field.formfield(**kwargs)
-		# return super(FilterUserAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+	def formfield_for_foreignkey(self, db_field, request, **kwargs):
+		if db_field.name == "bar":
+			kwargs["queryset"] = Bar.objects.filter(user=request.user)
+			return db_field.formfield(**kwargs)
+		if db_field.name == "drink_type":
+			kwargs["queryset"] = DrinkType.objects.filter(user=request.user)
+			return db_field.formfield(**kwargs)
+		return super(FilterUserAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 #===================================================#
 
 class BarModelAdmin(FilterUserAdmin):
@@ -45,7 +45,6 @@ class OrderModelAdmin(FilterUserAdmin):
 		qs = super(FilterUserAdmin, self).queryset(request)
 		bars = Bar.objects.filter(user=request.user)
 		return qs.filter(bar__pk__in = [bar.pk for bar in bars])
-		#return qs.filter(user=request.user)
 
 	exclude = ('user',)
 	
