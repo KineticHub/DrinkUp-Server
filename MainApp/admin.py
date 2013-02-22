@@ -7,7 +7,7 @@ from MainApp.models import *
 class FilterUserAdmin(admin.ModelAdmin):
 
 	def save_model(self, request, obj, form, change):
-		if not obj.user:
+		if obj.user is None:
 			obj.user = request.user
 		obj.save()
 

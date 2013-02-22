@@ -86,6 +86,6 @@ class Order(BaseModel):
 	drinks = SerializedDataField()
 	
 	def __unicode__(self):
-		return str(self.bar) + " " + str(self.appuser) + " " + str(self.datetime)
+		return str(self.bar) + " " + str(self.appuser)
 
 
