@@ -1,0 +1,48 @@
+#DrinkUp / MainApp
+from django.db import models
+from ApiApp.models import BaseModel
+
+class Bar(BaseModel):
+	email = models.EmailField(max_length=254)
+	secret = models.CharField()
+	salt = models.CharField()
+	name = models.CharField()
+	icon = models.URLField()
+	lattitude = models.FloatField()
+	longitude = models.FloatField()
+	zipcode = models.PositiveIntegerField()
+	
+class Drink(BaseModel):
+	bar = models.ForeignKey(Bar)
+	drink_type = models.ForeignKey(DrinkType)
+	drink_name = models.CharField()
+	price = models.FloatField()
+	
+class DrinkType(BaseModel):
+	bar = models.ForeignKey(Bar)
+	type_name = models.CharField()
+	
+class Order(BaseModel):
+	bar_email = models.EmailField(max_length=254)
+	user_email = models.EmailField(max_length=254)
+	datetime = db.DateTimeProperty(auto_now_add=True)
+	total = models.FloatField()
+	tax = models.FloatField()
+	sub_total = models.FloatField()
+	tip = models.FloatField()
+	grand_total = models.FloatField()
+	description = models.TextField(blank=True)
+	
+class User(BaseModel):
+	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
+
+	nickname = models.CharField()
+	email = models.EmailField(max_length=254)
+	secret = models.CharField()
+	salt = models.CharField()
+	age = models.PositiveIntegerField()
+	sex = models.CharField(choices=Gender_Options)
+	zipcode = models.PositiveIntegerField()
+	favorite = models.CharField()
+
+

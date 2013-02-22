@@ -1,0 +1,15 @@
+#DrinkUp / MainApp
+from django.db import models
+from ApiApp.models import BaseModel
+
+class Bar(db.Model):
+        email = models.EmailField(max_length=254)
+        secret = models.CharField()
+        salt = models.CharField()
+        name = models.CharField()
+        icon = models.CharField()
+        lattitude = models.FloatField()
+        longitude = models.FloatField()
+        zipcode = models.PositiveIntegerField()
+
+
