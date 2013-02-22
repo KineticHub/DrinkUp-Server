@@ -39,10 +39,10 @@ class DrinkModelAdmin(FilterUserAdmin):
 class DrinkTypeModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 	
-class OrderModelAdmin(admin.ModelAdmin):
+class OrderModelAdmin(FilterUserAdmin):
 
 	def queryset(self, request): 
-		qs = super(OrderModelAdmin, self).queryset(request)
+		qs = super(FilterUserAdmin, self).queryset(request)
 		bars = Bar.objects.filter(user=request.user)
 		return qs.filter(bar__pk__in = [bar.pk for bar in bars])
 		#return qs.filter(user=request.user)
