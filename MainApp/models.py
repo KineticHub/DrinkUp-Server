@@ -58,8 +58,8 @@ class Drink(BaseModel):
 	price = models.DecimalField(decimal_places=2, max_digits=6)
 
 class DrinkOrdered(BaseModel):
-        order = model.ForeignKey(Order)
-        drink = model.ForeignKey(Drink)
+        order = models.ForeignKey(Order)
+        drink = models.ForeignKey(Drink)
         quantity = models.PositiveIntegerField()
 
 #class BookManager(models.Manager):
