@@ -2,17 +2,12 @@
 from django.contrib import admin
 from ApiApp.models import BaseModel
 from MainApp.models import *
-from django.core.exceptions import ObjectDoesNotExist
-
 
 #===================================================#
 class FilterUserAdmin(admin.ModelAdmin):
 
 	def save_model(self, request, obj, form, change):
-		try:
-			if obj.user is None: pass
-		except ObjectDoesNotExist:
-			obj.user = request.user
+		obj.user = request.user
 		obj.save()
 
 	def queryset(self, request): 
@@ -24,15 +19,6 @@ class FilterUserAdmin(admin.ModelAdmin):
 			# the changelist itself
 			return True
 		return obj.user == request.user
-		
-	def formfield_for_foreignkey(self, db_field, request, **kwargs):
-		if db_field.name == "bar":
-			kwargs["queryset"] = Bar.objects.filter(user=request.user)
-			return db_field.formfield(**kwargs)
-		if db_field.name == "drink_type":
-			kwargs["queryset"] = DrinkType.objects.filter(user=request.user)
-			return db_field.formfield(**kwargs)
-		return super(FilterUserAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 #===================================================#
 
 class BarModelAdmin(FilterUserAdmin):
@@ -43,15 +29,15 @@ class DrinkModelAdmin(FilterUserAdmin):
 	
 class DrinkTypeModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
-	
+
+class DrinkOrderedInline(admin.StackedInline):
+        model =  DrinkOrdered
+
 class OrderModelAdmin(FilterUserAdmin):
-
-	def queryset(self, request): 
-		qs = super(FilterUserAdmin, self).queryset(request)
-		bars = Bar.objects.filter(user=request.user)
-		return qs.filter(bar__pk__in = [bar.pk for bar in bars])
-
 	exclude = ('user',)
+        inlines = [
+                DrinkOrderedInline,
+                    ]
 	
 class AppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)

@@ -4,29 +4,25 @@ from ApiApp.models import BaseModel
 
 #==============================================
 try:
-	import cPickle as pickle
+    import cPickle as pickle
 except:
-	import pickle
+    import pickle
 import base64
 
 class SerializedDataField(models.TextField):
-	"""Because Django for some reason feels its needed to repeatedly call
-	to_python even after it's been converted this does not support strings."""
-	__metaclass__ = models.SubfieldBase
+    """Because Django for some reason feels its needed to repeatedly call
+    to_python even after it's been converted this does not support strings."""
+    __metaclass__ = models.SubfieldBase
 
-	def to_python(self, value):
-		if value is None: return
-		if value == '': return
-		value = pickle.dumps(value)
-		#if not isinstance(value, basestring): return value
-		#value = pickle.loads(base64.b64decode(value))
-		return value
+    def to_python(self, value):
+        if value is None: return
+        if not isinstance(value, basestring): return value
+        value = pickle.loads(base64.b64decode(value))
+        return value
 
-	def get_db_prep_save(self, value, connection):
-		if value is None: return
-		if value == '': return
-		return (pickle.loads(value), connection)
-		#return base64.b64encode(pickle.dumps(value))
+    def get_db_prep_save(self, value):
+        if value is None: return
+        return base64.b64encode(pickle.dumps(value))
 #==============================================
 
 class Bar(BaseModel):
@@ -38,9 +34,6 @@ class Bar(BaseModel):
 	lattitude = models.FloatField()
 	longitude = models.FloatField()
 	zipcode = models.PositiveIntegerField()
-	
-	def __unicode__(self):
-		return self.name
 
 class AppUser(BaseModel):
 	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
@@ -53,25 +46,24 @@ class AppUser(BaseModel):
 	sex = models.CharField(choices=Gender_Options, max_length=15)
 	zipcode = models.PositiveIntegerField()
 	favorite = models.CharField(max_length=200)
-	
-	def __unicode__(self):
-		return self.nickname
 
 class DrinkType(BaseModel):
 	bar = models.ForeignKey(Bar)
 	type_name = models.CharField(max_length=200)
-	
-	def __unicode__(self):
-		return self.type_name
 	
 class Drink(BaseModel):
 	bar = models.ForeignKey(Bar)
 	drink_type = models.ForeignKey(DrinkType)
 	name = models.CharField(max_length=200)
 	price = models.DecimalField(decimal_places=2, max_digits=6)
-	
-	def __unicode__(self):
-		return self.name
+
+class DrinkOrdered(BaseModel):
+        order = model.ForeignKey(Order)
+        drink = model.ForeignKey(Drink)
+        quantity = models.PositiveIntegerField()
+
+#class BookManager(models.Manager):
+        
 	
 class Order(BaseModel):
 	bar = models.ForeignKey(Bar)
@@ -83,9 +75,6 @@ class Order(BaseModel):
 	tip = models.DecimalField(decimal_places=2, max_digits=6)
 	grand_total = models.DecimalField(decimal_places=2, max_digits=6)
 	description = models.TextField(blank=True)
-	drinks = SerializedDataField()
-	
-	def __unicode__(self):
-		return str(self.bar) + " " + str(self.appuser)
+	#drinks = DrinksManager()
 
 
