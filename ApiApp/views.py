@@ -27,7 +27,17 @@ def AllDrinks(request):
 
     if request.method == 'GET':
         
-        drinks_to_return = Drink.objects.all()
+        drinks_to_return = Drink.objects.filter()
+        
+        json_serializer = serializers.get_serializer("json")()
+	response = json_serializer.serialize(drinks_to_return, ensure_ascii=False)
+	return HttpResponse(response, mimetype="application/json")
+
+def BarDrinks(request, bar_id):
+
+    if request.method == 'GET':
+        
+        drinks_to_return = Drink.objects.filter(bar=bar_id)
         
         json_serializer = serializers.get_serializer("json")()
 	response = json_serializer.serialize(drinks_to_return, ensure_ascii=False)
