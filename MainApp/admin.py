@@ -7,17 +7,22 @@ from MainApp.models import *
 class FilterUserAdmin(admin.ModelAdmin):
 
 	def save_model(self, request, obj, form, change):
-		obj.user = request.user
+                if not request.user.is_superuser:
+                        obj.user = request.user
 		obj.save()
 
 	def queryset(self, request): 
-		qs = super(FilterUserAdmin, self).queryset(request) 
+		qs = super(FilterUserAdmin, self).queryset(request)
+		if request.user.is_superuser:
+                        return qs
 		return qs.filter(user=request.user)
 
 	def has_change_permission(self, request, obj=None):
 		if not obj:
 			# the changelist itself
 			return True
+		if request.user.is_superuser:
+                        return True
 		return obj.user == request.user
 #===================================================#
 
