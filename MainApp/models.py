@@ -27,8 +27,6 @@ class SerializedDataField(models.TextField):
 
 class Bar(BaseModel):
 	email = models.EmailField(max_length=254)
-	#secret = models.CharField()
-	#salt = models.CharField()
 	name = models.CharField(max_length=200)
 	icon = models.URLField()
 	lattitude = models.FloatField()
@@ -36,12 +34,13 @@ class Bar(BaseModel):
 	zipcode = models.PositiveIntegerField()
 
 class AppUser(BaseModel):
+    
 	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
 
 	nickname = models.CharField(max_length=200)
 	email = models.EmailField(max_length=254)
-	secret = models.CharField(max_length=200)
-	salt = models.CharField(max_length=200)
+	#secret = models.CharField(max_length=200)
+	#salt = models.CharField(max_length=200)
 	age = models.PositiveIntegerField()
 	sex = models.CharField(choices=Gender_Options, max_length=15)
 	zipcode = models.PositiveIntegerField()
@@ -56,10 +55,6 @@ class Drink(BaseModel):
 	drink_type = models.ForeignKey(DrinkType)
 	name = models.CharField(max_length=200)
 	price = models.DecimalField(decimal_places=2, max_digits=6)
-
-	
-#class BookManager(models.Manager):
-        
 	
 class Order(BaseModel):
 	bar = models.ForeignKey(Bar)
@@ -71,7 +66,6 @@ class Order(BaseModel):
 	tip = models.DecimalField(decimal_places=2, max_digits=6)
 	grand_total = models.DecimalField(decimal_places=2, max_digits=6)
 	description = models.TextField(blank=True)
-	#drinks = DrinksManager()
 
 class DrinkOrdered(BaseModel):
         order = models.ForeignKey(Order)

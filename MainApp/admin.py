@@ -31,6 +31,7 @@ class DrinkTypeModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 
 class DrinkOrderedInline(admin.StackedInline):
+        exclude = ('user',)
         model =  DrinkOrdered
 
 class OrderModelAdmin(FilterUserAdmin):
@@ -38,6 +39,7 @@ class OrderModelAdmin(FilterUserAdmin):
         inlines = [
                 DrinkOrderedInline,
                     ]
+        extras = 0
 	
 class AppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
@@ -47,9 +49,3 @@ admin.site.register(DrinkType, DrinkTypeModelAdmin)
 admin.site.register(Drink, DrinkModelAdmin)
 admin.site.register(Order, OrderModelAdmin)
 admin.site.register(AppUser, AppUserModelAdmin)
-
-##admin.site.register(Bar)
-##admin.site.register(DrinkType)
-##admin.site.register(Drink)
-##admin.site.register(Order)
-##admin.site.register(AppUser)
