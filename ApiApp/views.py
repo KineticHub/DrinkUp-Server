@@ -13,10 +13,11 @@ from django.db.models import Q
 
 from MainApp.models import *
 
-def Bars(request, zipcode):
+def AllBars(request):
 
     if request.method == 'GET':
-        bars_to_return = Bars.objects.all()
+        bars_to_return = Bar.objects.all()
+        
         response = HttpResponse()
 	response.content = serialized_obj = serializers.serialize('json', [ bars_to_return, ])
 	response['Content-Type'] = 'application/json'
