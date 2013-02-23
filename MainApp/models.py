@@ -2,29 +2,6 @@
 from django.db import models
 from ApiApp.models import BaseModel
 
-#==============================================
-try:
-    import cPickle as pickle
-except:
-    import pickle
-import base64
-
-class SerializedDataField(models.TextField):
-    """Because Django for some reason feels its needed to repeatedly call
-    to_python even after it's been converted this does not support strings."""
-    __metaclass__ = models.SubfieldBase
-
-    def to_python(self, value):
-        if value is None: return
-        if not isinstance(value, basestring): return value
-        value = pickle.loads(base64.b64decode(value))
-        return value
-
-    def get_db_prep_save(self, value):
-        if value is None: return
-        return base64.b64encode(pickle.dumps(value))
-#==============================================
-
 class Bar(BaseModel):
 	email = models.EmailField(max_length=254)
 	name = models.CharField(max_length=200)
@@ -33,8 +10,14 @@ class Bar(BaseModel):
 	longitude = models.FloatField()
 	zipcode = models.PositiveIntegerField()
 
+	def __unicode__(self):
+		return self.name
+		
+	class Meta:
+		ordering = ['name']
+
 class AppUser(BaseModel):
-    
+	
 	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
 
 	nickname = models.CharField(max_length=200)
@@ -46,15 +29,33 @@ class AppUser(BaseModel):
 	zipcode = models.PositiveIntegerField()
 	favorite = models.CharField(max_length=200)
 
+	def __unicode__(self):
+		return self.nickname
+		
+	class Meta:
+		ordering = ['nickname']
+
 class DrinkType(BaseModel):
 	bar = models.ForeignKey(Bar)
 	type_name = models.CharField(max_length=200)
+
+	def __unicode__(self):
+		return self.type_name
+		
+	class Meta:
+		ordering = ['type_name']
 	
 class Drink(BaseModel):
 	bar = models.ForeignKey(Bar)
 	drink_type = models.ForeignKey(DrinkType)
 	name = models.CharField(max_length=200)
 	price = models.DecimalField(decimal_places=2, max_digits=6)
+
+	def __unicode__(self):
+		return self.name
+		
+	class Meta:
+		ordering = ['name']
 	
 class Order(BaseModel):
 	bar = models.ForeignKey(Bar)
@@ -67,8 +68,14 @@ class Order(BaseModel):
 	grand_total = models.DecimalField(decimal_places=2, max_digits=6)
 	description = models.TextField(blank=True)
 
+	def __unicode__(self):
+		return str(self.appuser)
+		
+	class Meta:
+		ordering = ['datetime']
+
 class DrinkOrdered(BaseModel):
-        order = models.ForeignKey(Order)
-        drink = models.ForeignKey(Drink)
-        quantity = models.PositiveIntegerField()
+	order = models.ForeignKey(Order)
+	drink = models.ForeignKey(Drink)
+	quantity = models.PositiveIntegerField()
 
