@@ -16,10 +16,10 @@ from MainApp.models import *
 def AllBars(request):
 
     if request.method == 'GET':
+        
         bars_to_return = Bar.objects.all()
         
-        response = HttpResponse()
-	response.content = serialized_obj = serializers.serialize('json', [ bars_to_return, ])
-	response['Content-Type'] = 'application/json'
-	return response
+        json_serializer = serializers.get_serializer("json")()
+	response = json_serializer.serialize(bars_to_return, ensure_ascii=False)
+	return HttpResponse(response, mimetype="application/json")
         
