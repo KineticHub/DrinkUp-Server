@@ -58,6 +58,10 @@ class OrderModelAdmin(FilterUserAdmin):
 	
 class AppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
+	
+	def queryset(self, request):
+                queryset = AppUser.objects.all()
+                return queryset
 
 admin.site.register(Bar, BarModelAdmin)
 admin.site.register(DrinkType, DrinkTypeModelAdmin)
