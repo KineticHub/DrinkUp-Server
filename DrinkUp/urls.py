@@ -16,4 +16,5 @@ urlpatterns = patterns('DrinkUp',
 
 urlpatterns += patterns('ApiApp.views',
     url(r'^drinkup/bars/all/$', 'AllBars'),
+    url(r'^drinkup/drinks/all/$', 'AllDrinks'),
 )

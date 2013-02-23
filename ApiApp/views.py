@@ -22,4 +22,14 @@ def AllBars(request):
         json_serializer = serializers.get_serializer("json")()
 	response = json_serializer.serialize(bars_to_return, ensure_ascii=False)
 	return HttpResponse(response, mimetype="application/json")
+
+def AllDrinks(request):
+
+    if request.method == 'GET':
+        
+        drinks_to_return = Drink.objects.all()
+        
+        json_serializer = serializers.get_serializer("json")()
+	response = json_serializer.serialize(drinks_to_return, ensure_ascii=False)
+	return HttpResponse(response, mimetype="application/json")
         
