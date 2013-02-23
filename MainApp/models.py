@@ -57,11 +57,7 @@ class Drink(BaseModel):
 	name = models.CharField(max_length=200)
 	price = models.DecimalField(decimal_places=2, max_digits=6)
 
-class DrinkOrdered(BaseModel):
-        order = models.ForeignKey(Order)
-        drink = models.ForeignKey(Drink)
-        quantity = models.PositiveIntegerField()
-
+	
 #class BookManager(models.Manager):
         
 	
@@ -77,4 +73,8 @@ class Order(BaseModel):
 	description = models.TextField(blank=True)
 	#drinks = DrinksManager()
 
+class DrinkOrdered(BaseModel):
+        order = models.ForeignKey(Order)
+        drink = models.ForeignKey(Drink)
+        quantity = models.PositiveIntegerField()
 
