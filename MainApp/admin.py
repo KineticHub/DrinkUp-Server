@@ -54,7 +54,6 @@ class OrderModelAdmin(FilterUserAdmin):
         inlines = [
                 DrinkOrderedInline,
                     ]
-        extra = 1
 	
 class AppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
