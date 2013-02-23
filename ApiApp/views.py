@@ -16,4 +16,9 @@ from MainApp.models import *
 def Bars(request, zipcode):
 
     if request.method == 'GET':
-        pass
+        bars_to_return = Bars.objects.all()
+        response = HttpResponse()
+	response.content = serialized_obj = serializers.serialize('json', [ bars_to_return, ])
+	response['Content-Type'] = 'application/json'
+	return response
+        
