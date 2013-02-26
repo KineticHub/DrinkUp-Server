@@ -19,7 +19,7 @@ urlpatterns += patterns('ApiApp.views',
 	url(r'^drinkup/drinks/all/$', 'AllDrinks'),
 	url(r'^drinkup/drinks/bar/(?P<bar_id>\d{1,10})/$', 'BarDrinks'),
 	
-	(r'^$', 'index'),
-	(r'^facebook_login/$', 'facebook_login'),
-	(r'^facebook_login_success/$', 'facebook_login_success'),
+	url(r'^index/$', 'index'),
+	url(r'^facebook_login/$', 'facebook_login'),
+	url(r'^facebook_login_success/$', 'facebook_login_success'),
 )
