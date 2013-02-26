@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.loading import get_model
 from django.db.models import Q
+from django.forms.models import model_to_dict
 
 from MainApp.models import *
 
@@ -69,4 +70,4 @@ def facebook_login_success(request):
     me = facebook.get_myself()
 
     welcome = "Welcome <b>%s</b>. Your Facebook login has been completed successfully!"
-    return HttpResponse(welcome % me.name)
+    return HttpResponse(welcome % model_to_dict(me))
