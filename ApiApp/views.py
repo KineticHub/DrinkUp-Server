@@ -15,7 +15,7 @@ from MainApp.models import *
 
 #imports for FB
 from pyfb import Pyfb
-from settings import FACEBOOK_APP_ID, FACEBOOK_SECRET_KEY, FACEBOOK_REDIRECT_URL
+from DrinkUp.settings import FACEBOOK_APP_ID, FACEBOOK_SECRET_KEY, FACEBOOK_REDIRECT_URL
 
 def AllBars(request):
 
