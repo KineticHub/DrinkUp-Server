@@ -50,7 +50,7 @@ def BarDrinks(request, bar_id):
 		
 #BEGIN FB VIEWS
 def index(request):
-    return HttpResponse("""<button onclick="location.href='Project/facebook_login'">Facebook Login</button>""")
+    return HttpResponse("""<button onclick="location.href='/Project/facebook_login'">Facebook Login</button>""")
 
 #This view redirects the user to facebook in order to get the code that allows
 #pyfb to obtain the access_token in the facebook_login_success view

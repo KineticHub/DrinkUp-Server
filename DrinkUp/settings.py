@@ -67,7 +67,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 # Facebook related Settings
 FACEBOOK_APP_ID = '428379253908650'
 FACEBOOK_SECRET_KEY = '22fce7553dbac54a6fa3a67e0c35568f'
-FACEBOOK_REDIRECT_URL = 'https://sleepy-falls-9683.herokuapp.com/facebook_login_success'
+FACEBOOK_REDIRECT_URL = 'http://ec2-174-129-129-68.compute-1.amazonaws.com/facebook_login_success'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
