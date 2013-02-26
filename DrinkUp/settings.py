@@ -62,9 +62,16 @@ STATIC_ROOT = ''
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+# Facebook related Settings
+FACEBOOK_APP_ID = '428379253908650'
+FACEBOOK_SECRET_KEY = '22fce7553dbac54a6fa3a67e0c35568f'
+FACEBOOK_REDIRECT_URL = 'http://ec2-174-129-129-68.compute-1.amazonaws.com/facebook_login_success' #'http://www.YOUR_DOMAIN.com/facebook_login_success'
+
 # Additional locations of static files
 STATICFILES_DIRS = (
-	"/opt/bitnami/apps/django/django_projects/DrinkUp/bootstrap",
+    #"/opt/bitnami/apps/django/django_projects/DrinkUp/bootstrap",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

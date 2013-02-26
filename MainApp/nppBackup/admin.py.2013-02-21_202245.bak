@@ -1,4 +1,0 @@
-#DrinkUp / ApiApp
-from django.contrib import admin
-from ApiApp.models import BaseModel
-from MainApp.models import *
