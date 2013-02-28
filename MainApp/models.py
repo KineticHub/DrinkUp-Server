@@ -30,7 +30,7 @@ class AppUser(BaseModel):
 	birthdate = models.DateField(blank=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	
-	facebook_user = models.OneToOneField(FacebookAppUser, verbose_name='Facebook Profile')
+	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile')
 	
 	def __unicode__(self):
 		return self.nickname
