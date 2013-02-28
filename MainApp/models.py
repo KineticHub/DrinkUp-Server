@@ -30,7 +30,7 @@ class AppUser(BaseModel):
 	birthdate = models.DateField(blank=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	
-	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name=_('Facebook Profile'))
+	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile')
 	
 	def __unicode__(self):
 		return self.nickname
@@ -40,9 +40,9 @@ class AppUser(BaseModel):
 
 
 class FacebookAppUser(BaseModel):
-	fb_uid = models.BigIntegerField(_('facebook id'), unique=True)
+	fb_uid = models.BigIntegerField(verbose_name = 'facebook id', unique=True)
 	fb_email = models.EmailField(max_length=255, blank=True, null=True)
-	oauth_token = models.OneToOneField('OAuthToken', verbose_name=_('OAuth token'))
+	oauth_token = models.OneToOneField('OAuthToken', verbose_name='OAuth token')
 
 class OAuthToken(models.Model):
 	"""
@@ -50,13 +50,13 @@ class OAuthToken(models.Model):
 	the Facebook API on behalf of a user.
 	"""
 
-	token = models.TextField(_('token'))
+	token = models.TextField()
 	"""A string describing the OAuth token itself."""
 
-	issued_at = models.DateTimeField(_('issued at'))
+	issued_at = models.DateTimeField()
 	"""A ``datetime`` object describing when the token was issued."""
 
-	expires_at = models.DateTimeField(_('expires at'), null=True, blank=True)
+	expires_at = models.DateTimeField(null=True, blank=True)
 	"""A ``datetime`` object describing when the token expires (or ``None`` if it doesn't)"""
 
 	@property
@@ -89,10 +89,6 @@ class OAuthToken(models.Model):
 		self.expires_at = now() + timedelta(seconds = int(components['expires'][0]))
 
 		self.save()
-
-	class Meta:
-		verbose_name = _('OAuth token')
-		verbose_name_plural = _('OAuth tokens')
 
 class DrinkType(BaseModel):
 	bar = models.ForeignKey(Bar)
