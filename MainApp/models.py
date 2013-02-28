@@ -30,7 +30,7 @@ class AppUser(BaseModel):
 	birthdate = models.DateField(blank=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	
-	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile')
+	facebook_user = models.OneToOneField(FacebookAppUser, verbose_name='Facebook Profile')
 	
 	def __unicode__(self):
 		return self.nickname
@@ -42,7 +42,7 @@ class AppUser(BaseModel):
 class FacebookAppUser(BaseModel):
 	fb_uid = models.BigIntegerField(verbose_name = 'facebook id', unique=True)
 	fb_email = models.EmailField(max_length=255, blank=True, null=True)
-	oauth_token = models.OneToOneField('OAuthToken', verbose_name='OAuth token', blank=True, null=True)
+	oauth_token = models.OneToOneField(OAuthToken, verbose_name='OAuth token', blank=True, null=True)
 
 class OAuthToken(models.Model):
 	"""
