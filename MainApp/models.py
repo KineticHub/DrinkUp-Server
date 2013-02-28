@@ -23,14 +23,14 @@ class AppUser(BaseModel):
 	
 	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
 
-	first_name = models.CharField(max_length=255, blank=True, null=True)
-	last_name = models.CharField(max_length=255, blank=True, null=True)
-	nickname = models.CharField(max_length=255, blank=True, null=True)
+	first_name = models.CharField(max_length=255, blank=True)
+	last_name = models.CharField(max_length=255, blank=True)
+	nickname = models.CharField(max_length=255, blank=True)
 	email = models.EmailField(max_length=255)
 	birthdate = models.DateField(blank=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	
-	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile')
+	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
 	
 	def __unicode__(self):
 		return self.nickname
