@@ -70,4 +70,4 @@ def facebook_login_success(request):
     me = facebook.get_myself()
 
     welcome = "Welcome <b>%s</b>. Your Facebook login has been completed successfully!"
-    return HttpResponse(welcome % model_to_dict(me))
+    return HttpResponse(welcome % me.__dict__)

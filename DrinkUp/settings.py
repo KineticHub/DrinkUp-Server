@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'ApiApp',
     'MainApp',
+    'south',
     #'bootstrap_admin',
     #'django_admin_bootstrapped',
     # Uncomment the next line to enable the admin:
