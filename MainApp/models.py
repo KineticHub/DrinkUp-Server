@@ -42,7 +42,7 @@ class AppUser(BaseModel):
 class FacebookAppUser(BaseModel):
 	fb_uid = models.BigIntegerField(verbose_name = 'facebook id', unique=True)
 	fb_email = models.EmailField(max_length=255, blank=True, null=True)
-	oauth_token = models.OneToOneField(OAuthToken, verbose_name='OAuth token', blank=True, null=True)
+	oauth_token = models.OneToOneField('OAuthToken', verbose_name='OAuth token', blank=True, null=True)
 
 class OAuthToken(models.Model):
 	"""
