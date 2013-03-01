@@ -79,8 +79,8 @@ def facebook_mobile_login(request):
 		facebook_id = request.POST.get('fb_user_id', None)
 		facebook_email = request.POST.get('fb_user_email', None)
 		token = request.POST.get('oauth_token', None)
-		expiration = request.POST.get('expiration')
-		creation = request.POST.get('created')
+		expiration = request.POST.get('expiration', None)
+		creation = request.POST.get('created', None)
 		
 		if facebook_id and facebook_email and token and expiration and creation:
 			new_token = OAuthToken(token = token, issued_at = creation, expires_at = expiration)
@@ -90,4 +90,4 @@ def facebook_mobile_login(request):
 			new_user.save()
 		
 			return HttpResponse("Yay!")
-		return HttpResponse("Nope!")
+		return HttpResponse(facebook_id)
