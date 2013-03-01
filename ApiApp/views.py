@@ -71,3 +71,19 @@ def facebook_login_success(request):
 
     welcome = "Welcome <b>%s</b>. Your Facebook login has been completed successfully!"
     return HttpResponse(welcome % me.__dict__)
+
+def facebook_mobile_login(request):
+	
+	facebook_id = request.GET['fb_user_id']
+	facebook_email = request.GET['fb_user_email']
+	token = request.GET ['oauth_token']
+	expiration = request.GET ['expiration']
+	creation = request.GET ['created']
+	
+	new_token = OAuthToken(token = token, issued_at = creation, expires_at = expiration)
+	new_token.save()
+	
+	new_user = FacebookAppUser(fb_uid = facebook_id, fb_email = facebook_email, oauth_token = token)
+	new_user.save()
+	
+	return HttpResponse("Yay!")
