@@ -84,7 +84,7 @@ def facebook_mobile_login(request):
 		creation = request.POST.get('created', None)
 		
 		if facebook_id and facebook_email and token and expiration and creation:
-			new_token = OAuthToken(token = token, issued_at = datetime.datetime.fromtimestamp(creation), expires_at = datetime.datetime.fromtimestamp(expiration))
+			new_token = OAuthToken(token = token, issued_at = datetime.datetime.fromtimestamp(float(creation)), expires_at = datetime.datetime.fromtimestamp(float(expiration)))
 			new_token.save()
 		
 			new_user = FacebookAppUser(fb_uid = facebook_id, fb_email = facebook_email, oauth_token = token)
