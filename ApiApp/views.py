@@ -11,6 +11,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models.loading import get_model
 from django.db.models import Q
 from django.forms.models import model_to_dict
+import datetime
 
 from MainApp.models import *
 
@@ -83,7 +84,7 @@ def facebook_mobile_login(request):
 		creation = request.POST.get('created', None)
 		
 		if facebook_id and facebook_email and token and expiration and creation:
-			new_token = OAuthToken(token = token, issued_at = creation, expires_at = expiration)
+			new_token = OAuthToken(token = token, issued_at = datetime.datetime.fromtimestamp(creation), expires_at = datetime.datetime.fromtimestamp(expiration))
 			new_token.save()
 		
 			new_user = FacebookAppUser(fb_uid = facebook_id, fb_email = facebook_email, oauth_token = token)
