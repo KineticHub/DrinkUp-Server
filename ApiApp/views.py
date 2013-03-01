@@ -13,6 +13,9 @@ from django.db.models import Q
 from django.forms.models import model_to_dict
 import datetime
 
+from django.db import models
+from django.contrib.auth.models import User
+
 from MainApp.models import *
 
 #imports for FB
@@ -77,6 +80,9 @@ def facebook_login_success(request):
 def facebook_mobile_login(request):
 	
 	if request.method == 'POST':
+	
+		primary_user = User.objects.get(pk=1)
+	
 		facebook_id = request.POST.get('fb_user_id', None)
 		facebook_email = request.POST.get('fb_user_email', None)
 		token = request.POST.get('oauth_token', None)
@@ -87,7 +93,7 @@ def facebook_mobile_login(request):
 			new_token = OAuthToken(token = token, issued_at = datetime.datetime.fromtimestamp(float(creation)), expires_at = datetime.datetime.fromtimestamp(float(expiration)))
 			new_token.save()
 		
-			new_user = FacebookAppUser(fb_uid = facebook_id, fb_email = facebook_email, oauth_token = new_token)
+			new_user = FacebookAppUser(user_id = primary_user, fb_uid = facebook_id, fb_email = facebook_email, oauth_token = new_token)
 			new_user.save()
 		
 			return HttpResponse("Yay!")
