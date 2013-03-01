@@ -81,7 +81,7 @@ def facebook_mobile_login(request):
 	
 	if request.method == 'POST':
 	
-		primary_user = User.objects.get(pk=1)
+		primary_user = 1#User.objects.get(pk=1)
 	
 		facebook_id = request.POST.get('fb_user_id', None)
 		facebook_email = request.POST.get('fb_user_email', None)
