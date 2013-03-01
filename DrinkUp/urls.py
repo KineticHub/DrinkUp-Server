@@ -22,4 +22,5 @@ urlpatterns += patterns('ApiApp.views',
 	url(r'^index/$', 'index'),
 	url(r'^facebook_login/$', 'facebook_login'),
 	url(r'^facebook_login_success/$', 'facebook_login_success'),
+	url(r'^facebook_login/mobile/$', 'facebook_mobile_login'),
 )
