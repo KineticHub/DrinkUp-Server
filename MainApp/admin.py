@@ -7,10 +7,12 @@ from MainApp.models import *
 class FilterUserAdmin(admin.ModelAdmin):
 
 	def save_model(self, request, obj, form, change):
-		if not request.user.is_superuser:
+		try:
+			if not obj.user:
 				obj.user = request.user
-		elif request.user.is_superuser and not obj.user:
-				obj.user = request.user
+		except DoesNotExist:
+			obj.user = request.user
+				
 		obj.save()
 
 	def queryset(self, request): 
