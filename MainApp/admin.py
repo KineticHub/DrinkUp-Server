@@ -1,5 +1,7 @@
 # DrinkUp / MainApp
 from django.contrib import admin
+from django.forms import ModelForm
+from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from ApiApp.models import BaseModel
 from MainApp.models import *
@@ -48,22 +50,18 @@ class DrinkModelAdmin(FilterUserAdmin):
 class DrinkTypeModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 
+class DrinkOrderedForm(ModelForm):
+	def __init__(self, *args, **kwargs):
+        	super(DrinkOrderedForm, self).__init__(*args, **kwargs)
+        	self.fields['drink_name'] = forms.ModelChoiceField(queryset=Drink.objects.all())
+
+	class Meta:
+        	model = DrinkOrdered
+
 class DrinkOrderedInline(admin.StackedInline):
 	model =  DrinkOrdered
 	extra = 0
-	def formfield_for_choice_field(self, db_field, request, **kwargs):
-        if db_field.name == "drink_name":
-			drinks = Drink.objects.filter(user=request.user)
-			
-			drink_tuple = ()
-			for drink in drinks:
-				if len(drink_tuple) == 0:
-					drink_tuple = drink.name, drink.name
-				else:
-					drink_tuple = drink_tuple, (drink.name, drink.name)
-					
-            kwargs['choices'] = drink_tuple
-        return super(DrinkOrderedInline, self).formfield_for_choice_field(db_field, request, **kwargs)
+        form = DrinkOrderedForm
 
 class OrderModelAdmin(FilterUserAdmin):
 	exclude = ('user',)

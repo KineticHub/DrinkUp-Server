@@ -29,13 +29,13 @@ class Migration(SchemaMigration):
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('created', self.gf('django.db.models.fields.DateField')()),
             ('updated', self.gf('django.db.models.fields.DateTimeField')()),
-            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('nickname', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
+            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
+            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
+            ('nickname', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('email', self.gf('django.db.models.fields.EmailField')(max_length=255)),
-            ('birthdate', self.gf('django.db.models.fields.DateField')(blank=True)),
+            ('birthdate', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
             ('gender', self.gf('django.db.models.fields.CharField')(max_length=15, blank=True)),
-            ('facebook_user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['MainApp.FacebookAppUser'], unique=True)),
+            ('facebook_user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['MainApp.FacebookAppUser'], unique=True, null=True, blank=True)),
         ))
         db.send_create_signal('MainApp', ['AppUser'])
 
@@ -47,7 +47,7 @@ class Migration(SchemaMigration):
             ('updated', self.gf('django.db.models.fields.DateTimeField')()),
             ('fb_uid', self.gf('django.db.models.fields.BigIntegerField')(unique=True)),
             ('fb_email', self.gf('django.db.models.fields.EmailField')(max_length=255, null=True, blank=True)),
-            ('oauth_token', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['MainApp.OAuthToken'], unique=True)),
+            ('oauth_token', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['MainApp.OAuthToken'], unique=True, null=True, blank=True)),
         ))
         db.send_create_signal('MainApp', ['FacebookAppUser'])
 
@@ -105,12 +105,11 @@ class Migration(SchemaMigration):
         # Adding model 'DrinkOrdered'
         db.create_table('MainApp_drinkordered', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('created', self.gf('django.db.models.fields.DateField')()),
-            ('updated', self.gf('django.db.models.fields.DateTimeField')()),
             ('order', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['MainApp.Order'])),
-            ('drink', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['MainApp.Drink'])),
+            ('drink_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('quantity', self.gf('django.db.models.fields.PositiveIntegerField')()),
+            ('unit_price', self.gf('django.db.models.fields.DecimalField')(max_digits=6, decimal_places=2)),
+            ('drink_type', self.gf('django.db.models.fields.CharField')(max_length=255)),
         ))
         db.send_create_signal('MainApp', ['DrinkOrdered'])
 
@@ -143,16 +142,16 @@ class Migration(SchemaMigration):
 
     models = {
         'MainApp.appuser': {
-            'Meta': {'ordering': "['nickname']", 'object_name': 'AppUser'},
-            'birthdate': ('django.db.models.fields.DateField', [], {'blank': 'True'}),
+            'Meta': {'ordering': "['email']", 'object_name': 'AppUser'},
+            'birthdate': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'created': ('django.db.models.fields.DateField', [], {}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '255'}),
-            'facebook_user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['MainApp.FacebookAppUser']", 'unique': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'facebook_user': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['MainApp.FacebookAppUser']", 'unique': 'True', 'null': 'True', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'gender': ('django.db.models.fields.CharField', [], {'max_length': '15', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'nickname': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
+            'nickname': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'updated': ('django.db.models.fields.DateTimeField', [], {}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
         },
@@ -182,13 +181,12 @@ class Migration(SchemaMigration):
         },
         'MainApp.drinkordered': {
             'Meta': {'object_name': 'DrinkOrdered'},
-            'created': ('django.db.models.fields.DateField', [], {}),
-            'drink': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['MainApp.Drink']"}),
+            'drink_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'drink_type': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'order': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['MainApp.Order']"}),
             'quantity': ('django.db.models.fields.PositiveIntegerField', [], {}),
-            'updated': ('django.db.models.fields.DateTimeField', [], {}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
+            'unit_price': ('django.db.models.fields.DecimalField', [], {'max_digits': '6', 'decimal_places': '2'})
         },
         'MainApp.drinktype': {
             'Meta': {'ordering': "['type_name']", 'object_name': 'DrinkType'},
@@ -205,7 +203,7 @@ class Migration(SchemaMigration):
             'fb_email': ('django.db.models.fields.EmailField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'fb_uid': ('django.db.models.fields.BigIntegerField', [], {'unique': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'oauth_token': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['MainApp.OAuthToken']", 'unique': 'True'}),
+            'oauth_token': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['MainApp.OAuthToken']", 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'updated': ('django.db.models.fields.DateTimeField', [], {}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"})
         },
