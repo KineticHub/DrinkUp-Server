@@ -49,9 +49,21 @@ class DrinkTypeModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 
 class DrinkOrderedInline(admin.StackedInline):
-	exclude = ('user',)
 	model =  DrinkOrdered
 	extra = 0
+	def formfield_for_choice_field(self, db_field, request, **kwargs):
+        if db_field.name == "drink_name":
+			drinks = Drink.objects.filter(user=request.user)
+			
+			drink_tuple = ()
+			for drink in drinks:
+				if len(drink_tuple) == 0:
+					drink_tuple = drink.name, drink.name
+				else:
+					drink_tuple = drink_tuple, (drink.name, drink.name)
+					
+            kwargs['choices'] = drink_tuple
+        return super(DrinkOrderedInline, self).formfield_for_choice_field(db_field, request, **kwargs)
 
 class OrderModelAdmin(FilterUserAdmin):
 	exclude = ('user',)

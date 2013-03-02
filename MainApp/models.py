@@ -131,6 +131,8 @@ class Order(BaseModel):
 
 class DrinkOrdered(models.Model):
 	order = models.ForeignKey(Order)
-	drink = models.ForeignKey(Drink)
+	drink_name = models.CharField(max_length=255, choices='')
 	quantity = models.PositiveIntegerField()
+	unit_price = models.DecimalField(decimal_places=2, max_digits=6)
+	drink_type = models.CharField(max_length=255)
 
