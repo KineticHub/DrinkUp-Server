@@ -47,9 +47,9 @@ class DrinkTypeModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 
 class DrinkOrderedInline(admin.StackedInline):
-        exclude = ('user',)
-        model =  DrinkOrdered
-		extra = 0
+	exclude = ('user',)
+	model =  DrinkOrdered
+	extra = 0
 
 class OrderModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
