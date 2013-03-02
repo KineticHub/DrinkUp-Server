@@ -9,8 +9,7 @@ class FilterUserAdmin(admin.ModelAdmin):
 
 	def save_model(self, request, obj, form, change):
 		try:
-			if not obj.user:
-				obj.user = request.user
+			obj.user
 		except:
 			obj.user = request.user
 				

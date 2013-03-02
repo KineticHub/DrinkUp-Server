@@ -33,10 +33,10 @@ class AppUser(BaseModel):
 	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
 	
 	def __unicode__(self):
-		return self.nickname
+		return self.email
 		
 	class Meta:
-		ordering = ['nickname']
+		ordering = ['email']
 
 
 class FacebookAppUser(BaseModel):
