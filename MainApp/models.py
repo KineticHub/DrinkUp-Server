@@ -27,7 +27,7 @@ class AppUser(BaseModel):
 	last_name = models.CharField(max_length=255, blank=True)
 	nickname = models.CharField(max_length=255, blank=True)
 	email = models.EmailField(max_length=255)
-	birthdate = models.DateField(blank=True)
+	birthdate = models.DateField(blank=True, null=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	
 	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
@@ -129,7 +129,7 @@ class Order(BaseModel):
 	class Meta:
 		ordering = ['datetime']
 
-class DrinkOrdered(BaseModel):
+class DrinkOrdered(models.Model):
 	order = models.ForeignKey(Order)
 	drink = models.ForeignKey(Drink)
 	quantity = models.PositiveIntegerField()
