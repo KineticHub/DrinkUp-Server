@@ -1,5 +1,6 @@
 # DrinkUp / MainApp
 from django.contrib import admin
+from django.core.exceptions import DoesNotExist
 from ApiApp.models import BaseModel
 from MainApp.models import *
 
@@ -10,7 +11,7 @@ class FilterUserAdmin(admin.ModelAdmin):
 		try:
 			if not obj.user:
 				obj.user = request.user
-		except DoesNotExist:
+		except:
 			obj.user = request.user
 				
 		obj.save()
