@@ -1,6 +1,6 @@
 # DrinkUp / MainApp
 from django.contrib import admin
-from django.core.exceptions import DoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 from ApiApp.models import BaseModel
 from MainApp.models import *
 
