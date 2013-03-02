@@ -7,8 +7,10 @@ from MainApp.models import *
 class FilterUserAdmin(admin.ModelAdmin):
 
 	def save_model(self, request, obj, form, change):
-                if not request.user.is_superuser:
-                        obj.user = request.user
+		if not request.user.is_superuser:
+				obj.user = request.user
+		elif request.user.is_superuser and not obj.user:
+				obj.user = request.user
 		obj.save()
 
 	def queryset(self, request): 
@@ -47,13 +49,22 @@ class DrinkTypeModelAdmin(FilterUserAdmin):
 class DrinkOrderedInline(admin.StackedInline):
         exclude = ('user',)
         model =  DrinkOrdered
+		extra = 0
 
 class OrderModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
-        inlines = [
-                DrinkOrderedInline,
-                    ]
-	
+	inlines = [
+					DrinkOrderedInline,
+					]
+					
+	def has_change_permission(self, request, obj=None):
+		if not obj:
+			# the changelist itself
+			return True
+		if request.user.is_superuser:
+                        return True
+		return False
+		
 class AppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 	
