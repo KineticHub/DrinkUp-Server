@@ -8,6 +8,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+AUTH_PROFILE_MODULE = 'DrinkUp.VenueOwnerUserProfile'
 
 DATABASES = {
     'default': {
