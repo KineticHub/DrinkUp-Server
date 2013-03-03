@@ -49,10 +49,10 @@ class VenueOwnerModelAdmin(FilterUserAdmin):
 
 class VenueBarModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
-	
+
 class DrinkModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
-	
+
 class DrinkTypeModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 
@@ -80,15 +80,23 @@ class OrderModelAdmin(FilterUserAdmin):
 			# the changelist itself
 			return True
 		if request.user.is_superuser:
-                        return True
+			return True
 		return False
 		
 class AppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 	
 	def queryset(self, request):
-                queryset = AppUser.objects.all()
-                return queryset
+		queryset = AppUser.objects.all()
+		return queryset
+		
+		def has_change_permission(self, request, obj=None):
+		if not obj:
+			# the changelist itself
+			return True
+		if request.user.is_superuser:
+			return True
+		return False
 
 class FacebookAppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
