@@ -25,8 +25,8 @@ class VenueOwnerUserProfile(models.Model):
 		return "%s's profile" % self.user
 
 def create_user_profile(sender, instance, created, **kwargs):  
-	if created:  
-	profile, created = VenueOwnerUserProfile.objects.get_or_create(user=instance)  
+	if created:
+		profile, created = VenueOwnerUserProfile.objects.get_or_create(user=instance)  
 
 post_save.connect(create_user_profile, sender=User)
 
