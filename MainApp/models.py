@@ -5,7 +5,10 @@ from ApiApp.models import BaseModel
 from facepy import GraphAPI
 
 class Venue(BaseModel):
+	venue_owner = models.ForeignKey('VenueOwner')
 	name = models.CharField(max_length=255)
+	contact_email = models.EmailField(max_length=255)
+	contact_number = models.PositiveIntegerField()
 	address = models.TextField()
 	icon = models.URLField(blank=True)
 	facebook_id = models.CharField(max_length=255, blank=True, null=True)
@@ -13,13 +16,10 @@ class Venue(BaseModel):
 		
 
 class VenueOwner(BaseModel):
-	venue = models.ForeignKey(Venue)
 	first_name = models.CharField(max_length=255)
 	last_name = models.CharField(max_length=255)
 	email = models.EmailField(max_length=255)
 	phone = models.PositiveIntegerField()
-	password_salt = models.CharField(max_length=255)
-	password_hash = models.CharField(max_length=255)
 		
 
 class VenueBar(BaseModel):
@@ -97,9 +97,11 @@ class AppUser(BaseModel):
 	email = models.EmailField(max_length=255)
 	birthdate = models.DateField(blank=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
-	is_active = models.BooleanField()
 	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
 	foursquare_user = models.OneToOneField('FourSquareAppUser', verbose_name='Foursquare Profile', blank=True, null=True)
+	password_salt = models.CharField(max_length=255)
+	password_hash = models.CharField(max_length=255)
+		is_active = models.BooleanField()
 	
 	def __unicode__(self):
 		return self.email
