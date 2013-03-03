@@ -33,8 +33,8 @@ post_save.connect(create_user_profile, sender=User)
 class VenueBar(BaseModel):
 	venue = models.ForeignKey(Venue)
 	name = models.CharField(max_length=255)
-	happyhour_start = models.DateTimeField()
-	happyhour_end = models.DateTimeField()
+	happyhour_start = models.TimeField()
+	happyhour_end = models.TimeField()
 	description = models.TextField(blank=True)
 	is_active = models.BooleanField(default=True)
 		
