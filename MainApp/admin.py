@@ -45,7 +45,8 @@ class VenueModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 
 class VenueOwnerUserProfileModelAdmin(admin.ModelAdmin):
-	exclude = ('user',)
+	pass
+#	exclude = ('user',)
 
 class VenueBarModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
