@@ -50,7 +50,14 @@ class VenueOwnerModelAdmin(FilterUserAdmin):
 	def queryset(self, request): 
 		if request.user.is_superuser:
 			return qs
-		return None
+			
+	def has_change_permission(self, request, obj=None):
+		if not obj:
+			# the changelist itself
+			return True
+		if request.user.is_superuser:
+                        return True
+		return False
 
 class VenueBarModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
@@ -109,7 +116,6 @@ class FacebookAppUserModelAdmin(FilterUserAdmin):
 	def queryset(self, request): 
 		if request.user.is_superuser:
 			return qs
-		return None
 
 class FourSquareAppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
@@ -117,7 +123,6 @@ class FourSquareAppUserModelAdmin(FilterUserAdmin):
 	def queryset(self, request): 
 		if request.user.is_superuser:
 			return qs
-		return None
 
 admin.site.register(Venue, VenueModelAdmin)
 admin.site.register(VenueOwner, VenueOwnerModelAdmin)
