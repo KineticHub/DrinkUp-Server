@@ -7,10 +7,10 @@ from django.db.models.signals import post_save
 from facepy import GraphAPI
 
 class Venue(BaseModel):
-	venue_owner = models.ForeignKey('VenueOwnerUserProfile')
+	venue_owner = models.ForeignKey(User)
 	name = models.CharField(max_length=255)
 	contact_email = models.EmailField(max_length=255, blank=True)
-	contact_number = models.PositiveIntegerField(blank=True)
+	contact_number = models.PositiveIntegerField(blank=True, null=True)
 	address = models.TextField()
 	icon = models.URLField(blank=True)
 	facebook_id = models.CharField(max_length=255, blank=True, null=True)
@@ -103,7 +103,7 @@ class AppUser(BaseModel):
 	last_name = models.CharField(max_length=255, blank=True)
 	nickname = models.CharField(max_length=255) #bartender interface needs this
 	email = models.EmailField(max_length=255)
-	birthdate = models.DateField(blank=True)
+	birthdate = models.DateField(blank=True, null=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
 	foursquare_user = models.OneToOneField('FourSquareAppUser', verbose_name='Foursquare Profile', blank=True, null=True)

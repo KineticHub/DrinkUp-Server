@@ -43,6 +43,12 @@ class FilterUserAdmin(admin.ModelAdmin):
 
 class VenueModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
+	
+	def queryset(self, request):
+		qs = super(FilterUserAdmin, self).queryset(request)
+		if request.user.is_superuser:
+                        return qs
+		return qs.filter(venue_owner=request.user)
 
 class VenueOwnerUserProfileModelAdmin(admin.ModelAdmin):
 	pass
