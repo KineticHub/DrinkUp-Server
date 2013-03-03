@@ -44,8 +44,8 @@ class FilterUserAdmin(admin.ModelAdmin):
 class VenueModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 
-#class VenueOwnerUserProfileModelAdmin(admin.ModelAdmin):
-#exclude = ('user',)
+class VenueOwnerUserProfileModelAdmin(admin.ModelAdmin):
+	exclude = ('user',)
 
 class VenueBarModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
@@ -105,7 +105,7 @@ class FourSquareAppUserModelAdmin(admin.ModelAdmin):
 	exclude = ('user',)
 
 admin.site.register(Venue, VenueModelAdmin)
-#admin.site.register(VenueOwner, VenueOwnerModelAdmin)
+admin.site.register(VenueOwnerUserProfile, VenueOwnerUserProfileModelAdmin)
 admin.site.register(VenueBar, VenueBarModelAdmin)
 admin.site.register(Drink, DrinkModelAdmin)
 admin.site.register(DrinkType, DrinkTypeModelAdmin)
