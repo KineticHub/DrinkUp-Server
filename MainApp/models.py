@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 from facepy import GraphAPI
 
 class Venue(BaseModel):
-	venue_owner = models.ForeignKey(User)
+	venue_owner = models.ForeignKey(User, related_name='venue_owner')
 	name = models.CharField(max_length=255)
 	contact_email = models.EmailField(max_length=255, blank=True)
 	contact_number = models.PositiveIntegerField(blank=True, null=True)
