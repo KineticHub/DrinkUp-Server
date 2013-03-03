@@ -39,7 +39,7 @@ class VenueBar(BaseModel):
 		
 
 class Drink(BaseModel):
-	bar = models.ForeignKey(Venue_Bar)
+	bar = models.ForeignKey(VenueBar)
 	drink_type = models.ForeignKey('DrinkType')
 	name = models.CharField(max_length=255)
 	price = models.DecimalField(decimal_places=2, max_digits=6)
@@ -63,7 +63,7 @@ class DrinkType(BaseModel):
 		
 
 class Order(BaseModel):
-	bar = models.ForeignKey(Venue_Bar)
+	bar = models.ForeignKey(VenueBar)
 	appuser = models.ForeignKey('AppUser')
 	total = models.DecimalField(decimal_places=2, max_digits=6)
 	tax = models.DecimalField(decimal_places=2, max_digits=6)
