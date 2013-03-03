@@ -4,13 +4,32 @@ from ApiApp.models import BaseModel
 
 from facepy import GraphAPI
 
-class Bar(BaseModel):
-	email = models.EmailField(max_length=255)
+class Venue(BaseModel):
 	name = models.CharField(max_length=255)
-	icon = models.URLField()
-	lattitude = models.FloatField()
-	longitude = models.FloatField()
-	zipcode = models.PositiveIntegerField()
+	address = models.TextField()
+	icon = models.URLField(blank=True)
+	facebook_id = models.CharField(max_length=255, blank=True, null=True)
+	foursquare_id = models.CharField(max_length=255, blank=True, null=True)
+		
+
+class Venue_Owner(BaseModel):
+	venue = models.ForeignKey(Venue)
+	first_name = models.CharField(max_length=255)
+	last_name = models.CharField(max_length=255)
+	email = models.EmailField(max_length=255)
+	phone = models.PositiveIntegerField()
+	password_salt = models.CharField(max_length=255)
+	password_hash = models.CharField(max_length=255)
+		
+
+class Venue_Bar(BaseModel):
+	venue = models.ForeignKey(Venue)
+	name = models.CharField(max_length=255)
+	happyhour_start = models.DateTimeField()
+	happyhour_end = models.DateTimeField()
+	description = models.TextField(blank=True)
+	is_active = models.BooleanField()
+		
 
 	def __unicode__(self):
 		return self.name
@@ -19,18 +38,68 @@ class Bar(BaseModel):
 		ordering = ['name']
 		
 
+class Drink(BaseModel):
+	bar = models.ForeignKey(Venue_Bar)
+	drink_type = models.ForeignKey(DrinkType)
+	name = models.CharField(max_length=255)
+	price = models.DecimalField(decimal_places=2, max_digits=6)
+	happyhour_price = models.DecimalField(decimal_places=2, max_digits=6)
+	description = models.TextField(blank=True)
+
+	def __unicode__(self):
+		return self.name
+		
+	class Meta:
+		ordering = ['name']
+		
+class DrinkType(BaseModel):
+	type_name = models.CharField(max_length=255)
+
+	def __unicode__(self):
+		return self.type_name
+		
+	class Meta:
+		ordering = ['type_name']
+		
+
+class Order(BaseModel):
+	bar = models.ForeignKey(Venue_Bar)
+	appuser = models.ForeignKey('AppUser')
+	total = models.DecimalField(decimal_places=2, max_digits=6)
+	tax = models.DecimalField(decimal_places=2, max_digits=6)
+	sub_total = models.DecimalField(decimal_places=2, max_digits=6)
+	tip = models.DecimalField(decimal_places=2, max_digits=6)
+	fees = models.DecimalField(decimal_places=2, max_digits=6)
+	grand_total = models.DecimalField(decimal_places=2, max_digits=6)
+	description = models.TextField(blank=True)
+
+	def __unicode__(self):
+		return str(self.appuser)
+		
+	class Meta:
+		ordering = ['created']
+
+class DrinkOrdered(models.Model):
+	order = models.ForeignKey(Order)
+	drink_name = models.CharField(max_length=255)
+	quantity = models.PositiveIntegerField()
+	unit_price = models.DecimalField(decimal_places=2, max_digits=6)
+	drink_type = models.CharField(max_length=255)
+	ordered_during_happyhour = models.BooleanField()
+
 class AppUser(BaseModel):
 	
 	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
 
 	first_name = models.CharField(max_length=255, blank=True)
 	last_name = models.CharField(max_length=255, blank=True)
-	nickname = models.CharField(max_length=255, blank=True)
+	nickname = models.CharField(max_length=255) #bartender interface needs this
 	email = models.EmailField(max_length=255)
-	birthdate = models.DateField(blank=True, null=True)
+	birthdate = models.DateField(blank=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
-	
+	is_active = models.BooleanField()
 	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
+	foursquare_user = models.OneToOneField('FourSquareAppUser', verbose_name='Foursquare Profile', blank=True, null=True)
 	
 	def __unicode__(self):
 		return self.email
@@ -41,8 +110,15 @@ class AppUser(BaseModel):
 
 class FacebookAppUser(BaseModel):
 	fb_uid = models.BigIntegerField(verbose_name = 'facebook id', unique=True)
-	fb_email = models.EmailField(max_length=255, blank=True, null=True)
+	fb_email = models.EmailField(max_length=255, blank=True)
 	oauth_token = models.OneToOneField('OAuthToken', verbose_name='OAuth token', blank=True, null=True)
+		
+
+class FourSquareAppUser(BaseModel):
+	fs_uid = models.BigIntegerField(verbose_name = 'foursquare id', unique=True)
+	fs_email = models.EmailField(max_length=255, blank=True)
+	oauth_token = models.OneToOneField('OAuthToken', verbose_name='OAuth token', blank=True, null=True)
+		
 
 class OAuthToken(models.Model):
 	"""
@@ -72,7 +148,7 @@ class OAuthToken(models.Model):
 		else:
 			return False
 
-	def extend(self):
+	def extend_fb_token(self):
 		"""Extend the OAuth token."""
 		graph = GraphAPI()
 
@@ -89,50 +165,5 @@ class OAuthToken(models.Model):
 		self.expires_at = now() + timedelta(seconds = int(components['expires'][0]))
 
 		self.save()
-
-class DrinkType(BaseModel):
-	bar = models.ForeignKey(Bar)
-	type_name = models.CharField(max_length=200)
-
-	def __unicode__(self):
-		return self.type_name
-		
-	class Meta:
-		ordering = ['type_name']
 	
-class Drink(BaseModel):
-	bar = models.ForeignKey(Bar)
-	drink_type = models.ForeignKey(DrinkType)
-	name = models.CharField(max_length=200)
-	price = models.DecimalField(decimal_places=2, max_digits=6)
-
-	def __unicode__(self):
-		return self.name
-		
-	class Meta:
-		ordering = ['name']
-	
-class Order(BaseModel):
-	bar = models.ForeignKey(Bar)
-	appuser = models.ForeignKey(AppUser)
-	datetime = models.DateTimeField(auto_now_add=True)
-	total = models.DecimalField(decimal_places=2, max_digits=6)
-	tax = models.DecimalField(decimal_places=2, max_digits=6)
-	sub_total = models.DecimalField(decimal_places=2, max_digits=6)
-	tip = models.DecimalField(decimal_places=2, max_digits=6)
-	grand_total = models.DecimalField(decimal_places=2, max_digits=6)
-	description = models.TextField(blank=True)
-
-	def __unicode__(self):
-		return str(self.appuser)
-		
-	class Meta:
-		ordering = ['datetime']
-
-class DrinkOrdered(models.Model):
-	order = models.ForeignKey(Order)
-	drink_name = models.CharField(max_length=255)
-	quantity = models.PositiveIntegerField()
-	unit_price = models.DecimalField(decimal_places=2, max_digits=6)
-	drink_type = models.CharField(max_length=255)
 

@@ -41,7 +41,13 @@ class FilterUserAdmin(admin.ModelAdmin):
                 return super(FilterUserAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 #===================================================#
 
-class BarModelAdmin(FilterUserAdmin):
+class VenueModelAdmin(FilterUserAdmin):
+	exclude = ('user',)
+
+class VenueOwnerModelAdmin(FilterUserAdmin):
+	exclude = ('user',)
+
+class VenueBarModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 	
 class DrinkModelAdmin(FilterUserAdmin):
@@ -52,16 +58,16 @@ class DrinkTypeModelAdmin(FilterUserAdmin):
 
 class DrinkOrderedForm(ModelForm):
 	def __init__(self, *args, **kwargs):
-        	super(DrinkOrderedForm, self).__init__(*args, **kwargs)
-        	self.fields['drink_name'] = forms.ModelChoiceField(queryset=Drink.objects.all())
+		super(DrinkOrderedForm, self).__init__(*args, **kwargs)
+		self.fields['drink_name'] = forms.ModelChoiceField(queryset=Drink.objects.all())
 
 	class Meta:
-        	model = DrinkOrdered
+		model = DrinkOrdered
 
 class DrinkOrderedInline(admin.StackedInline):
 	model =  DrinkOrdered
 	extra = 0
-        form = DrinkOrderedForm
+	form = DrinkOrderedForm
 
 class OrderModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
@@ -84,8 +90,18 @@ class AppUserModelAdmin(FilterUserAdmin):
                 queryset = AppUser.objects.all()
                 return queryset
 
-admin.site.register(Bar, BarModelAdmin)
-admin.site.register(DrinkType, DrinkTypeModelAdmin)
+class FacebookAppUserModelAdmin(FilterUserAdmin):
+	exclude = ('user',)
+
+class FourSquareAppUserModelAdmin(FilterUserAdmin):
+	exclude = ('user',)
+
+admin.site.register(Venue, VenueModelAdmin)
+admin.site.register(Venue_Owner, VenueOwnerModelAdmin)
+admin.site.register(Venue_Bar, VenueBarModelAdmin)
 admin.site.register(Drink, DrinkModelAdmin)
+admin.site.register(DrinkType, DrinkTypeModelAdmin)
 admin.site.register(Order, OrderModelAdmin)
 admin.site.register(AppUser, AppUserModelAdmin)
+admin.site.register(FacebookAppUser, FacebookAppUserModelAdmin)
+admin.site.register(FourSquareAppUser, FourSquareAppUserModelAdmin)
