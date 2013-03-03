@@ -7,8 +7,8 @@ from facepy import GraphAPI
 class Venue(BaseModel):
 	venue_owner = models.ForeignKey('VenueOwner')
 	name = models.CharField(max_length=255)
-	contact_email = models.EmailField(max_length=255)
-	contact_number = models.PositiveIntegerField()
+	contact_email = models.EmailField(max_length=255, blank=True)
+	contact_number = models.PositiveIntegerField(blank=True)
 	address = models.TextField()
 	icon = models.URLField(blank=True)
 	facebook_id = models.CharField(max_length=255, blank=True, null=True)
@@ -28,7 +28,7 @@ class VenueBar(BaseModel):
 	happyhour_start = models.DateTimeField()
 	happyhour_end = models.DateTimeField()
 	description = models.TextField(blank=True)
-	is_active = models.BooleanField()
+	is_active = models.BooleanField(default=True)
 		
 
 	def __unicode__(self):
@@ -101,7 +101,7 @@ class AppUser(BaseModel):
 	foursquare_user = models.OneToOneField('FourSquareAppUser', verbose_name='Foursquare Profile', blank=True, null=True)
 	password_salt = models.CharField(max_length=255)
 	password_hash = models.CharField(max_length=255)
-	is_active = models.BooleanField()
+	is_active = models.BooleanField(default=True)
 	
 	def __unicode__(self):
 		return self.email
