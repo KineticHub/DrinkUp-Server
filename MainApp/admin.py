@@ -46,6 +46,10 @@ class VenueModelAdmin(FilterUserAdmin):
 
 class VenueOwnerModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
+	
+	def queryset(self, request): 
+		if request.user.is_superuser:
+			return qs
 
 class VenueBarModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
@@ -100,9 +104,17 @@ class AppUserModelAdmin(FilterUserAdmin):
 
 class FacebookAppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
+	
+	def queryset(self, request): 
+		if request.user.is_superuser:
+			return qs
 
 class FourSquareAppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
+	
+	def queryset(self, request): 
+		if request.user.is_superuser:
+			return qs
 
 admin.site.register(Venue, VenueModelAdmin)
 admin.site.register(VenueOwner, VenueOwnerModelAdmin)
