@@ -90,7 +90,7 @@ class AppUserModelAdmin(FilterUserAdmin):
 		queryset = AppUser.objects.all()
 		return queryset
 		
-		def has_change_permission(self, request, obj=None):
+	def has_change_permission(self, request, obj=None):
 		if not obj:
 			# the changelist itself
 			return True
