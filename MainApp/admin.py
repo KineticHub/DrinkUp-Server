@@ -33,7 +33,7 @@ class FilterUserAdmin(admin.ModelAdmin):
 
 	def formfield_for_foreignkey(self, db_field, request, **kwargs):
                 if db_field.name == "bar":
-                        kwargs["queryset"] = Bar.objects.filter(user=request.user)
+                        kwargs["queryset"] = VenueBar.objects.filter(user=request.user)
                         return db_field.formfield(**kwargs)
                 if db_field.name == "drink_type":
                         kwargs["queryset"] = DrinkType.objects.filter(user=request.user)
@@ -97,8 +97,8 @@ class FourSquareAppUserModelAdmin(FilterUserAdmin):
 	exclude = ('user',)
 
 admin.site.register(Venue, VenueModelAdmin)
-admin.site.register(Venue_Owner, VenueOwnerModelAdmin)
-admin.site.register(Venue_Bar, VenueBarModelAdmin)
+admin.site.register(VenueOwner, VenueOwnerModelAdmin)
+admin.site.register(VenueBar, VenueBarModelAdmin)
 admin.site.register(Drink, DrinkModelAdmin)
 admin.site.register(DrinkType, DrinkTypeModelAdmin)
 admin.site.register(Order, OrderModelAdmin)

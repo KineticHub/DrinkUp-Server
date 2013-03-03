@@ -12,7 +12,7 @@ class Venue(BaseModel):
 	foursquare_id = models.CharField(max_length=255, blank=True, null=True)
 		
 
-class Venue_Owner(BaseModel):
+class VenueOwner(BaseModel):
 	venue = models.ForeignKey(Venue)
 	first_name = models.CharField(max_length=255)
 	last_name = models.CharField(max_length=255)
@@ -22,7 +22,7 @@ class Venue_Owner(BaseModel):
 	password_hash = models.CharField(max_length=255)
 		
 
-class Venue_Bar(BaseModel):
+class VenueBar(BaseModel):
 	venue = models.ForeignKey(Venue)
 	name = models.CharField(max_length=255)
 	happyhour_start = models.DateTimeField()
