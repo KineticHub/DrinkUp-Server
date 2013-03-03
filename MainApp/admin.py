@@ -50,6 +50,14 @@ class VenueModelAdmin(FilterUserAdmin):
                         return qs
 		return qs.filter(venue_owner=request.user)
 
+	def has_change_permission(self, request, obj=None):
+		if not obj:
+			# the changelist itself
+			return True
+		if request.user.is_superuser:
+                        return True
+		return obj.venue_owner == request.user
+
 class VenueOwnerUserProfileModelAdmin(admin.ModelAdmin):
 	pass
 #	exclude = ('user',)
