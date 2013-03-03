@@ -101,7 +101,7 @@ class AppUser(BaseModel):
 	foursquare_user = models.OneToOneField('FourSquareAppUser', verbose_name='Foursquare Profile', blank=True, null=True)
 	password_salt = models.CharField(max_length=255)
 	password_hash = models.CharField(max_length=255)
-		is_active = models.BooleanField()
+	is_active = models.BooleanField()
 	
 	def __unicode__(self):
 		return self.email
