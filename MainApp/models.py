@@ -1,11 +1,13 @@
 #DrinkUp / MainApp
 from django.db import models
 from ApiApp.models import BaseModel
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 from facepy import GraphAPI
 
 class Venue(BaseModel):
-	venue_owner = models.ForeignKey('VenueOwner')
+	venue_owner = models.ForeignKey('VenueOwnerUserProfile')
 	name = models.CharField(max_length=255)
 	contact_email = models.EmailField(max_length=255, blank=True)
 	contact_number = models.PositiveIntegerField(blank=True)
@@ -15,12 +17,18 @@ class Venue(BaseModel):
 	foursquare_id = models.CharField(max_length=255, blank=True, null=True)
 		
 
-class VenueOwner(BaseModel):
-	first_name = models.CharField(max_length=255)
-	last_name = models.CharField(max_length=255)
-	email = models.EmailField(max_length=255)
-	phone = models.PositiveIntegerField()
-		
+class VenueOwnerUserProfile(models.Model):
+	user = models.OneToOneField(User)
+	phone_number = models.PositiveIntegerField(blank=True)
+
+	def __str__(self):
+		return "%s's profile" % self.user
+
+def create_user_profile(sender, instance, created, **kwargs):  
+	if created:  
+	profile, created = VenueOwnerUserProfile.objects.get_or_create(user=instance)  
+
+post_save.connect(create_user_profile, sender=User)
 
 class VenueBar(BaseModel):
 	venue = models.ForeignKey(Venue)
