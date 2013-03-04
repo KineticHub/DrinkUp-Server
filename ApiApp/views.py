@@ -71,8 +71,10 @@ def AppUserLogin(request):
 				login(request, user)
 				# Redirect to a success page.
 			else:
+                                pass
 				# Return a 'disabled account' error message
 		else:
+                        pass
 			# Return an 'invalid login' error message.
 
 def AppUserLogout(request):
