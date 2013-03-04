@@ -59,7 +59,7 @@ class Drink(BaseModel):
 		
 	class Meta:
 		ordering = ['name']
-		
+
 class DrinkType(BaseModel):
 	type_name = models.CharField(max_length=255)
 
@@ -71,6 +71,9 @@ class DrinkType(BaseModel):
 		
 
 class Order(BaseModel):
+
+	Order_Status_Options = ((1, 'WAITING_BARTENDER'), (2,'IN_PROGRESS'), (3,'WAITING_CUSTOMER'), , (4,'ORDER_COMPLETE'), (5,'ORDER_UNFILLED'))
+
 	bar = models.ForeignKey(VenueBar)
 	appuser = models.ForeignKey('AppUser')
 	total = models.DecimalField(decimal_places=2, max_digits=6)
@@ -79,6 +82,7 @@ class Order(BaseModel):
 	tip = models.DecimalField(decimal_places=2, max_digits=6)
 	fees = models.DecimalField(decimal_places=2, max_digits=6)
 	grand_total = models.DecimalField(decimal_places=2, max_digits=6)
+	current_status = models.IntegerField(max_length=1,choices=Order_Status_Options)
 	description = models.TextField(blank=True)
 
 	def __unicode__(self):
