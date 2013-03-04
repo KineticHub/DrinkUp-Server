@@ -1,6 +1,10 @@
 #DrinkUp/ApiApp
 
+#python helpers
 import json
+import datetime
+
+#django view helpers
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -8,17 +12,22 @@ from django.core.context_processors import csrf
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
+
+#django models
 from django.db.models.loading import get_model
 from django.db.models import Q
 from django.forms.models import model_to_dict
-import datetime
-
 from django.db import models
+
+#django authentication
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+#custom imports
 from MainApp.models import *
 
-#imports for FB
+#Facebook imports
 from pyfb import Pyfb
 from DrinkUp.settings import FACEBOOK_APP_ID, FACEBOOK_SECRET_KEY, FACEBOOK_REDIRECT_URL
 
@@ -54,7 +63,24 @@ def BarDrinksOfType(request, bar_id, type_id):
 
 def AppUserLogin(request):
 	if request.method == 'POST':
-		pass
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+				# Redirect to a success page.
+			else:
+				# Return a 'disabled account' error message
+		else:
+			# Return an 'invalid login' error message.
+
+def AppUserLogout(request):
+	logout(request)
+
+@login_required
+def PlaceOrderInQueue(request):
+	pass
 
 
 #BEGIN FB VIEWS
