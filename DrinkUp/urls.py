@@ -15,9 +15,9 @@ urlpatterns = patterns('DrinkUp',
 )
 
 urlpatterns += patterns('ApiApp.views',
-	url(r'^drinkup/bars/all/$', 'AllBars'),
-	url(r'^drinkup/drinks/all/$', 'AllDrinks'),
-	url(r'^drinkup/drinks/bar/(?P<bar_id>\d{1,10})/$', 'BarDrinks'),
+	url(r'^drinkup/venues/all/$', 'AllVenues'),
+	url(r'^drinkup/venue/bars/(?P<venue_id>\d{1,10})/$', 'VenueBars'),
+	url(r'^drinkup/venue/bar/drinks/(?P<bar_id>\d{1,10})/$', 'BarDrinks'),
 	
 	url(r'^index/$', 'index'),
 	url(r'^facebook_login/$', 'facebook_login'),
