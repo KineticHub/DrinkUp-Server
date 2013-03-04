@@ -24,11 +24,15 @@ class VenueOwnerUserProfile(models.Model):
 	def __str__(self):
 		return "%s's profile" % self.user
 
-def create_user_profile(sender, instance, created, **kwargs):  
-	if created:
-		profile, created = VenueOwnerUserProfile.objects.get_or_create(user=instance)  
+#############################################
+#This will do automatic creation, but we will connect it manually to allow for other User one-to-one models
 
-post_save.connect(create_user_profile, sender=User)
+#def create_user_profile(sender, instance, created, **kwargs):  
+#	if created:
+#		profile, created = VenueOwnerUserProfile.objects.get_or_create(user=instance)  
+
+#post_save.connect(create_user_profile, sender=User)
+#############################################
 
 class VenueBar(BaseModel):
 	venue = models.ForeignKey(Venue)
@@ -72,10 +76,10 @@ class DrinkType(BaseModel):
 
 class Order(BaseModel):
 
-	Order_Status_Options = ((1, 'WAITING_BARTENDER'), (2,'IN_PROGRESS'), (3,'WAITING_CUSTOMER'), (4,'ORDER_COMPLETE'), (5,'ORDER_UNFILLED'))
+	Order_Status_Options = ((1, 'WAITING BARTENDER'), (2,'IN PROGRESS'), (3,'WAITING CUSTOMER'), (4,'ORDER COMPLETE'), (5,'ORDER UNFILLED'))
 
 	bar = models.ForeignKey(VenueBar)
-	appuser = models.ForeignKey('AppUser')
+	appuser = models.ForeignKey('AppUser', related_name='appuser_owner')
 	total = models.DecimalField(decimal_places=2, max_digits=6)
 	tax = models.DecimalField(decimal_places=2, max_digits=6)
 	sub_total = models.DecimalField(decimal_places=2, max_digits=6)
@@ -99,27 +103,18 @@ class DrinkOrdered(models.Model):
 	drink_type = models.CharField(max_length=255)
 	ordered_during_happyhour = models.BooleanField()
 
-class AppUser(BaseModel):
-	
+class AppUser(models.Model):
+
 	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
 
-	first_name = models.CharField(max_length=255, blank=True)
-	last_name = models.CharField(max_length=255, blank=True)
-	nickname = models.CharField(max_length=255) #bartender interface needs this
-	email = models.EmailField(max_length=255)
+	user = models.OneToOneField(User)
 	birthdate = models.DateField(blank=True, null=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
 	foursquare_user = models.OneToOneField('FourSquareAppUser', verbose_name='Foursquare Profile', blank=True, null=True)
-	password_salt = models.CharField(max_length=255)
-	password_hash = models.CharField(max_length=255)
-	is_active = models.BooleanField(default=True)
-	
+
 	def __unicode__(self):
-		return self.email
-		
-	class Meta:
-		ordering = ['email']
+		return self.user.username
 
 
 class FacebookAppUser(BaseModel):

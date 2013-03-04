@@ -52,6 +52,10 @@ def BarDrinksOfType(request, bar_id, type_id):
 		response = json_serializer.serialize(drinks_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
+def AppUserLogin(request):
+	if request.method == 'POST':
+		pass
+
 
 #BEGIN FB VIEWS
 def index(request):
