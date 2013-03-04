@@ -42,7 +42,7 @@ def BarDrinkTypes(request, bar_id):
 		drinks = Drink.objects.filter(bar=bar_id)
 		types_to_return = DrinkType.objects.filter(drink__in=drinks)
 		json_serializer = serializers.get_serializer("json")()
-		response = json_serializer.serialize(drinks_to_return, ensure_ascii=False)
+		response = json_serializer.serialize(types_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
 def BarDrinksOfType(request, bar_id, type_id):
