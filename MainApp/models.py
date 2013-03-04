@@ -72,7 +72,7 @@ class DrinkType(BaseModel):
 
 class Order(BaseModel):
 
-	Order_Status_Options = ((1, 'WAITING_BARTENDER'), (2,'IN_PROGRESS'), (3,'WAITING_CUSTOMER'), , (4,'ORDER_COMPLETE'), (5,'ORDER_UNFILLED'))
+	Order_Status_Options = ((1, 'WAITING_BARTENDER'), (2,'IN_PROGRESS'), (3,'WAITING_CUSTOMER'), (4,'ORDER_COMPLETE'), (5,'ORDER_UNFILLED'))
 
 	bar = models.ForeignKey(VenueBar)
 	appuser = models.ForeignKey('AppUser')
