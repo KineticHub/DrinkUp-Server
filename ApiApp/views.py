@@ -37,9 +37,17 @@ def VenueBars(request, venue_id):
 		response = json_serializer.serialize(bars_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
-def BarDrinks(request, bar_id):
+def BarDrinkTypes(request, bar_id):
 	if request.method == 'GET':
-		drinks_to_return = Drink.objects.filter(bar=bar_id)
+		drinks = Drink.objects.filter(bar=bar_id)
+		types_to_return = DrinkType.objects.filter(drink__in=drinks)
+		json_serializer = serializers.get_serializer("json")()
+		response = json_serializer.serialize(drinks_to_return, ensure_ascii=False)
+		return HttpResponse(response, mimetype="application/json")
+
+def BarDrinksOfType(request, bar_id, type_id):
+	if request.method == 'GET':
+		drinks_to_return = Drink.objects.filter(bar=bar_id) if type_id == -1 else Drink.objects.filter(bar=bar_id, drink_type=type_id)
 		json_serializer = serializers.get_serializer("json")()
 		response = json_serializer.serialize(drinks_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
