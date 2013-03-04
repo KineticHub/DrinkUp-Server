@@ -19,7 +19,7 @@ class Venue(BaseModel):
 
 class VenueOwnerUserProfile(models.Model):
 	user = models.OneToOneField(User)
-	phone_number = models.PositiveIntegerField(blank=True)
+	phone_number = models.PositiveIntegerField(blank=True, null=True)
 
 	def __str__(self):
 		return "%s's profile" % self.user
