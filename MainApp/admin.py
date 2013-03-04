@@ -99,7 +99,7 @@ class OrderModelAdmin(FilterUserAdmin):
 		return False
 		
 class AppUserModelAdmin(FilterUserAdmin):
-	exclude = ('user',)
+	#exclude = ('user',)
 	
 	def queryset(self, request):
 		queryset = AppUser.objects.all()
