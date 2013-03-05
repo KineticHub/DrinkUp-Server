@@ -4,6 +4,7 @@ from ApiApp.models import BaseModel
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
+from geopy import geocoders
 from facepy import GraphAPI
 
 class Venue(BaseModel):
@@ -15,6 +16,23 @@ class Venue(BaseModel):
 	icon = models.URLField(blank=True)
 	facebook_id = models.CharField(max_length=255, blank=True, null=True)
 	foursquare_id = models.CharField(max_length=255, blank=True, null=True)
+	latitude = models.FloatField(editable=False)
+	longitude = models.FloatField(editable=False)
+
+	def save(self, *args, **kwargs):
+                if not self.pk:
+                        self.set_coords()
+                super(Post, self).save(*args, **kwargs)
+
+        # set coordinates
+        def set_coords(self):
+            toFind = self.address
+            g = geocoders.Google()
+
+            place, (lat, lng) = g.geocode(toFind)
+
+            self.latitude = lat
+            self.longitude = lng
 		
 
 class VenueOwnerUserProfile(models.Model):
@@ -22,7 +40,7 @@ class VenueOwnerUserProfile(models.Model):
 	phone_number = models.PositiveIntegerField(blank=True, null=True)
 
 	def __str__(self):
-		return "%s's profile" % self.user
+                return "%s's profile" % self.user
 
 #############################################
 #This will do automatic creation, but we will connect it manually to allow for other User one-to-one models
