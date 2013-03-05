@@ -69,10 +69,10 @@ class DrinkType(BaseModel):
 	icon = models.URLField(blank=True)
 
 	def __unicode__(self):
-		return self.type_name
+		return self.name
 		
 	class Meta:
-		ordering = ['type_name']
+		ordering = ['name']
 		
 
 class Order(BaseModel):
