@@ -65,7 +65,8 @@ class Drink(BaseModel):
 		ordering = ['name']
 
 class DrinkType(BaseModel):
-	type_name = models.CharField(max_length=255)
+	name = models.CharField(max_length=255)
+	icon = models.URLField(blank=True)
 
 	def __unicode__(self):
 		return self.type_name
