@@ -20,9 +20,9 @@ class Venue(BaseModel):
 	longitude = models.FloatField(editable=False)
 
 	def save(self, *args, **kwargs):
-                if not self.pk:
+                if not self.pk or self.latitude == 0 or not self.longitude == 0:
                         self.set_coords()
-                super(Post, self).save(*args, **kwargs)
+                super(Venue, self).save(*args, **kwargs)
 
         # set coordinates
         def set_coords(self):
