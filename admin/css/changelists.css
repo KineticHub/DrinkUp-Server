@@ -1,266 +1,289 @@
-#content h1{
-    display: inline-block;
-}
-.object-tools{
-    list-style: none;
-    text-align: right;
-    margin-left: 15px;
-    margin-top: 15px;
-}
-.object-tools li {
-    float: left;
-    margin-left: 5px;
-}
-.object-tools:after {
-    clear: both;
-}
-#changelist .nav-collapse .nav > li.active > a,
-#changelist .nav-collapse .dropdown-menu li.active a{
-    color: #fff;
-}
-#changelist .affix.navbar-fixed-top{
-    top: 42px;
-}
-.pagination{
-    margin: 0;
-}
-.pagination ul > li > a, .pagination ul > li > span{
-    background: transparent;
-    border-top: none;
-    border-bottom: none;
-    line-height: 40px;
-}
-#filters .dropdown-filters {
-    padding: 10px 5px;
-}
-.affix-top.subnav{
+/* CHANGELISTS */
+
+#changelist {
     position: relative;
-    z-index: 1;
+    width: 100%;
 }
-#changelist-form{
-    background-color: #FFFFFF;
-    border: 1px solid #DDDDDD;
-    border-radius: 4px;
-    margin: 15px 0;
-    padding-top: 5px;
-    position: relative;
-    top: -25px;
+
+#changelist table {
+    width: 100%;
 }
-#changelist-form.with-top-actions{
-    padding: 39px 0 0 0;
+
+.change-list .hiddenfields { display:none; }
+
+.change-list .filtered table {
+    border-right: 1px solid #ddd;
 }
-#changelist-form .table .selected td,
-#changelist-form .table .selected th {
-    background-color: #FCF8E3;
+
+.change-list .filtered {
+    min-height: 400px;
 }
-#changelist-form .actions{
-    height: 30px;
-    padding-bottom: 10px;
+
+.change-list .filtered {
+    background: white url(../img/changelist-bg.gif) top right repeat-y !important;
 }
-#changelist-form .actions .all,
-#changelist-form .actions .action-counter,
-#changelist-form .actions .clear,
-#changelist-form .actions .question{
-    display: none;
+
+.change-list .filtered .results, .change-list .filtered .paginator, .filtered #toolbar, .filtered div.xfull {
+    margin-right: 160px !important;
+    width: auto !important;
 }
-#result_list thead a{
-    color: #333;
+
+.change-list .filtered table tbody th {
+    padding-right: 1em;
 }
-#changelist .well{
-    border-radius: 0;
-    left: -1px;
-    padding-bottom: 0px;
-    position: absolute;
-    right: -1px;
-    top: -3px;
+
+#changelist .toplinks {
+    border-bottom: 1px solid #ccc !important;
 }
-#changelist .well .divider{
-    border-left: 1px solid #E3E3E3;
-    border-right: 1px solid #F2F2F2;
-    float: left;
-    height: 59px;
-    margin: -19px 9px;
+
+#changelist .paginator {
+    color: #666;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    background: white url(../img/nav-bg.gif) 0 180% repeat-x;
+    overflow: hidden;
 }
-#changelist .actions label{
-    display: inline-block;
+
+.change-list .filtered .paginator {
+    border-right: 1px solid #ddd;
 }
-#changelist .actions label span{
-    display: inline-block;
-    margin-top: 5px;
+
+/* CHANGELIST TABLES */
+
+#changelist table thead th {
+    padding: 0;
+    white-space: nowrap;
+    vertical-align: middle;
 }
-#changelist-form .actions .btn{
-    display: inline-block;
-}
-#changelist-form.with-top-actions .results{
-    margin-top: 19px;
-}
-#changelist-form.with-top-actions .info-counter{
-    margin-top: 5px;
-}
-#result_list .action-checkbox-column,
-#result_list .action-checkbox{
+
+#changelist table thead th.action-checkbox-column {
+    width: 1.5em;
     text-align: center;
 }
-#result_list thead{
-    background-color: #FAFAFA;
-    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
-    background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
-    background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
-    background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
-    background-repeat: repeat-x;
-    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
+
+#changelist table tbody td, #changelist table tbody th {
+    border-left: 1px solid #ddd;
 }
-#result_list .row1:first-child td,
-#result_list .row1:first-child th{
-    border-top-style:dotted;
+
+#changelist table tbody td:first-child, #changelist table tbody th:first-child {
+    border-left: 0;
+    border-right: 1px solid #ddd;
 }
-#changelist .bottom-actions{
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-left: 0 none;
-    border-right: 0 none;
-    height: 40px;
-    left: 0;
-    margin-bottom: -4px;
-    position: relative;
+
+#changelist table tbody td.action-checkbox {
+    text-align:center;
 }
-.datetime input{
-    width: 80px;
+
+#changelist table tfoot {
+    color: #666;
 }
-@media (max-width: 979px) {
-    .nav-collapse .pull-left,
-    .nav-collapse .pull-right{
-        float: none;
-    }
-    .navbar-search{
-        text-align: center;
-    }
-    .dropdown-menu li > a:hover,
-    .dropdown-menu li > a:focus,
-    .dropdown-submenu:hover > a{
-        color: #fff;
-    }
+
+/* TOOLBAR */
+
+#changelist #toolbar {
+    padding: 3px;
+    border-bottom: 1px solid #ddd;
+    background: #e1e1e1 url(../img/nav-bg.gif) top left repeat-x;
+    color: #666;
 }
-@media (max-width: 768px) {
-    #content h1 {
-        font-size: 25px;
-    }
-    .pagination ul > li > a,
-    .pagination ul > li > span{
-        padding: 0 10px;
-    }
-    #changelist .well{
-        text-align: center;
-    }
-    #changelist .well .info-counter,
-    #changelist .well .actions,
-    #changelist .well .divider{
-        float: none;
-    }
-    #changelist .well .actions{
-        display: inline-block;
-    }
-    #changelist .well .divider{
-        display: inline;
-    }
-    #changelist-form .well .actions>:first-child{
-        margin-right: 10px;
-    }
-    #changelist-form.with-top-actions .results {
-        padding-top: 20px;
-    }
-    #changelist .bottom-actions{
-        height: auto;
-    }
+
+#changelist #toolbar form input {
+    font-size: 11px;
+    padding: 1px 2px;
 }
-@media (min-width: 767px) and (max-width: 768px) {
-    #changelist > .affix.subnav{
-        position: fixed;
-        top: 0;
-    }
+
+#changelist #toolbar form #searchbar {
+    padding: 2px;
 }
-@media (max-width: 480px) {
-    #content h1 {
-        display: block;
-        font-size: 20px;
-        text-align: center;
-    }
-    .object-tools{
-        float: none;
-        margin-top: 0;
-        text-align: center;
-    }
-    .pagination{
-        height: auto;
-    }
-    .pagination ul > li > a,
-    .pagination ul > li > span {
-        border: 1px solid #D4D4D4;
-        border-radius: 3px 3px 3px 3px;
-        margin: 5px;
-        padding: 0 10px;
-        text-align: center;
-        width: 16px;
-    }
-    .pagination ul > li:first-child > a,
-    .pagination ul > li:first-child > span,
-    .pagination ul > li:last-child > a,
-    .pagination ul > li:last-child > span{
-        border-radius: 3px;
-    }
-    .pagination .disabled a{
-        border-color: transparent;
-    }
-    .pagination ul{
-        box-shadow: none;
-    }
-    #filters{
-        width: 100%;
-    }
-    .affix{
-        position: relative;
-        z-index: 1;
-    }
-    #changelist-form.with-top-actions .results {
-        padding-top: 50px;
-    }
-    #changelist .well{
-        padding-top: 40px;
-    }
-    #changelist-form .all,
-    #changelist-form .action-counter{
-        position: absolute;
-        right: 20px;
-        top: 15px;
-    }
-    #changelist-form .info-counter {
-        left: 20px;
-        position: absolute;
-        top: 10px;
-    }
-    #changelist .well .divider{
-        display: none;
-    }
-    #changelist-form .actions{
-        float: none;
-        height: auto !important;
-        text-align: center;
-    }
-    #changelist .brand{
-        display: none;
-    }
+
+#changelist #changelist-search img {
+    vertical-align: middle;
 }
-@media (max-width: 320px) {
-    #content h1 {
-        font-size: 17px;
-    }
-    #search-change-list .input-append .btn{
-        border-radius: 3px 3px 3px 3px;
-        display: block;
-        margin: 5px auto;
-    }
-    #searchbar{
-        border-radius: 3px;
-    }
+
+/* FILTER COLUMN */
+
+#changelist-filter {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    width: 160px;
+    border-left: 1px solid #ddd;
+    background: #efefef;
+    margin: 0;
+}
+
+#changelist-filter h2 {
+    font-size: 11px;
+    padding: 2px 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+#changelist-filter h3 {
+    font-size: 12px;
+    margin-bottom: 0;
+}
+
+#changelist-filter ul {
+    padding-left: 0;
+    margin-left: 10px;
+}
+
+#changelist-filter li {
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+#changelist-filter a {
+    color: #999;
+}
+
+#changelist-filter a:hover {
+    color: #036;
+}
+
+#changelist-filter li.selected {
+    border-left: 5px solid #ccc;
+    padding-left: 5px;
+    margin-left: -10px;
+}
+
+#changelist-filter li.selected a {
+    color: #5b80b2 !important;
+}
+
+/* DATE DRILLDOWN */
+
+.change-list ul.toplinks {
+    display: block;
+    background: white url(../img/nav-bg-reverse.gif) 0 -10px repeat-x;
+    border-top: 1px solid white;
+    float: left;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100%;
+}
+
+.change-list ul.toplinks li {
+    padding: 3px 6px;
+    font-weight: bold;
+    list-style-type: none;
+    display: inline-block;
+}
+
+.change-list ul.toplinks .date-back a {
+    color: #999;
+}
+
+.change-list ul.toplinks .date-back a:hover {
+    color: #036;
+}
+
+/* PAGINATOR */
+
+.paginator {
+    font-size: 11px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 22px;
+    margin: 0;
+    border-top: 1px solid #ddd;
+}
+
+.paginator a:link, .paginator a:visited {
+    padding: 2px 6px;
+    border: solid 1px #ccc;
+    background: white;
+    text-decoration: none;
+}
+
+.paginator a.showall {
+    padding: 0 !important;
+    border: none !important;
+}
+
+.paginator a.showall:hover {
+    color: #036 !important;
+    background: transparent !important;
+}
+
+.paginator .end {
+    border-width: 2px !important;
+    margin-right: 6px;
+}
+
+.paginator .this-page {
+    padding: 2px 6px;
+    font-weight: bold;
+    font-size: 13px;
+    vertical-align: top;
+}
+
+.paginator a:hover {
+    color: white;
+    background: #5b80b2;
+    border-color: #036;
+}
+
+/* ACTIONS */
+
+.filtered .actions {
+    margin-right: 160px !important;
+    border-right: 1px solid #ddd;
+}
+
+#changelist table input {
+    margin: 0;
+}
+
+#changelist table tbody tr.selected {
+    background-color: #FFFFCC;
+}
+
+#changelist .actions {
+    color: #999;
+    padding: 3px;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #ddd;
+    background: white url(../img/nav-bg-reverse.gif) 0 -10px repeat-x;
+}
+
+#changelist .actions.selected {
+    background: #fffccf;
+    border-top: 1px solid #fffee8;
+    border-bottom: 1px solid #edecd6;
+}
+
+#changelist .actions span.all,
+#changelist .actions span.action-counter,
+#changelist .actions span.clear,
+#changelist .actions span.question {
+    font-size: 11px;
+    margin: 0 0.5em;
+    display: none;
+}
+
+#changelist .actions:last-child {
+    border-bottom: none;
+}
+
+#changelist .actions select {
+    border: 1px solid #aaa;
+    margin-left: 0.5em;
+    padding: 1px 2px;
+}
+
+#changelist .actions label {
+    font-size: 11px;
+    margin-left: 0.5em;
+}
+
+#changelist #action-toggle {
+    display: none;
+}
+
+#changelist .actions .button {
+    font-size: 11px;
+    padding: 1px 2px;
 }

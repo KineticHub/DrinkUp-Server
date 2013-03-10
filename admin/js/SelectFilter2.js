@@ -31,7 +31,9 @@ window.SelectFilter = {
                 // Move help text up to the top so it isn't below the select
                 // boxes or wrapped off on the side to the right of the add
                 // button:
-                from_box.parentNode.insertBefore(ps[i], from_box.parentNode.firstChild);
+                // from_box.parentNode.insertBefore(ps[i], from_box.parentNode.firstChild);
+                // GRAPPELLI CUSTOM: remove help-text, because trusted editors should know what to do
+                from_box.parentNode.removeChild(ps[i]);
             }
         }
 
@@ -43,43 +45,44 @@ window.SelectFilter = {
         var selector_available = quickElement('div', selector_div, '');
         selector_available.className = 'selector-available';
         var title_available = quickElement('h2', selector_available, interpolate(gettext('Available %s') + ' ', [field_name]));
-        quickElement('img', title_available, '', 'src', admin_media_prefix + 'img/icon-unknown.gif', 'width', '10', 'height', '10', 'class', 'help help-tooltip', 'title', interpolate(gettext('This is the list of available %s. You may choose some by selecting them in the box below and then clicking the "Choose" arrow between the two boxes.'), [field_name]));
+        // GRAPPELLI CUSTOM: removed help-icon (trusted editors should know what to do)
+        // quickElement('img', title_available, '', 'src', admin_media_prefix + 'img/icon-unknown.gif', 'width', '10', 'height', '10', 'class', 'help help-tooltip', 'title', interpolate(gettext('This is the list of available %s. You may choose some by selecting them in the box below and then clicking the "Choose" arrow between the two boxes.'), [field_name]));
 
         var filter_p = quickElement('p', selector_available, '', 'id', field_id + '_filter');
         filter_p.className = 'selector-filter';
 
         var search_filter_label = quickElement('label', filter_p, '', 'for', field_id + "_input");
+        // GRAPPELLI CUSTOM: removed search-icon as it is provided via css
+        // var search_selector_img = quickElement('img', search_filter_label, '', 'src', admin_media_prefix + 'img/selector-search.gif', 'class', 'help-tooltip', 'alt', '', 'title', interpolate(gettext("Type into this box to filter down the list of available %s."), [field_name]));
 
-        var filter_input = quickElement('input', filter_p, '', 'type', 'text', 'placeholder', gettext("Filter"), 'title', interpolate(gettext('This is the list of available %s. You may choose some by selecting them in the box below and then clicking the "Choose" arrow between the two boxes.'), [field_name]));
+        filter_p.appendChild(document.createTextNode(' '));
+
+        var filter_input = quickElement('input', filter_p, '', 'type', 'text', 'placeholder', gettext("Filter"));
         filter_input.id = field_id + '_input';
-        filter_input.className = 'input-medium search-query'
 
         selector_available.appendChild(from_box);
-        var choose_all = quickElement('a', selector_available, '', 'title', interpolate(gettext('Click to choose all %s at once.'), [field_name]), 'href', 'javascript: (function(){ SelectBox.move_all("' + field_id + '_from", "' + field_id + '_to"); SelectFilter.refresh_icons("' + field_id + '");})()', 'id', field_id + '_add_all_link');
+        var choose_all = quickElement('a', selector_available, gettext('Choose all'), 'title', interpolate(gettext('Click to choose all %s at once.'), [field_name]), 'href', 'javascript: (function(){ SelectBox.move_all("' + field_id + '_from", "' + field_id + '_to"); SelectFilter.refresh_icons("' + field_id + '");})()', 'id', field_id + '_add_all_link');
         choose_all.className = 'selector-chooseall';
-        choose_all.innerHTML = gettext('Choose all') + ' <i class="icon-circle-arrow-right"></i>';
 
         // <ul class="selector-chooser">
         var selector_chooser = quickElement('ul', selector_div, '');
         selector_chooser.className = 'selector-chooser';
-        var add_link = quickElement('a', quickElement('li', selector_chooser, ''), '', 'title', gettext('Choose'), 'href', 'javascript: (function(){ SelectBox.move("' + field_id + '_from","' + field_id + '_to"); SelectFilter.refresh_icons("' + field_id + '");})()', 'id', field_id + '_add_link');
+        var add_link = quickElement('a', quickElement('li', selector_chooser, ''), gettext('Choose'), 'title', gettext('Choose'), 'href', 'javascript: (function(){ SelectBox.move("' + field_id + '_from","' + field_id + '_to"); SelectFilter.refresh_icons("' + field_id + '");})()', 'id', field_id + '_add_link');
         add_link.className = 'selector-add';
-        add_link.innerHTML = '<i class="icon-chevron-right"></i>' + gettext('Choose');
-        var remove_link = quickElement('a', quickElement('li', selector_chooser, ''), '', 'title', gettext('Remove'), 'href', 'javascript: (function(){ SelectBox.move("' + field_id + '_to","' + field_id + '_from"); SelectFilter.refresh_icons("' + field_id + '");})()', 'id', field_id + '_remove_link');
+        var remove_link = quickElement('a', quickElement('li', selector_chooser, ''), gettext('Remove'), 'title', gettext('Remove'), 'href', 'javascript: (function(){ SelectBox.move("' + field_id + '_to","' + field_id + '_from"); SelectFilter.refresh_icons("' + field_id + '");})()', 'id', field_id + '_remove_link');
         remove_link.className = 'selector-remove';
-        remove_link.innerHTML = '<i class="icon-chevron-left"></i>' + gettext('Remove');
 
         // <div class="selector-chosen">
         var selector_chosen = quickElement('div', selector_div, '');
         selector_chosen.className = 'selector-chosen';
         var title_chosen = quickElement('h2', selector_chosen, interpolate(gettext('Chosen %s') + ' ', [field_name]));
-        quickElement('img', title_chosen, '', 'src', admin_media_prefix + 'img/icon-unknown.gif', 'width', '10', 'height', '10', 'class', 'help help-tooltip', 'title', interpolate(gettext('This is the list of chosen %s. You may remove some by selecting them in the box below and then clicking the "Remove" arrow between the two boxes.'), [field_name]));
+        // GRAPPELLI CUSTOM: removed help-icon (trusted editors should know what to do)
+        // quickElement('img', title_chosen, '', 'src', admin_media_prefix + 'img/icon-unknown.gif', 'width', '10', 'height', '10', 'class', 'help help-tooltip', 'title', interpolate(gettext('This is the list of chosen %s. You may remove some by selecting them in the box below and then clicking the "Remove" arrow between the two boxes.'), [field_name]));
 
         var to_box = quickElement('select', selector_chosen, '', 'id', field_id + '_to', 'multiple', 'multiple', 'size', from_box.size, 'name', from_box.getAttribute('name'));
         to_box.className = 'filtered';
-        var clear_all = quickElement('a', selector_chosen, '', 'title', interpolate(gettext('Click to remove all chosen %s at once.'), [field_name]), 'href', 'javascript: (function() { SelectBox.move_all("' + field_id + '_to", "' + field_id + '_from"); SelectFilter.refresh_icons("' + field_id + '");})()', 'id', field_id + '_remove_all_link');
+        var clear_all = quickElement('a', selector_chosen, gettext('Remove all'), 'title', interpolate(gettext('Click to remove all chosen %s at once.'), [field_name]), 'href', 'javascript: (function() { SelectBox.move_all("' + field_id + '_to", "' + field_id + '_from"); SelectFilter.refresh_icons("' + field_id + '");})()', 'id', field_id + '_remove_all_link');
         clear_all.className = 'selector-clearall';
-        clear_all.innerHTML = '<i class="icon-circle-arrow-left"></i> ' + gettext('Remove all');
 
         from_box.setAttribute('name', from_box.getAttribute('name') + '_old');
 
@@ -96,18 +99,19 @@ window.SelectFilter = {
         // Move selected from_box options to to_box
         SelectBox.move(field_id + '_from', field_id + '_to');
 
-        if (!is_stacked) {
-            // In horizontal mode, give the same height to the two boxes.
-            var j_from_box = $(from_box);
-            var j_to_box = $(to_box);
-            var resize_filters = function() { j_to_box.height($(filter_p).outerHeight() + j_from_box.outerHeight()); }
-            if (j_from_box.outerHeight() > 0) {
-                resize_filters(); // This fieldset is already open. Resize now.
-            } else {
-                // This fieldset is probably collapsed. Wait for its 'show' event.
-                j_to_box.closest('fieldset').one('show.fieldset', resize_filters);
-            }
-        }
+        // GRAPPELLI: We don't need this as we assigned a fixed height to the elements
+        // if (!is_stacked) {
+        //     // In horizontal mode, give the same height to the two boxes.
+        //     var j_from_box = $(from_box);
+        //     var j_to_box = $(to_box);
+        //     var resize_filters = function() { j_to_box.height($(filter_p).outerHeight() + j_from_box.outerHeight()); }
+        //     if (j_from_box.outerHeight() > 0) {
+        //         resize_filters(); // This fieldset is already open. Resize now.
+        //     } else {
+        //         // This fieldset is probably collapsed. Wait for its 'show' event.
+        //         j_to_box.closest('fieldset').one('show.fieldset', resize_filters);
+        //     }
+        // }
 
         // Initial icon refresh
         SelectFilter.refresh_icons(field_id);
@@ -159,4 +163,4 @@ window.SelectFilter = {
     }
 }
 
-})(django.jQuery);
+})(grp.jQuery);

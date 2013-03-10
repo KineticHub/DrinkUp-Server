@@ -15,13 +15,18 @@ urlpatterns = patterns('DrinkUp',
 )
 
 urlpatterns += patterns('ApiApp.views',
-	url(r'^drinkup/venues/all/$', 'AllVenues'),
-	url(r'^drinkup/venues/bars/(?P<venue_id>\d{1,10})/$', 'VenueBars'),
-	url(r'^drinkup/venues/bars/drinks/types/(?P<bar_id>\d{1,10})/$', 'BarDrinkTypes'),
-	url(r'^drinkup/venues/bars/drinks/(?P<bar_id>\d{1,10})/(?P<type_id>\d{1,10})/$', 'BarDrinksOfType'),
-	
+	url(r'^api/venues/all/$', 'AllVenues'),
+	url(r'^api/venues/bars/(?P<venue_id>\d{1,10})/$', 'VenueBars'),
+	url(r'^api/venues/bars/drinks/types/(?P<bar_id>\d{1,10})/$', 'BarDrinkTypes'),
+	url(r'^api/venues/bars/drinks/(?P<bar_id>\d{1,10})/(?P<type_id>\d{1,10})/$', 'BarDrinksOfType'),
+
 	url(r'^index/$', 'index'),
 	url(r'^facebook_login/$', 'facebook_login'),
 	url(r'^facebook_login_success/$', 'facebook_login_success'),
 	url(r'^facebook_login/mobile/$', 'facebook_mobile_login'),
+)
+
+urlpatterns += patterns('',
+    (r'^$', 'django.views.generic.simple.redirect_to', {'url': '/admin/'}),
+    (r'^grappelli/', include('grappelli.urls')),
 )
