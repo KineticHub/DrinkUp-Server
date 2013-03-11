@@ -12,6 +12,7 @@ from django.core.context_processors import csrf
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import redirect
 
 #django models
 from django.db.models.loading import get_model
@@ -61,7 +62,23 @@ def BarDrinksOfType(request, bar_id, type_id):
 		response = json_serializer.serialize(drinks_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
-def AppUserLogin(request):
+@csrf_exempt
+def CreateAppUser(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		email = request.POST['email']
+		password = request.POST['password']
+		new_user = User.objects.create_user(username = username, email = email, password = password)
+		new_user.save()
+		
+		new_appuser = AppUser(user = new_user)
+		new_appuser.save()
+		
+		serialized_response = serializers.serialize('json', [ new_user, ])
+		return HttpResponse(serialized_response, mimetype="application/json")
+
+@csrf_exempt
+def LoginAppUser(request):
 	if request.method == 'POST':
 		username = request.POST['username']
 		password = request.POST['password']
@@ -70,19 +87,21 @@ def AppUserLogin(request):
 			if user.is_active:
 				login(request, user)
 				# Redirect to a success page.
+				return redirect('/api/venues/all/')
 			else:
-                                pass
+				pass
 				# Return a 'disabled account' error message
 		else:
-                        pass
+			pass
 			# Return an 'invalid login' error message.
 
-def AppUserLogout(request):
+def LogoutAppUser(request):
 	logout(request)
 
 @login_required
 def PlaceOrderInQueue(request):
-	pass
+	if request.method == 'POST':
+		pass
 
 
 #BEGIN FB VIEWS
