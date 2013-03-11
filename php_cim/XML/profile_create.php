@@ -20,9 +20,9 @@ $content =
 	"<createCustomerProfileRequest xmlns=\"AnetApi/xml/v1/schema/AnetApiSchema.xsd\">" .
 	MerchantAuthenticationBlock().
 	"<profile>".
-	"<merchantCustomerId>12345</merchantCustomerId>". // Your own identifier for the customer.
+	"<merchantCustomerId>".$argv[1]."</merchantCustomerId>". // Your own identifier for the customer.
 	"<description></description>".
-	"<email>" . $_POST["email"] . "</email>".
+	"<email>".$argv[2]."</email>".
 	"</profile>".
 	"</createCustomerProfileRequest>";
 
