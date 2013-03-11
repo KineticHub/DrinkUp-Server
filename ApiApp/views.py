@@ -78,6 +78,7 @@ def CreateAppUser(request):
 		return HttpResponse(serialized_response, mimetype="application/json")
 
 @csrf_exempt
+#NEED TO CHECK FOR DUPLICATE USERS
 def LoginAppUser(request):
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -97,6 +98,10 @@ def LoginAppUser(request):
 
 def LogoutAppUser(request):
 	logout(request)
+
+def EmptyTokenCall(request):
+	request.META["CSRF_COOKIE_USED"] = True
+	return return HttpResponse('success')
 
 @login_required
 def PlaceOrderInQueue(request):

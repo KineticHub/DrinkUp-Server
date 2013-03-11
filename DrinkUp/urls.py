@@ -15,6 +15,9 @@ urlpatterns = patterns('DrinkUp',
 )
 
 urlpatterns += patterns('ApiApp.views',
+
+	url(r'^api/token/$', 'EmptyTokenCall'),
+
 	url(r'^api/venues/all/$', 'AllVenues'),
 	url(r'^api/venues/bars/(?P<venue_id>\d{1,10})/$', 'VenueBars'),
 	url(r'^api/venues/bars/drinks/types/(?P<bar_id>\d{1,10})/$', 'BarDrinkTypes'),
