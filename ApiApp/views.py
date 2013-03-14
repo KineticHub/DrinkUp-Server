@@ -62,7 +62,6 @@ def BarDrinksOfType(request, bar_id, type_id):
 		response = json_serializer.serialize(drinks_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
-@csrf_exempt
 def CreateAppUser(request):
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -77,7 +76,6 @@ def CreateAppUser(request):
 		serialized_response = serializers.serialize('json', [ new_user, ])
 		return HttpResponse(serialized_response, mimetype="application/json")
 
-@csrf_exempt
 #NEED TO CHECK FOR DUPLICATE USERS
 def LoginAppUser(request):
 	if request.method == 'POST':
@@ -101,7 +99,7 @@ def LogoutAppUser(request):
 
 def EmptyTokenCall(request):
 	request.META["CSRF_COOKIE_USED"] = True
-	return return HttpResponse('success')
+	return HttpResponse('success')
 
 @login_required
 def PlaceOrderInQueue(request):
