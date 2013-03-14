@@ -106,7 +106,7 @@ def EmptyTokenCall(request):
 def CheckAppUserAuthenticated(request):
 	if request.method == 'GET':
 		if request.user.is_authenticated():
-			return HttpResponse('authenticated')
+			return redirect('/api/venues/all/')
 		else:
 			return HttpResponse('not authenticated')
 
