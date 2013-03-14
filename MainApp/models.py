@@ -140,7 +140,9 @@ class FacebookAppUser(BaseModel):
 	fb_uid = models.BigIntegerField(verbose_name = 'facebook id', unique=True)
 	fb_email = models.EmailField(max_length=255, blank=True)
 	oauth_token = models.OneToOneField('OAuthToken', verbose_name='OAuth token', blank=True, null=True)
-		
+	
+	def __unicode__(self):
+		return self.fb_email
 
 class FourSquareAppUser(BaseModel):
 	fs_uid = models.BigIntegerField(verbose_name = 'foursquare id', unique=True)
