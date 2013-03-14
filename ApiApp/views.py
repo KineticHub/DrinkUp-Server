@@ -135,15 +135,18 @@ def FacebookLoginSuccess(request):
 	facebook = Pyfb(FACEBOOK_APP_ID)
 	facebook.get_access_token(FACEBOOK_SECRET_KEY, code, redirect_uri=FACEBOOK_REDIRECT_URL)
 	me = facebook.get_myself()
+	
+	if (type(self.me.name) == type(unicode())):
+		return HttpResponse('It worked')
 
 	welcome = "Welcome <b>%s</b>. Your Facebook login has been completed successfully!"
-	return HttpResponse(welcome % me['gender'])
+	return HttpResponse(welcome % me.username)
 
 def FacebookMobileLogin(request):
 	
 	if request.method == 'POST':
 	
-		primary_user = 1#User.objects.get(pk=1)
+		primary_user = 1
 	
 		facebook_id = request.POST.get('fb_user_id', None)
 		facebook_email = request.POST.get('fb_user_email', None)
@@ -151,12 +154,18 @@ def FacebookMobileLogin(request):
 		expiration = request.POST.get('expiration', None)
 		creation = request.POST.get('created', None)
 		
-		if token and expiration and creation:
-			new_token = OAuthToken(token = token, issued_at = datetime.datetime.fromtimestamp(float(creation)), expires_at = datetime.datetime.fromtimestamp(float(expiration)))
-			new_token.save()
-			facebook = Pyfb(FACEBOOK_APP_ID)
-			facebook.set_access_token(token)
-			me = facebook.get_myself()
-			return HttpResponse(me.__dict__)
+		if not request.user.is_authenticated():
+			if token and expiration and creation:
+				new_token = OAuthToken(token = token, issued_at = datetime.datetime.fromtimestamp(float(creation)), expires_at = datetime.datetime.fromtimestamp(float(expiration)))
+				new_token.save()
+				
+				facebook = Pyfb(FACEBOOK_APP_ID)
+				facebook.set_access_token(token)
+				me = facebook.get_myself()
+				
+				if (type(self.me.name) == type(unicode())):
+					return HttpResponse('It worked')
+				
+				return HttpResponse(me.__dict__)
 
 		return HttpResponse(facebook_id)
