@@ -168,8 +168,11 @@ def FacebookMobileLogin(request):
 					new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
 					new_fb_user.save()
 				
-					new_user = User.objects.create_user(username = me.username, email = me.email, password = token, facebook_user = new_fb_user, gender = me.gender)
+					new_user = User.objects.create_user(username = me.username, email = me.email, password = token)
 					new_user.save()
+					
+					new_appuser = AppUser(user = new_user, facebook_user = new_fb_user, gender = me.gender)
+					new_appuser.save()
 				
 					return HttpResponse(me.__dict__)
 
