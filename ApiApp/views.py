@@ -122,13 +122,13 @@ def index(request):
 
 #This view redirects the user to facebook in order to get the code that allows
 #pyfb to obtain the access_token in the facebook_login_success view
-def facebook_login(request):
+def FacebookLogin(request):
 
 	facebook = Pyfb(FACEBOOK_APP_ID)
 	return HttpResponseRedirect(facebook.get_auth_code_url(redirect_uri=FACEBOOK_REDIRECT_URL))
 
 #This view must be refered in your FACEBOOK_REDIRECT_URL. For example: http://www.mywebsite.com/facebook_login_success/
-def facebook_login_success(request):
+def FacebookLoginSuccess(request):
 
 	code = request.GET.get('code')
 
@@ -137,10 +137,9 @@ def facebook_login_success(request):
 	me = facebook.get_myself()
 
 	welcome = "Welcome <b>%s</b>. Your Facebook login has been completed successfully!"
-	return HttpResponse(welcome % me.__dict__)
+	return HttpResponse(welcome % me.['gender'])
 
-@csrf_exempt
-def facebook_mobile_login(request):
+def FacebookMobileLogin(request):
 	
 	if request.method == 'POST':
 	
@@ -158,7 +157,6 @@ def facebook_mobile_login(request):
 			facebook = Pyfb(FACEBOOK_APP_ID)
 			facebook.set_access_token(token)
 			me = facebook.get_myself()
-			return HttpResponse(me['gender'])
-			#return HttpResponse(me.__dict__)
+			return HttpResponse(me.__dict__)
 
 		return HttpResponse(facebook_id)
