@@ -158,10 +158,7 @@ def facebook_mobile_login(request):
 			facebook = Pyfb(FACEBOOK_APP_ID)
 			facebook.set_access_token(token)
 			me = facebook.get_myself()
-			return HttpResponse(me.__dict__)
-		
-			#new_user = FacebookAppUser(user_id = primary_user, fb_uid = facebook_id, fb_email = facebook_email, oauth_token = new_token)
-			#new_user.save()
-		
-			return HttpResponse("Yay!")
+			return HttpResponse(me['gender'])
+			#return HttpResponse(me.__dict__)
+
 		return HttpResponse(facebook_id)
