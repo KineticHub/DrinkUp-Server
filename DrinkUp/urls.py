@@ -26,6 +26,7 @@ urlpatterns += patterns('ApiApp.views',
 	url(r'^api/user/login/$', 'LoginAppUser'),
 	url(r'^api/user/create/$', 'CreateAppUser'),
 	url(r'^api/user/logout/$', 'LogoutAppUser'),
+	url(r'^api/user/authenticated/$', 'CheckAppUserAuthenticated'),
 
 	url(r'^index/$', 'index'),
 	url(r'^facebook_login/$', 'facebook_login'),

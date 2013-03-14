@@ -86,7 +86,8 @@ def LoginAppUser(request):
 			if user.is_active:
 				login(request, user)
 				# Redirect to a success page.
-				return redirect('/api/venues/all/')
+				#return redirect('/api/venues/all/')
+				return HttpResponse('success')
 			else:
 				pass
 				# Return a 'disabled account' error message
@@ -101,6 +102,13 @@ def LogoutAppUser(request):
 def EmptyTokenCall(request):
 	request.META["CSRF_COOKIE_USED"] = True
 	return HttpResponse('success')
+
+def CheckAppUserAuthenticated(request):
+	if request.method == 'GET':
+		if request.user.is_authenticated():
+			return HttpResponse('authenticated')
+		else:
+			return HttpResponse('not authenticated')
 
 @login_required
 def PlaceOrderInQueue(request):
