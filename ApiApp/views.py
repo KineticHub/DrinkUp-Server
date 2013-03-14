@@ -21,7 +21,7 @@ from django.forms.models import model_to_dict
 from django.db import models
 
 #django authentication
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
