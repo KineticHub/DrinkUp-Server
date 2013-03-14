@@ -136,7 +136,7 @@ def FacebookLoginSuccess(request):
 	facebook.get_access_token(FACEBOOK_SECRET_KEY, code, redirect_uri=FACEBOOK_REDIRECT_URL)
 	me = facebook.get_myself()
 	
-	if (type(self.me.name) == type(unicode())):
+	if (type(me.name) == type(unicode())):
 		return HttpResponse('It worked')
 
 	welcome = "Welcome <b>%s</b>. Your Facebook login has been completed successfully!"
@@ -163,7 +163,7 @@ def FacebookMobileLogin(request):
 				facebook.set_access_token(token)
 				me = facebook.get_myself()
 				
-				if (type(self.me.name) == type(unicode())):
+				if (type(me.name) == type(unicode())):
 					return HttpResponse('It worked')
 				
 				return HttpResponse(me.__dict__)
