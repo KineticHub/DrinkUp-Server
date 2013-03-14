@@ -124,7 +124,7 @@ class DrinkOrdered(models.Model):
 
 class AppUser(models.Model):
 
-	Gender_Options = (('Male', 'Male'), ('Female','Female'), ('Transgender','Transgender'))
+	Gender_Options = (('male', 'male'), ('female','female'), ('transgender','transgender'))
 
 	user = models.OneToOneField(User)
 	birthdate = models.DateField(blank=True, null=True)
