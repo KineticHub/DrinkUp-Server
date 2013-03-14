@@ -172,7 +172,7 @@ def FacebookMobileLogin(request):
 					new_user.save()
 				
 					birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
-					new_appuser = AppUser(user = new_user, facebook_user = new_fb_user, gender = me.gender, birthday = birthday)
+					new_appuser = AppUser(user = new_user, facebook_user = new_fb_user, gender = me.gender, birthdate = birthday)
 					new_appuser.save()
 				
 					return HttpResponse(me.__dict__)
