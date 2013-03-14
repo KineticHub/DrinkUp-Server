@@ -2,7 +2,7 @@
 
 #python helpers
 import json
-import datetime
+from datetime import datetime
 
 #django view helpers
 from django.core import serializers
@@ -157,7 +157,7 @@ def FacebookMobileLogin(request):
 		if not request.user.is_authenticated():
 		
 			if token and expiration and creation:
-				new_token = OAuthToken(token = token, issued_at = datetime.datetime.fromtimestamp(float(creation)), expires_at = datetime.datetime.fromtimestamp(float(expiration)))
+				new_token = OAuthToken(token = token, issued_at = datetime.fromtimestamp(float(creation)), expires_at = datetime.fromtimestamp(float(expiration)))
 				new_token.save()
 			
 				facebook = Pyfb(FACEBOOK_APP_ID)
@@ -171,7 +171,8 @@ def FacebookMobileLogin(request):
 					new_user = User.objects.create_user(username = me.username, email = me.email, password = token)
 					new_user.save()
 				
-					new_appuser = AppUser(user = new_user, facebook_user = new_fb_user, gender = me.gender)
+					birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
+					new_appuser = AppUser(user = new_user, facebook_user = new_fb_user, gender = me.gender, birthday = birthday)
 					new_appuser.save()
 				
 					return HttpResponse(me.__dict__)
