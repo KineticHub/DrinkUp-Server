@@ -96,6 +96,7 @@ def LoginAppUser(request):
 
 def LogoutAppUser(request):
 	logout(request)
+	return HttpResponse('success')
 
 def EmptyTokenCall(request):
 	request.META["CSRF_COOKIE_USED"] = True
