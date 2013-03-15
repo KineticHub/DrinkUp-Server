@@ -79,7 +79,10 @@ def CreateAppUser(request):
 			
 			new_user.save()
 			new_appuser.save()
-		
+			
+			user = authenticate(username=username, password=password)
+			login(request, user)
+			
 			serialized_response = serializers.serialize('json', [ new_user, ])
 			return HttpResponse(serialized_response, mimetype="application/json")
 
