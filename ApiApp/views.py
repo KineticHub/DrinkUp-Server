@@ -181,20 +181,30 @@ def FacebookMobileLogin(request):
 				me = facebook.get_myself()
 			
 				if (type(me.name) == type(unicode())):
-					birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
-					
-					new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
-					new_fb_user.save()
-					
-					new_user = User.objects.create_user(username = me.username, email = me.email, password = token)
-					new_user.first_name = me.first_name
-					new_user.last_name = me.last_name
-					new_user.save()
-					
-					new_appuser = AppUser(user = new_user, facebook_user = new_fb_user, gender = me.gender, birthdate = birthday)
-					new_appuser.save()
 				
-					return HttpResponse(me.__dict__)
+					try:
+						#also need to update to the current token
+						find_fb_user = FacebookAppUser.objects.get(fb_uid=me.id)
+						find_fb_user.oauth_token = new_token
+						find_fb_user.save()
+						user.backend = 'django.contrib.auth.backends.ModelBackend'
+						login(request, user)
+					
+					except FacebookAppUser.DoesNotExist:
+						birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
+						
+						new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
+						new_fb_user.save()
+						
+						new_user = User.objects.create_user(username = me.username, email = me.email, password = token)
+						new_user.first_name = me.first_name
+						new_user.last_name = me.last_name
+						new_user.save()
+						
+						new_appuser = AppUser(user = new_user, facebook_user = new_fb_user, gender = me.gender, birthdate = birthday)
+						new_appuser.save()
+					
+						return HttpResponse(me.__dict__)
 		
 		#same as above, only creates new one if a user logs into our server then to Facebook,
 		#need to handle server login, then Facebook login and check if the user account is linked
@@ -209,21 +219,34 @@ def FacebookMobileLogin(request):
 				me = facebook.get_myself()
 			
 				if (type(me.name) == type(unicode())):
-					birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
-					new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
-					new_fb_user.save()
+					try:
+						#also need to update to the current token
+						find_fb_user = FacebookAppUser.objects.get(fb_uid=me.id)
+						if (find_fb_user.appuser.user == request.user)
+							find_fb_user.oauth_token = new_token
+							find_fb_user.save()
+							response = json.dumps({'status': 'success',})
+							return HttpResponse(response, mimetype="application/json")
+						else:
+							response = json.dumps({'status': 'unauthorized',})
+							return HttpResponse(response, mimetype="application/json", status=401)
 					
-					current_user = request.user
-					current_user.first_name = me.first_name
-					current_user.last_name = me.last_name
-					current_user.save()
-					
-					app_user = current_user.appuser
-					app_user.gender = me.gender
-					app_user.birthdate = birthday
-					app_user.facebook_user = new_fb_user
-					app_user.save()
-					
-					return HttpResponse('profile updated with facebook')
+					except FacebookAppUser.DoesNotExist:
+						birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
+						new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
+						new_fb_user.save()
+						
+						current_user = request.user
+						current_user.first_name = me.first_name
+						current_user.last_name = me.last_name
+						current_user.save()
+						
+						app_user = current_user.appuser
+						app_user.gender = me.gender
+						app_user.birthdate = birthday
+						app_user.facebook_user = new_fb_user
+						app_user.save()
+						
+						return HttpResponse('profile updated with facebook')
 
 		return HttpResponse('failed')
