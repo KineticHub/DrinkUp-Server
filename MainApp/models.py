@@ -19,6 +19,9 @@ class Venue(BaseModel):
 	latitude = models.FloatField(editable=False)
 	longitude = models.FloatField(editable=False)
 
+	def __unicode__(self):
+		return self.name
+
 	def save(self, *args, **kwargs):
                 if not self.pk or self.latitude == 0 or not self.longitude == 0:
                         self.set_coords()
