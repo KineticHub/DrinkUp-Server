@@ -187,6 +187,7 @@ def FacebookMobileLogin(request):
 						find_fb_user = FacebookAppUser.objects.get(fb_uid=me.id)
 						find_fb_user.oauth_token = new_token
 						find_fb_user.save()
+						user = request.user
 						user.backend = 'django.contrib.auth.backends.ModelBackend'
 						login(request, user)
 					
