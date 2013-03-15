@@ -32,6 +32,9 @@ class FilterUserAdmin(admin.ModelAdmin):
 		return obj.user == request.user
 
 	def formfield_for_foreignkey(self, db_field, request, **kwargs):
+		if db_field.name == "venue" and not request.user.is_superuser:
+				kwargs["queryset"] = Venue.objects.filter(user=request.user)
+				return db_field.formfield(**kwargs)
 		if db_field.name == "bar" and not request.user.is_superuser:
 				kwargs["queryset"] = VenueBar.objects.filter(user=request.user)
 				return db_field.formfield(**kwargs)
