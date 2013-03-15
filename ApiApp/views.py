@@ -222,7 +222,7 @@ def FacebookMobileLogin(request):
 					try:
 						#also need to update to the current token
 						find_fb_user = FacebookAppUser.objects.get(fb_uid=me.id)
-						if (find_fb_user.appuser.user == request.user)
+						if (find_fb_user.appuser.user.pk == request.user.pk)
 							find_fb_user.oauth_token = new_token
 							find_fb_user.save()
 							response = json.dumps({'status': 'success',})
