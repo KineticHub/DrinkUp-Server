@@ -87,17 +87,21 @@ def LoginAppUser(request):
 				login(request, user)
 				# Redirect to a success page.
 				#return redirect('/api/venues/all/')
-				return HttpResponse('success')
+				response = json.dumps({'status': 'success',})
+				return HttpResponse(response, mimetype="application/json")
 			else:
-				pass
+				response = json.dumps({'status': 'inactive',})
+				return HttpResponse(response, mimetype="application/json")
 				# Return a 'disabled account' error message
 		else:
-			pass
+			response = json.dumps({'status': 'unauthorized',})
+			return HttpResponse(response, mimetype="application/json")
 			# Return an 'invalid login' error message.
 
 def LogoutAppUser(request):
 	logout(request)
-	return HttpResponse('success')
+	response = json.dumps({'status': 'success',})
+	return HttpResponse(response, mimetype="application/json")
 
 def EmptyTokenCall(request):
 	request.META["CSRF_COOKIE_USED"] = True
