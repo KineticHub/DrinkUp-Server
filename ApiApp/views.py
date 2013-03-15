@@ -218,6 +218,7 @@ def FacebookMobileLogin(request):
 					app_user.birthdate = birthday
 					app_user.facebook_user = new_fb_user
 					
+					new_fb_user.save()
 					current_user.save()
 					app_user.save()
 					
