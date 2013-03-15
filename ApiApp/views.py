@@ -91,11 +91,11 @@ def LoginAppUser(request):
 				return HttpResponse(response, mimetype="application/json")
 			else:
 				response = json.dumps({'status': 'inactive',})
-				return HttpResponse(response, mimetype="application/json")
+				return HttpResponse(response, mimetype="application/json", status=401)
 				# Return a 'disabled account' error message
 		else:
 			response = json.dumps({'status': 'unauthorized',})
-			return HttpResponse(response, mimetype="application/json")
+			return HttpResponse(response, mimetype="application/json", status=401)
 			# Return an 'invalid login' error message.
 
 def LogoutAppUser(request):
