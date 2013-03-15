@@ -190,6 +190,8 @@ def FacebookMobileLogin(request):
 						user = find_fb_user.appuser.user
 						user.backend = 'django.contrib.auth.backends.ModelBackend'
 						login(request, user)
+						response = json.dumps({'status': 'success',})
+						return HttpResponse(response, mimetype="application/json")
 					
 					except FacebookAppUser.DoesNotExist:
 						birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
