@@ -67,14 +67,21 @@ def CreateAppUser(request):
 		username = request.POST['username']
 		email = request.POST['email']
 		password = request.POST['password']
-		new_user = User.objects.create_user(username = username, email = email, password = password)
-		new_user.save()
 		
-		new_appuser = AppUser(user = new_user)
-		new_appuser.save()
+		try:
+			find_user = User.objects.get(email=email)
+			response = json.dumps({'status': 'duplicate',})
+			return HttpResponse(response, mimetype="application/json", status=403)
+			
+		except User.DoesNotExist:
+			new_user = User.objects.create_user(username = username, email = email, password = password)
+			new_appuser = AppUser(user = new_user)
+			
+			new_user.save()
+			new_appuser.save()
 		
-		serialized_response = serializers.serialize('json', [ new_user, ])
-		return HttpResponse(serialized_response, mimetype="application/json")
+			serialized_response = serializers.serialize('json', [ new_user, ])
+			return HttpResponse(serialized_response, mimetype="application/json")
 
 #NEED TO CHECK FOR DUPLICATE USERS
 def LoginAppUser(request):
@@ -110,9 +117,11 @@ def EmptyTokenCall(request):
 def CheckAppUserAuthenticated(request):
 	if request.method == 'GET':
 		if request.user.is_authenticated():
-			return redirect('/api/venues/all/')
+			response = json.dumps({'status': 'success',})
+			return HttpResponse(response, mimetype="application/json")
 		else:
-			return HttpResponse('not authenticated')
+			response = json.dumps({'status': 'unauthorized',})
+			return HttpResponse(response, mimetype="application/json", status=401)
 
 @login_required
 def PlaceOrderInQueue(request):
