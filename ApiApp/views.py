@@ -170,8 +170,8 @@ def FacebookMobileLogin(request):
 		expiration = request.POST.get('expiration', None)
 		creation = request.POST.get('created', None)
 		
+		#right now this only creates a new user, it does not authenticate an old one
 		if not request.user.is_authenticated():
-		
 			if token and expiration and creation:
 				new_token = OAuthToken(token = token, issued_at = datetime.fromtimestamp(float(creation)), expires_at = datetime.fromtimestamp(float(expiration)))
 				new_token.save()
@@ -181,16 +181,46 @@ def FacebookMobileLogin(request):
 				me = facebook.get_myself()
 			
 				if (type(me.name) == type(unicode())):
-					new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
-					new_fb_user.save()
-				
-					new_user = User.objects.create_user(username = me.username, email = me.email, password = token)
-					new_user.save()
-				
 					birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
+					
+					new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
+					new_user = User.objects.create_user(username = me.username, email = me.email, password = token, first_name = me.first_name, last_name = me.last_name)
 					new_appuser = AppUser(user = new_user, facebook_user = new_fb_user, gender = me.gender, birthdate = birthday)
+					
+					new_fb_user.save()
+					new_user.save()
 					new_appuser.save()
 				
 					return HttpResponse(me.__dict__)
+		
+		#same as above, only creates new one if a user logs into our server then to Facebook,
+		#need to handle server login, then Facebook login and check if the user account is linked
+		#should use fb_email for the check
+		else:
+			if token and expiration and creation:
+				new_token = OAuthToken(token = token, issued_at = datetime.fromtimestamp(float(creation)), expires_at = datetime.fromtimestamp(float(expiration)))
+				new_token.save()
+				
+				facebook = Pyfb(FACEBOOK_APP_ID)
+				facebook.set_access_token(token)
+				me = facebook.get_myself()
+			
+				if (type(me.name) == type(unicode())):
+					birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
+					new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
+					
+					current_user = request.user
+					current_user.first_name = me.first_name
+					current_user.last_name = me.last_name
+					
+					app_user = current_user.appuser
+					app_user.gender = me.gender
+					app_user.birthdate = birthday
+					app_user.facebook_user = new_fb_user
+					
+					current_user.save()
+					app_user.save()
+					
+					return HttpResponse('profile updated with facebook')
 
 		return HttpResponse('failed')
