@@ -170,7 +170,6 @@ def FacebookMobileLogin(request):
 		expiration = request.POST.get('expiration', None)
 		creation = request.POST.get('created', None)
 		
-		#right now this only creates a new user, it does not authenticate an old one
 		if not request.user.is_authenticated():
 			if token and expiration and creation:
 				new_token = OAuthToken(token = token, issued_at = datetime.fromtimestamp(float(creation)), expires_at = datetime.fromtimestamp(float(expiration)))
@@ -183,7 +182,6 @@ def FacebookMobileLogin(request):
 				if (type(me.name) == type(unicode())):
 				
 					try:
-						#also need to update to the current token
 						find_fb_user = FacebookAppUser.objects.get(fb_uid=me.id)
 						find_fb_user.oauth_token = new_token
 						find_fb_user.save()
@@ -209,9 +207,6 @@ def FacebookMobileLogin(request):
 					
 						return HttpResponse(me.__dict__)
 		
-		#same as above, only creates new one if a user logs into our server then to Facebook,
-		#need to handle server login, then Facebook login and check if the user account is linked
-		#should use fb_email for the check
 		else:
 			if token and expiration and creation:
 				new_token = OAuthToken(token = token, issued_at = datetime.fromtimestamp(float(creation)), expires_at = datetime.fromtimestamp(float(expiration)))
@@ -252,4 +247,4 @@ def FacebookMobileLogin(request):
 						
 						return HttpResponse('profile updated with facebook')
 
-		return HttpResponse('failed')
+		return HttpResponse('failed', status=400)
