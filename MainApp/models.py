@@ -1,4 +1,9 @@
 #DrinkUp / MainApp
+
+#TO-DO:
+#Add bartender model or add a field to the Order model
+#Add event model for things happening at venues
+
 from django.db import models
 from ApiApp.models import BaseModel
 from django.contrib.auth.models import User
@@ -62,7 +67,7 @@ class VenueBar(BaseModel):
 	happyhour_end = models.TimeField()
 	description = models.TextField(blank=True)
 	is_active = models.BooleanField(default=True)
-		
+	
 
 	def __unicode__(self):
 		return self.name
