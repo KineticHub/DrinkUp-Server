@@ -112,11 +112,14 @@ ROOT_URLCONF = 'DrinkUp.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'DrinkUp.wsgi.application'
 
+# Find templates in the same folder as settings.py.
+SETTINGS_PATH = os.path.realpath(os.path.dirname(__file__))
+
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '~/apps/django/django_projects/DrinkUp/DrinkUp/templates',
+    os.path.join(SETTINGS_PATH, 'templates'),
 )
 
 EMAIL_HOST = 'localhost'
