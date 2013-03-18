@@ -119,6 +119,13 @@ TEMPLATE_DIRS = (
     '~/apps/django/django_projects/DrinkUp/DrinkUp/templates',
 )
 
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = "
+EMAIL_HOST_PASSWORD = "
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'testing@example.com'
+
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_NAME = 'CSRF-TOKEN'
@@ -133,6 +140,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+	'registration',
     'ApiApp',
     'MainApp',
     'south',
