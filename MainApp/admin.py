@@ -77,14 +77,14 @@ class DrinkTypeModelAdmin(FilterUserAdmin):
 class DrinkOrderedForm(ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(DrinkOrderedForm, self).__init__(*args, **kwargs)
-		self.fields['drink_name'] = forms.ModelChoiceField(queryset=Drink.objects.all())
+		self.fields['drink_name2'] = forms.ModelChoiceField(queryset=Drink.objects.all())
 
 	class Meta:
 		model = DrinkOrdered
 
 class DrinkOrderedInline(admin.StackedInline):
 	model =  DrinkOrdered
-	extra = 0
+	extra = 1
 	form = DrinkOrderedForm
 
 class OrderModelAdmin(FilterUserAdmin):
