@@ -3,6 +3,7 @@
 #python helpers
 import json
 from datetime import datetime
+from decimal import *
 
 #django view helpers
 from django.core import serializers
@@ -140,21 +141,26 @@ def CreateNewOrder(request):
 			fees = request.POST.get('fees', None)
 			grand_total = request.POST.get('grand_total', None)
 			description = request.POST.get('description', '')
-			
 			drinks = request.POST.get('drinks', None)
-			drinks_data = json.loads(drinks)
-			drink_one = drinks_data[0]
-			
-			response = json.dumps({'status': 'success', 'drink_one_name':drink_one['name']})
-			return HttpResponse(response, mimetype="application/json")
 
-			if bar_id and total and tax and sub_total and tip and fees and grand_total:
+			if bar_id and total and tax and sub_total and tip and fees and grand_total and drinks:
 			
 							primary_user = 1
 							bar = VenueBar.objects.get(pk=bar_id)
+							drinks_data = json.loads(drinks)
 							
 							new_order = Order(user_id=primary_user, bar=bar, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
 							new_order.save()
+							
+							for drink in drinks_data:
+								drink_type = DrinkType.objects.get(pk=int(drink['drink_type']))
+								price = Decimal(drink['price'])
+								is_happyhour = False
+								if bar.happyhour_start < datetime.now().time() and bar.happyhour_end > datetime.now().time():
+									price = Decimal(drink['happyhour_price'])
+									is_happyhour = True
+								new_drink_ordered = DrinkOrdered(order=new_order, drink_name=drink['name'], quantity=int(drink['quantity']), unit_price=price, drink_type=drink_type.name, ordered_during_happyhour=is_happyhour)
+								new_drink_ordered.save()
 
 							serialized_response = serializers.serialize('json', [ new_order, ])
 							return HttpResponse(serialized_response, mimetype="application/json")
