@@ -141,8 +141,8 @@ def CreateNewOrder(request):
 			grand_total = request.POST.get('grand_total', None)
 			description = request.POST.get('description', '')
 			
-			response = json.dumps({'status': 'inside',})
-			return HttpResponse(response, mimetype="application/json")
+			#response = json.dumps({'status': 'inside',})
+			#return HttpResponse(response, mimetype="application/json")
 
 			if bar_id and total and tax and sub_total and tip and fees and grand_total:
 							response = json.dumps({'status': 'inside',})
@@ -152,7 +152,7 @@ def CreateNewOrder(request):
 							new_order.save()
 
 							serialized_response = serializers.serialize('json', [ new_order, ])
-				return HttpResponse(serialized_response, mimetype="application/json")
+							return HttpResponse(serialized_response, mimetype="application/json")
                         
 
 @login_required
