@@ -142,6 +142,9 @@ def CreateNewOrder(request):
 		description = request.POST.get('description', '')
 
 		if bar_id and total and tax and sub_total and tip and fees and grand_total:
+                        response = json.dumps({'status': 'inside',})
+                        return HttpResponse(response, mimetype="application/json")
+                
                         new_order = Order(bar=bar_id, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
                         new_order.save()
 
