@@ -142,8 +142,10 @@ def CreateNewOrder(request):
 			description = request.POST.get('description', '')
 			
 			drinks = request.POST.get('drinks', None)
+			drinks_data = json.loads(drinks)
+			drink_one = drinks_data[0]
 			
-			response = json.dumps({'status': 'success', 'drinks':drinks})
+			response = json.dumps({'status': 'success', 'drink_one_name':drink_one['name']})
 			return HttpResponse(response, mimetype="application/json")
 
 			if bar_id and total and tax and sub_total and tip and fees and grand_total:
