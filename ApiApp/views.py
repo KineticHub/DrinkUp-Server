@@ -132,7 +132,7 @@ def CheckAppUserAuthenticated(request):
 def CreateNewOrder(request):
         if request.method == 'POST':
 		bar_id = request.POST.get('bar_id', None)
-		appuser_id = request.POST.get('appuser_id', None)
+		appuser = request.user.appuser
 		total = request.POST.get('total', None)
 		tax = request.POST.get('tax', None)
 		sub_total = request.POST.get('sub_total', None)
@@ -142,7 +142,7 @@ def CreateNewOrder(request):
 		description = request.POST.get('description', '')
 
 		if bar_id and appuser_id and total and tax and sub_total and tip and fees and grand_total:
-                        new_order = Order(bar=bar_id, appuser=appuser_id, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
+                        new_order = Order(bar=bar_id, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
                         new_order.save()
 
                         serialized_response = serializers.serialize('json', [ new_order, ])
