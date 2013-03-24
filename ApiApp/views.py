@@ -156,18 +156,18 @@ def CreateNewOrder(request):
 @login_required
 def GetOrdersForBarWithStatus(request, bar_id, status):
         if request.method == 'GET':
-                orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
-		json_serializer = serializers.get_serializer("json")()
-		response = json_serializer.serialize(types_to_return, ensure_ascii=False)
-		return HttpResponse(response, mimetype="application/json")
+			orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
+			json_serializer = serializers.get_serializer("json")()
+			response = json_serializer.serialize(orders, ensure_ascii=False)
+			return HttpResponse(response, mimetype="application/json")
 
 @login_required
 def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
-        if request.method == 'GET':
-                orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
-		json_serializer = serializers.get_serializer("json")()
-		response = json_serializer.serialize(types_to_return, ensure_ascii=False)
-		return HttpResponse(response, mimetype="application/json")
+		if request.method == 'GET':
+			orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
+			json_serializer = serializers.get_serializer("json")()
+			response = json_serializer.serialize(types_to_return, ensure_ascii=False)
+			return HttpResponse(response, mimetype="application/json")
 
 @login_required
 def UpdateOrderStatus(request):
