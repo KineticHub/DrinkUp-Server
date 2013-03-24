@@ -128,7 +128,7 @@ def CheckAppUserAuthenticated(request):
 
 ##################
 #BEGIN ORDER VIEWS
-@login_required
+
 def CreateNewOrder(request):
 		if request.method == 'POST':
 			bar_id = request.POST.get('bar_id', None)
@@ -140,6 +140,11 @@ def CreateNewOrder(request):
 			fees = request.POST.get('fees', None)
 			grand_total = request.POST.get('grand_total', None)
 			description = request.POST.get('description', '')
+			
+			drinks = request.POST.get('drinks', None)
+			
+			response = json.dumps({'status': 'success', 'drinks':drinks})
+			return HttpResponse(response, mimetype="application/json")
 
 			if bar_id and total and tax and sub_total and tip and fees and grand_total:
 			
@@ -153,7 +158,6 @@ def CreateNewOrder(request):
 							return HttpResponse(serialized_response, mimetype="application/json")
                         
 
-@login_required
 def GetOrdersForBarWithStatus(request, bar_id, status):
         if request.method == 'GET':
 			orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
@@ -161,15 +165,13 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			response = json_serializer.serialize(orders, ensure_ascii=False)
 			return HttpResponse(response, mimetype="application/json")
 
-@login_required
 def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
 		if request.method == 'GET':
 			orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
 			json_serializer = serializers.get_serializer("json")()
-			response = json_serializer.serialize(types_to_return, ensure_ascii=False)
+			response = json_serializer.serialize(orders, ensure_ascii=False)
 			return HttpResponse(response, mimetype="application/json")
 
-@login_required
 def UpdateOrderStatus(request):
 	if request.method == 'POST':
 		order_id = request.POST.get('order_id', None)
