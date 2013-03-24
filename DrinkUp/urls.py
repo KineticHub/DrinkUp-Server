@@ -29,6 +29,11 @@ urlpatterns += patterns('ApiApp.views',
 	url(r'^api/user/logout/$', 'LogoutAppUser'),
 	url(r'^api/user/authenticated/$', 'CheckAppUserAuthenticated'),
 
+        url(r'^api/orders/create/$', 'CreateNewOrder'),
+        url(r'^api/orders/update/$', 'UpdateOrderStatus'),
+        url(r'^api/orders/(?P<bar_id>\d{1,10})/(?P<status>\d{1,2})/$', 'GetOrdersForBarWithStatus'),
+        url(r'^api/orders/(?P<bar_id>\d{1,10})/(?P<status>\d{1,2})/(?P<time_start>\d{1,10})/(?P<time_end>\d{1,10})/$', 'GetOrdersForBarWithStatusInTimeRange'),
+
 	url(r'^index/$', 'index'),
 	url(r'^facebook/login/$', 'FacebookLogin'),
 	url(r'^facebook/login/success/$', 'FacebookLoginSuccess'),
