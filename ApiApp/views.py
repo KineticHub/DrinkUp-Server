@@ -140,6 +140,9 @@ def CreateNewOrder(request):
 		fees = request.POST.get('fees', None)
 		grand_total = request.POST.get('grand_total', None)
 		description = request.POST.get('description', '')
+		
+		response = json.dumps({'status': 'inside',})
+        return HttpResponse(response, mimetype="application/json")
 
 		if bar_id and total and tax and sub_total and tip and fees and grand_total:
                         response = json.dumps({'status': 'inside',})
