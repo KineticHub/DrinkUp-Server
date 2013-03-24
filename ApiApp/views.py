@@ -126,12 +126,61 @@ def CheckAppUserAuthenticated(request):
 			response = json.dumps({'status': 'unauthorized',})
 			return HttpResponse(response, mimetype="application/json", status=401)
 
+##################
+#BEGIN ORDER VIEWS
 @login_required
-def PlaceOrderInQueue(request):
+def CreateNewOrder(request):
+        if request.method == 'POST':
+		bar_id = request.POST.get('bar_id', None)
+		appuser_id = request.POST.get('appuser_id', None)
+		total = request.POST.get('total', None)
+		tax = request.POST.get('tax', None)
+		sub_total = request.POST.get('sub_total', None)
+		tip = request.POST.get('tip', None)
+		fees = request.POST.get('fees', None)
+		grand_total = request.POST.get('grand_total', None)
+		description = request.POST.get('description', '')
+
+		if bar_id and appuser_id and total and tax and sub_total and tip and fees and grand_total:
+                        new_order = Order(bar=bar_id, appuser=appuser_id, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
+                        new_order.save()
+
+                        serialized_response = serializers.serialize('json', [ new_order, ])
+			return HttpResponse(serialized_response, mimetype="application/json")
+                        
+
+@login_required
+def GetOrdersForBarWithStatus(request, bar_id, status):
+        if request.method == 'GET':
+                orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
+		json_serializer = serializers.get_serializer("json")()
+		response = json_serializer.serialize(types_to_return, ensure_ascii=False)
+		return HttpResponse(response, mimetype="application/json")
+
+@login_required
+def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
+        if request.method == 'GET':
+                orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
+		json_serializer = serializers.get_serializer("json")()
+		response = json_serializer.serialize(types_to_return, ensure_ascii=False)
+		return HttpResponse(response, mimetype="application/json")
+
+@login_required
+def UpdateOrderStatus(request):
 	if request.method == 'POST':
-		pass
+		order_id = request.POST.get('order_id', None)
+		new_status = request.POST.get('new_status', None)
 
+		if order_id and new_status:
+                        order = Order.objects.get(pk=order_id)
+                        order.current_status = new_status
+                        order.save()
+                        response = json.dumps({'status': 'success',})
+                        return HttpResponse(response, mimetype="application/json")
 
+#END ORDER VIEWS
+##################
+##################
 #BEGIN FB VIEWS
 def index(request):
 	return HttpResponse("""<button onclick="location.href='/facebook/login/'">Facebook Login</button>""")
@@ -248,3 +297,5 @@ def FacebookMobileLogin(request):
 						return HttpResponse('profile updated with facebook')
 
 		return HttpResponse('failed', status=400)
+#END FB VIEWS
+##################
