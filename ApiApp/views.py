@@ -130,29 +130,29 @@ def CheckAppUserAuthenticated(request):
 #BEGIN ORDER VIEWS
 @login_required
 def CreateNewOrder(request):
-        if request.method == 'POST':
-		bar_id = request.POST.get('bar_id', None)
-		appuser = request.user.appuser
-		total = request.POST.get('total', None)
-		tax = request.POST.get('tax', None)
-		sub_total = request.POST.get('sub_total', None)
-		tip = request.POST.get('tip', None)
-		fees = request.POST.get('fees', None)
-		grand_total = request.POST.get('grand_total', None)
-		description = request.POST.get('description', '')
-		
-		response = json.dumps({'status': 'inside',})
-        return HttpResponse(response, mimetype="application/json")
+		if request.method == 'POST':
+			bar_id = request.POST.get('bar_id', None)
+			appuser = request.user.appuser
+			total = request.POST.get('total', None)
+			tax = request.POST.get('tax', None)
+			sub_total = request.POST.get('sub_total', None)
+			tip = request.POST.get('tip', None)
+			fees = request.POST.get('fees', None)
+			grand_total = request.POST.get('grand_total', None)
+			description = request.POST.get('description', '')
+			
+			response = json.dumps({'status': 'inside',})
+			return HttpResponse(response, mimetype="application/json")
 
-		if bar_id and total and tax and sub_total and tip and fees and grand_total:
-                        response = json.dumps({'status': 'inside',})
-                        return HttpResponse(response, mimetype="application/json")
-                
-                        new_order = Order(bar=bar_id, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
-                        new_order.save()
+			if bar_id and total and tax and sub_total and tip and fees and grand_total:
+							response = json.dumps({'status': 'inside',})
+							return HttpResponse(response, mimetype="application/json")
+					
+							new_order = Order(bar=bar_id, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
+							new_order.save()
 
-                        serialized_response = serializers.serialize('json', [ new_order, ])
-			return HttpResponse(serialized_response, mimetype="application/json")
+							serialized_response = serializers.serialize('json', [ new_order, ])
+				return HttpResponse(serialized_response, mimetype="application/json")
                         
 
 @login_required
