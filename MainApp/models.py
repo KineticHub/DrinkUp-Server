@@ -135,6 +135,7 @@ class AppUser(models.Model):
 	Gender_Options = (('male', 'male'), ('female','female'), ('transgender','transgender'))
 
 	user = models.OneToOneField(User)
+    profile_image = models.URLField(blank=True)
 	birthdate = models.DateField(blank=True, null=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
