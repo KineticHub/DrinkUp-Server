@@ -175,7 +175,7 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			all_orders = []
 			from itertools import groupby
 			for k, g in groupby(drinkOrders, lambda x: x.order):
-				order = json.loads(serializers.serialize('json', [ k, ])[0])
+				order = json.loads(serializers.serialize('json', [ k, ]))[0]
 				#drinkOrders = list(g)
 				drinkOrders = []
 				for item in list(g):
