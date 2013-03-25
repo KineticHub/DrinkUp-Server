@@ -175,11 +175,11 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			all_orders = []
 			from itertools import groupby
 			for k, g in groupby(drinkOrders, lambda x: x.order):
-				order = serializers.serialize('json', [ k, ])
+				order = json.loads(serializers.serialize('json', [ k, ]))
 				#drinkOrders = list(g)
 				drinkOrders = []
 				for item in list(g):
-					drinkOrders.append(json.loads(serializers.serialize('json', [ item, ])))
+					drinkOrders.append(json.loads(serializers.serialize('json',  item)))
 				tempOrderDict = {'order':order, 'drinks':drinkOrders}
 				all_orders.append(tempOrderDict)
 			
