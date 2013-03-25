@@ -180,7 +180,8 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 				drinkOrders = []
 				for item in list(g):
 					drinkOrders.append(serializers.serialize('json', [ item, ]))
-				all_orders.append(drinkOrders)
+				tempOrderDict = {'order':order, 'drinks':drinkOrders}
+				all_orders.append(tempOrderDict)
 			
 			response = json.dumps(all_orders)
 			return HttpResponse(response, mimetype="application/json")
