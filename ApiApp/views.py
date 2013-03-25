@@ -179,7 +179,7 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 				#drinkOrders = list(g)
 				drinkOrders = []
 				for item in list(g):
-					drinkOrders.append(json.loads(serializers.serialize('json',  item)))
+					drinkOrders.append(json.loads(serializers.serialize('json', [item, ]))[0])
 				tempOrderDict = {'order':order, 'drinks':drinkOrders}
 				all_orders.append(tempOrderDict)
 			
