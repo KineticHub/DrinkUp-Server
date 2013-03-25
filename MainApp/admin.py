@@ -97,7 +97,7 @@ class OrderModelAdmin(FilterUserAdmin):
 		qs = super(FilterUserAdmin, self).queryset(request)
 		if request.user.is_superuser:
 						return qs
-		return qs.filter(order__bar__venue__venue_owner=request.user)
+		return qs.filter(bar__venue__venue_owner=request.user)
 					
 	def has_change_permission(self, request, obj=None):
 		if not obj:
