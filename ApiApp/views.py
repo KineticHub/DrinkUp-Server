@@ -176,7 +176,6 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			from itertools import groupby
 			for k, g in groupby(drinkOrders, lambda x: x.order):
 				order = json.loads(serializers.serialize('json', [ k, ]))[0]
-				#drinkOrders = list(g)
 				drinkOrders = []
 				for item in list(g):
 					drinkOrders.append(json.loads(serializers.serialize('json', [item, ]))[0])
@@ -188,13 +187,20 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 
 def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
 		if request.method == 'GET':
-			orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
+			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
+			drinkOrders = DrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__current_status=status).filter(order__update__range=[time_start, time_end])
 			
-			for order in orders:
-				orderdic = model_to_dict(order, fields=[field.name for field in instance._meta.fields])
+			all_orders = []
+			from itertools import groupby
+			for k, g in groupby(drinkOrders, lambda x: x.order):
+				order = json.loads(serializers.serialize('json', [ k, ]))[0]
+				drinkOrders = []
+				for item in list(g):
+					drinkOrders.append(json.loads(serializers.serialize('json', [item, ]))[0])
+				tempOrderDict = {'order':order, 'drinks':drinkOrders}
+				all_orders.append(tempOrderDict)
 			
-			json_serializer = serializers.get_serializer("json")()
-			response = json_serializer.serialize(orders, ensure_ascii=False)
+			response = json.dumps(all_orders)
 			return HttpResponse(response, mimetype="application/json")
 
 def UpdateOrderStatus(request):
