@@ -167,15 +167,27 @@ def CreateNewOrder(request):
                         
 
 def GetOrdersForBarWithStatus(request, bar_id, status):
-        if request.method == 'GET':
+		if request.method == 'GET':
 			orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
-			json_serializer = serializers.get_serializer("json")()
-			response = json_serializer.serialize(orders, ensure_ascii=False)
+			order_response = []
+			
+			for order in orders:
+				orderdic = model_to_dict(order, fields=[field.name for field in instance._meta.fields])
+				orderdic['drinks'] = []
+				for drink in DrinkOrdered.objects.filter(order = order):
+					orderdic['drinks'].append(model_to_dict(drink, fields=[field.name for field in instance._meta.fields]))
+				order_response.append(orderdic)
+			
+			response = json.dumps(order_response)
 			return HttpResponse(response, mimetype="application/json")
 
 def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
 		if request.method == 'GET':
 			orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
+			
+			for order in orders:
+				orderdic = model_to_dict(order, fields=[field.name for field in instance._meta.fields])
+			
 			json_serializer = serializers.get_serializer("json")()
 			response = json_serializer.serialize(orders, ensure_ascii=False)
 			return HttpResponse(response, mimetype="application/json")
