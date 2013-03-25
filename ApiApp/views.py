@@ -173,7 +173,7 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			json_serializer = serializers.get_serializer("json")()
 			
 			for order in orders:
-				orderdic = json_serializer.serialize(order, ensure_ascii=False)
+				orderdic = serializers.serialize('json', [ order, ])
 				orderdic['drinks'] = []
 				for drink in DrinkOrdered.objects.filter(order = order):
 					orderdic['drinks'].append(json_serializer.serialize(drink, ensure_ascii=False))
