@@ -177,7 +177,7 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			for k, g in groupby(drinkOrders, lambda x: x.order):
 				order = k
 				drinkOrders = list(g)
-				all_orders.append(drinkOrders)
+				all_orders.append(serializers.serialize('json', [ drinkOrders, ]))
 			
 			response = json.dumps(all_orders)
 			return HttpResponse(response, mimetype="application/json")
