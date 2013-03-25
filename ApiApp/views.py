@@ -172,10 +172,10 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			order_response = []
 			
 			for order in orders:
-				orderdic = model_to_dict(order, fields=[field.name for field in instance._meta.fields])
+				orderdic = model_to_dict(order, fields=[field.name for field in order._meta.fields])
 				orderdic['drinks'] = []
 				for drink in DrinkOrdered.objects.filter(order = order):
-					orderdic['drinks'].append(model_to_dict(drink, fields=[field.name for field in instance._meta.fields]))
+					orderdic['drinks'].append(model_to_dict(drink, fields=[field.name for field in drink._meta.fields]))
 				order_response.append(orderdic)
 			
 			response = json.dumps(order_response)
