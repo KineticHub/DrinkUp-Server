@@ -7,13 +7,13 @@ from decimal import *
 
 #django view helpers
 from django.core import serializers
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import redirect
+from django.shortcuts import redirect 
 
 #django models
 from django.db.models.loading import get_model
@@ -130,8 +130,12 @@ def CheckAppUserAuthenticated(request):
 ##################
 #BEGIN ORDER VIEWS
 
+#NEED TO VERIFY THAT USER IS A BARTENDER
 def CreateNewOrder(request):
-		if request.method == 'POST':
+                #if not request.user.is_authenticated():
+                        #return HttpResponseForbidden()
+                
+		if request.method == 'POST': #and request.user.is_authenticated():
 			bar_id = request.POST.get('bar_id', None)
 			appuser = request.user.appuser
 			total = request.POST.get('total', None)
@@ -206,7 +210,10 @@ def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0
 			return HttpResponse(response, mimetype="application/json")
 
 def UpdateOrderStatus(request):
-	if request.method == 'POST':
+        #if not request.user.is_authenticated():
+                        #return HttpResponseForbidden()
+                
+	if request.method == 'POST': #and request.user.is_authenticated():
 		order_id = request.POST.get('order_id', None)
 		new_status = request.POST.get('new_status', None)
 
