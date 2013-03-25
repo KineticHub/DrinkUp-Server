@@ -179,8 +179,7 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 				drinkOrders = list(g)
 				all_orders.append(drinkOrders)
 			
-			json_serializer = serializers.get_serializer("json")()
-			response = json_serializer.serialize(all_orders, ensure_ascii=False)
+			response = json.dumps(all_orders)
 			return HttpResponse(response, mimetype="application/json")
 
 def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
