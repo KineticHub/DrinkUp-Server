@@ -77,7 +77,7 @@ class DrinkTypeModelAdmin(FilterUserAdmin):
 class DrinkOrderedForm(ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(DrinkOrderedForm, self).__init__(*args, **kwargs)
-		self.fields['drink_name2'] = forms.ModelChoiceField(queryset=Drink.objects.all())
+		#self.fields['drink_name'] = forms.ModelChoiceField(queryset=Drink.objects.all())
 
 	class Meta:
 		model = DrinkOrdered
@@ -92,6 +92,12 @@ class OrderModelAdmin(FilterUserAdmin):
 	inlines = [
 					DrinkOrderedInline,
 					]
+					
+	def queryset(self, request): 
+		qs = super(FilterUserAdmin, self).queryset(request)
+		if request.user.is_superuser:
+						return qs
+		return qs.filter(order.bar.venue.venue_owner=request.user)
 					
 	def has_change_permission(self, request, obj=None):
 		if not obj:
