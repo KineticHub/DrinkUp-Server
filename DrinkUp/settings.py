@@ -138,6 +138,10 @@ CSRF_COOKIE_NAME = 'CSRF-TOKEN'
 
 GRAPPELLI_ADMIN_TITLE = 'DrinkUp'
 
+SERIALIZATION_MODULES = {
+    'json': 'wadofstuff.django.serializers.json'
+}
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',

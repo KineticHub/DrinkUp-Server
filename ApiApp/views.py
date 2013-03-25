@@ -168,19 +168,19 @@ def CreateNewOrder(request):
 
 def GetOrdersForBarWithStatus(request, bar_id, status):
 		if request.method == 'GET':
-			orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
-			order_response = []
+			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
+			
+			drinkOrders = DrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__current_status=status)
+			
+			all_orders = []
+			from itertools import groupby
+				for k, g in groupby(drinkOrders, lambda x: x.order):
+					order = k
+					drinkOrders = list(g)
+					all_orders.append(drinkOrders)
+			
 			json_serializer = serializers.get_serializer("json")()
-			
-			for order in orders:
-				orderdic = {}
-				orderdic['order'] = list(serializers.serialize('json', [ order, ]))
-				orderdic['drinks'] = []
-				for drink in DrinkOrdered.objects.filter(order = order):
-					orderdic['drinks'].append(serializers.serialize('json', [ order, ]))
-				order_response.append(orderdic)
-			
-			response = json.dumps(order_response)
+			response = json_serializer.serialize(all_orders, ensure_ascii=False)
 			return HttpResponse(response, mimetype="application/json")
 
 def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
