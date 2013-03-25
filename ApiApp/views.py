@@ -170,12 +170,13 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 		if request.method == 'GET':
 			orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
 			order_response = []
+			json_serializer = serializers.get_serializer("json")()
 			
 			for order in orders:
-				orderdic = model_to_dict(order, fields=[field.name for field in order._meta.fields])
+				orderdic = json_serializer.serialize(order, ensure_ascii=False)
 				orderdic['drinks'] = []
 				for drink in DrinkOrdered.objects.filter(order = order):
-					orderdic['drinks'].append(model_to_dict(drink, fields=[field.name for field in drink._meta.fields]))
+					orderdic['drinks'].append(json_serializer.serialize(drink, ensure_ascii=False))
 				order_response.append(orderdic)
 			
 			response = json.dumps(order_response)
