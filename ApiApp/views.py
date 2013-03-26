@@ -178,7 +178,7 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			all_orders = []
 			from itertools import groupby
 			for k, g in groupby(drinkOrders, lambda x: x.order):
-				user = json.loads(serializers.serialize('json', [k.appuser, ], relations = { 'user': { 'fields': ( 'username', 'first_name', 'last_name', 'email', ) }.  'facebook_user': { 'fields': ( 'fb_uid', 'fb_email', ) } } ) )[0] 
+				user = json.loads(serializers.serialize('json', [k.appuser, ], relations = { 'user': { 'fields': ( 'username', 'first_name', 'last_name', 'email', ) },  'facebook_user': { 'fields': ( 'fb_uid', 'fb_email', ) }, } ) )[0] 
 				order = json.loads(serializers.serialize('json', [ k, ]))[0]
 				drinkOrders = []
 				for item in list(g):
