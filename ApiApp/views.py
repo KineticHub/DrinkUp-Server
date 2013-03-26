@@ -132,9 +132,9 @@ def CheckAppUserAuthenticated(request):
 
 #NEED TO VERIFY THAT USER IS A BARTENDER
 def CreateNewOrder(request):
-                #if not request.user.is_authenticated():
-                        #return HttpResponseForbidden()
-                
+				#if not request.user.is_authenticated():
+						#return HttpResponseForbidden()
+				
 		if request.method == 'POST': #and request.user.is_authenticated():
 			bar_id = request.POST.get('bar_id', None)
 			appuser = request.user.appuser
@@ -148,27 +148,26 @@ def CreateNewOrder(request):
 			drinks = request.POST.get('drinks', None)
 
 			if bar_id and total and tax and sub_total and tip and fees and grand_total and drinks:
-			
-							primary_user = 1
-							bar = VenueBar.objects.get(pk=bar_id)
-							drinks_data = json.loads(drinks)
-							
-							new_order = Order(user_id=primary_user, bar=bar, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
-							new_order.save()
-							
-							for drink in drinks_data:
-								drink_type = DrinkType.objects.get(pk=int(drink['drink_type']))
-								price = Decimal(drink['price'])
-								is_happyhour = False
-								if bar.happyhour_start < datetime.now().time() and bar.happyhour_end > datetime.now().time():
-									price = Decimal(drink['happyhour_price'])
-									is_happyhour = True
-								new_drink_ordered = DrinkOrdered(order=new_order, drink_name=drink['name'], quantity=int(drink['quantity']), unit_price=price, drink_type=drink_type.name, ordered_during_happyhour=is_happyhour)
-								new_drink_ordered.save()
+				primary_user = 1
+				bar = VenueBar.objects.get(pk=bar_id)
+				drinks_data = json.loads(drinks)
+				
+				new_order = Order(user_id=primary_user, bar=bar, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
+				new_order.save()
+				
+				for drink in drinks_data:
+					drink_type = DrinkType.objects.get(pk=int(drink['drink_type']))
+					price = Decimal(drink['price'])
+					is_happyhour = False
+					if bar.happyhour_start < datetime.now().time() and bar.happyhour_end > datetime.now().time():
+						price = Decimal(drink['happyhour_price'])
+						is_happyhour = True
+					new_drink_ordered = DrinkOrdered(order=new_order, drink_name=drink['name'], quantity=int(drink['quantity']), unit_price=price, drink_type=drink_type.name, ordered_during_happyhour=is_happyhour)
+					new_drink_ordered.save()
 
-							serialized_response = serializers.serialize('json', [ new_order, ])
-							return HttpResponse(serialized_response, mimetype="application/json")
-                        
+				serialized_response = serializers.serialize('json', [ new_order, ])
+				return HttpResponse(serialized_response, mimetype="application/json")
+						
 
 def GetOrdersForBarWithStatus(request, bar_id, status):
 		if request.method == 'GET':
@@ -179,11 +178,12 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			all_orders = []
 			from itertools import groupby
 			for k, g in groupby(drinkOrders, lambda x: x.order):
+				user = json.loads(serializers.serialize('json', [ AppUser.objects.get(pk=k.appuser), ]))[0] 
 				order = json.loads(serializers.serialize('json', [ k, ]))[0]
 				drinkOrders = []
 				for item in list(g):
 					drinkOrders.append(json.loads(serializers.serialize('json', [item, ]))[0])
-				tempOrderDict = {'order':order, 'drinks':drinkOrders}
+				tempOrderDict = {'appuser':user, 'order':order, 'drinks':drinkOrders}
 				all_orders.append(tempOrderDict)
 			
 			response = json.dumps(all_orders)
@@ -210,19 +210,19 @@ def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0
 			return HttpResponse(response, mimetype="application/json")
 
 def UpdateOrderStatus(request):
-        #if not request.user.is_authenticated():
-                        #return HttpResponseForbidden()
-                
+		#if not request.user.is_authenticated():
+						#return HttpResponseForbidden()
+				
 	if request.method == 'POST': #and request.user.is_authenticated():
 		order_id = request.POST.get('order_id', None)
 		new_status = request.POST.get('new_status', None)
 
 		if order_id and new_status:
-                        order = Order.objects.get(pk=order_id)
-                        order.current_status = new_status
-                        order.save()
-                        response = json.dumps({'status': 'success',})
-                        return HttpResponse(response, mimetype="application/json")
+			order = Order.objects.get(pk=order_id)
+			order.current_status = new_status
+			order.save()
+			response = json.dumps({'status': 'success',})
+			return HttpResponse(response, mimetype="application/json")
 
 #END ORDER VIEWS
 ##################
