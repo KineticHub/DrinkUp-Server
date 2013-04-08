@@ -167,6 +167,26 @@ def CreateNewOrder(request):
 
 				serialized_response = serializers.serialize('json', [ new_order, ])
 				return HttpResponse(serialized_response, mimetype="application/json")
+
+def GetNewOrdersForBarSince(request, bar_id, since_time):
+    
+    if request.method == 'GET':
+        #CHECK THE LAST FILTER DATETIME COMPARISON
+        drinkOrders = DrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__created__gte = since_time)
+			
+        all_orders = []
+        from itertools import groupby
+        for k, g in groupby(drinkOrders, lambda x: x.order):
+            user = json.loads(serializers.serialize('json', [k.appuser, ], relations = { 'user': { 'fields': ( 'username', 'first_name', 'last_name', 'email', ) },  'facebook_user': { 'fields': ( 'fb_uid', 'fb_email', ) }, } ) )[0]
+            order = json.loads(serializers.serialize('json', [ k, ]))[0]
+            drinkOrders = []
+            for item in list(g):
+                drinkOrders.append(json.loads(serializers.serialize('json', [item, ]))[0])
+            tempOrderDict = {'appuser':user, 'order':order, 'drinks':drinkOrders}
+            all_orders.append(tempOrderDict)
+        
+        response = json.dumps(all_orders)
+        return HttpResponse(response, mimetype="application/json")
 						
 
 def GetOrdersForBarWithStatus(request, bar_id, status):
