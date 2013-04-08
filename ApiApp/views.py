@@ -172,7 +172,7 @@ def GetNewOrdersForBarSince(request, bar_id, since_time):
     
     if request.method == 'GET':
         #CHECK THE LAST FILTER DATETIME COMPARISON
-        drinkOrders = DrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__created__gte = since_time)
+        drinkOrders = DrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__created__gte = datetime.fromtimestamp(float(since_time)))
 			
         all_orders = []
         from itertools import groupby
@@ -214,7 +214,7 @@ def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
 			time_start = datetime.fromtimestamp(float(time_start))
 			time_end = datetime.fromtimestamp(float(time_end))
-			drinkOrders = DrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__current_status=status).filter(order__updated__range=[time_start, time_end])
+			drinkOrders = DrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__current_status=status).filter(order__updated__range=[datetime.fromtimestamp(float(time_start)), datetime.fromtimestamp(float(time_end))])
 			
 			all_orders = []
 			from itertools import groupby
