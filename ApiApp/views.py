@@ -35,6 +35,7 @@ from DrinkUp.settings import FACEBOOK_APP_ID, FACEBOOK_SECRET_KEY, FACEBOOK_REDI
 
 #django registration
 from registration.views import *
+from registration.backends import get_backend
 #from registration.backends import default as registration_backend_default
 
 def AllVenues(request):
@@ -85,7 +86,20 @@ def CreateAppUser(request):
 			#new_user.save()
 			#new_appuser.save()
 
-			return register(request = request, backend = 'registration.backends.default.DefaultBackend')
+                        backend = get_backend('registration.backends.default.DefaultBackend')
+                        if not backend.registration_allowed(request):
+                                return redirect(disallowed_url)
+                        
+                        kwargs['username'] = request.POST['username']
+                        kwargs['email'] = request.POST['email']
+                        kwargs['password1'] = request.POST['password1']
+
+                        new_user = backend.register(request, kwargs)
+
+                        return new_user
+
+                        #return errors about form, meant to be called as view
+			#return register(request = request, backend = 'registration.backends.default.DefaultBackend')
 			
 			#user = authenticate(username=username, password=password)
 			#login(request, user)
