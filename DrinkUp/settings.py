@@ -125,6 +125,8 @@ TEMPLATE_DIRS = (
     'opt/bitnami/apps/django/django_projects/DrinkUp/DrinkUp/templates',
 )
 
+ACCOUNT_ACTIVATION_DAYS = 7
+
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = ' '
