@@ -127,12 +127,12 @@ TEMPLATE_DIRS = (
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
-EMAIL_HOST = 'localhost'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 1025
-EMAIL_HOST_USER = ' '
-EMAIL_HOST_PASSWORD = ' '
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'testing@example.com'
+EMAIL_HOST_USER = 'sillyservers@gmail.com'
+EMAIL_HOST_PASSWORD = 'S1llyServers'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'sillyservers@gmail.com'
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
