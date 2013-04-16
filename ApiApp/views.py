@@ -35,6 +35,7 @@ from DrinkUp.settings import FACEBOOK_APP_ID, FACEBOOK_SECRET_KEY, FACEBOOK_REDI
 
 #django registration
 from registration.views import *
+#from registration.backends import default as registration_backend_default
 
 def AllVenues(request):
 	if request.method == 'GET':
@@ -78,13 +79,13 @@ def CreateAppUser(request):
 			return HttpResponse(response, mimetype="application/json", status=403)
 			
 		except User.DoesNotExist:
-			new_user = User.objects.create_user(username = username, email = email, password = password)
-			new_appuser = AppUser(user = new_user)
+			#new_user = User.objects.create_user(username = username, email = email, password = password)
+			#new_appuser = AppUser(user = new_user)
 			
-			new_user.save()
-			new_appuser.save()
+			#new_user.save()
+			#new_appuser.save()
 
-			return register(request = request, backend = 'registration.backends.default')
+			return register(request = request, backend = 'registration.backends.default.DefaultBackend')
 			
 			#user = authenticate(username=username, password=password)
 			#login(request, user)
