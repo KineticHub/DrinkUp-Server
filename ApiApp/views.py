@@ -33,6 +33,9 @@ from MainApp.models import *
 from pyfb import Pyfb
 from DrinkUp.settings import FACEBOOK_APP_ID, FACEBOOK_SECRET_KEY, FACEBOOK_REDIRECT_URL
 
+#django registration
+from registration.views import *
+
 def AllVenues(request):
 	if request.method == 'GET':
 		venues_to_return = Venue.objects.all()
@@ -80,12 +83,14 @@ def CreateAppUser(request):
 			
 			new_user.save()
 			new_appuser.save()
+
+			return register(request = request)
 			
-			user = authenticate(username=username, password=password)
-			login(request, user)
+			#user = authenticate(username=username, password=password)
+			#login(request, user)
 			
-			serialized_response = serializers.serialize('json', [ new_user, ])
-			return HttpResponse(serialized_response, mimetype="application/json")
+			#serialized_response = serializers.serialize('json', [ new_user, ])
+			#return HttpResponse(serialized_response, mimetype="application/json")
 
 #NEED TO CHECK FOR DUPLICATE USERS
 def LoginAppUser(request):
