@@ -93,7 +93,7 @@ def CreateAppUser(request):
                         kwargs = {}
                         kwargs['username'] = request.POST['username']
                         kwargs['email'] = request.POST['email']
-                        kwargs['password1'] = request.POST['password1']
+                        kwargs['password1'] = request.POST['password']
 
                         new_user = backend.register(request, kwargs)
 
