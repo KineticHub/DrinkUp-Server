@@ -95,7 +95,7 @@ def CreateAppUser(request):
                         kwargs['email'] = request.POST['email']
                         kwargs['password1'] = request.POST['password']
 
-                        new_user = backend.register(request, kwargs)
+                        new_user = backend.register(request, **kwargs)
 
                         return new_user
 
