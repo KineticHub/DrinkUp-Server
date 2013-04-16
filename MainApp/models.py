@@ -35,7 +35,7 @@ class Venue(BaseModel):
         # set coordinates
         def set_coords(self):
             toFind = self.address
-            g = geocoders.Google()
+            g = geocoders.GoogleV3()
 
             place, (lat, lng) = g.geocode(toFind)
 
