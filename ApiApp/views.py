@@ -89,7 +89,8 @@ def CreateAppUser(request):
                         backend = get_backend('registration.backends.default.DefaultBackend')
                         if not backend.registration_allowed(request):
                                 return redirect(disallowed_url)
-                        
+
+                        kwargs = {}
                         kwargs['username'] = request.POST['username']
                         kwargs['email'] = request.POST['email']
                         kwargs['password1'] = request.POST['password1']
