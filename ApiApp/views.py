@@ -97,6 +97,10 @@ def CreateAppUser(request):
 
                         new_user = backend.register(request, **kwargs)
 
+                        if new_user:
+                                new_appuser = AppUser(user = new_user)
+                                new_appuser.save()
+
                         serialized_response = serializers.serialize('json', [ new_user, ])
 			return HttpResponse(serialized_response, mimetype="application/json")
 
