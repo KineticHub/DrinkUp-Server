@@ -128,7 +128,7 @@ TEMPLATE_DIRS = (
 ACCOUNT_ACTIVATION_DAYS = 7
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 1025
+EMAIL_PORT = 25
 EMAIL_HOST_USER = 'sillyservers@gmail.com'
 EMAIL_HOST_PASSWORD = 'S1llyServers'
 EMAIL_USE_TLS = True
