@@ -348,6 +348,9 @@ def FacebookMobileLogin(request):
 						
 						new_appuser = AppUser(user = new_user, facebook_user = new_fb_user, gender = me.gender, birthdate = birthday)
 						new_appuser.save()
+
+						new_user.backend = 'django.contrib.auth.backends.ModelBackend'
+						login(request, new_user)
 					
 						return HttpResponse(me.__dict__)
 		
