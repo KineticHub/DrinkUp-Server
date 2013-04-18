@@ -124,8 +124,10 @@ def LoginAppUser(request):
 				login(request, user)
 				# Redirect to a success page.
 				#return redirect('/api/venues/all/')
-				response = json.dumps({'status': 'success',})
-				return HttpResponse(response, mimetype="application/json")
+				#response = json.dumps({'status': 'success',})
+				serialized_response = serializers.serialize('json', [ user, ])
+                                return HttpResponse(serialized_response, mimetype="application/json")
+				#return HttpResponse(response, mimetype="application/json")
 			else:
 				response = json.dumps({'status': 'inactive',})
 				return HttpResponse(response, mimetype="application/json", status=401)
