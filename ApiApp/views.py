@@ -364,14 +364,16 @@ def FacebookMobileLogin(request):
 					try:
 						#also need to update to the current token
 						find_fb_user = FacebookAppUser.objects.get(fb_uid=me.id)
-						if (find_fb_user.appuser.user == request.user):
-							find_fb_user.oauth_token = new_token
-							find_fb_user.save()
-							response = json.dumps({'status': 'success',})
-							return HttpResponse(response, mimetype="application/json")
-						else:
-							response = json.dumps({'status': 'unauthorized',})
-							return HttpResponse(response, mimetype="application/json", status=401)
+						response = json.dumps({'status': 'success',})
+						return HttpResponse(response, mimetype="application/json")
+						#if (find_fb_user.appuser.user == request.user):
+							#find_fb_user.oauth_token = new_token
+							#find_fb_user.save()
+							#response = json.dumps({'status': 'success',})
+							#return HttpResponse(response, mimetype="application/json")
+						#else:
+							#response = json.dumps({'status': 'unauthorized',})
+							#return HttpResponse(response, mimetype="application/json", status=401)
 					
 					except FacebookAppUser.DoesNotExist:
 						birthday = None
