@@ -319,6 +319,9 @@ def FacebookMobileLogin(request):
 				facebook = Pyfb(FACEBOOK_APP_ID)
 				facebook.set_access_token(token)
 				me = facebook.get_myself()
+
+				serialized_response = serializers.serialize('json', [ me, ])
+				return HttpResponse(serialized_response, mimetype="application/json")
 			
 				if (type(me.name) == type(unicode())):
 				
