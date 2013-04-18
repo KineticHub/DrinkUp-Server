@@ -319,9 +319,6 @@ def FacebookMobileLogin(request):
 				facebook = Pyfb(FACEBOOK_APP_ID)
 				facebook.set_access_token(token)
 				me = facebook.get_myself()
-
-				serialized_response = serializers.serialize('json', [ me, ])
-				return HttpResponse(serialized_response, mimetype="application/json")
 			
 				if (type(me.name) == type(unicode())):
 				
@@ -338,7 +335,7 @@ def FacebookMobileLogin(request):
 					except FacebookAppUser.DoesNotExist:
 
                                                 birthday = ''
-                                                if me.birthday:
+                                                if hasattr(me, 'birthday'):
                                                         birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
 						
 						new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
@@ -378,7 +375,7 @@ def FacebookMobileLogin(request):
 					
 					except FacebookAppUser.DoesNotExist:
 						birthday = ''
-                                                if me.birthday:
+                                                if hasattr(me, 'birthday'):
                                                         birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
 						new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
 						new_fb_user.save()
