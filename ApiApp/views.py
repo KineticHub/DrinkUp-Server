@@ -334,7 +334,7 @@ def FacebookMobileLogin(request):
 					
 					except FacebookAppUser.DoesNotExist:
 
-                                                birthday = ''
+                                                birthday = None
                                                 if hasattr(me, 'birthday'):
                                                         birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
 						
@@ -374,7 +374,7 @@ def FacebookMobileLogin(request):
 							return HttpResponse(response, mimetype="application/json", status=401)
 					
 					except FacebookAppUser.DoesNotExist:
-						birthday = ''
+						birthday = None
                                                 if hasattr(me, 'birthday'):
                                                         birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
 						new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
