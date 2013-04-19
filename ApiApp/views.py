@@ -27,7 +27,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 #custom imports
-from VenuApp.models import *
+from VenueApp.models import *
 from BarApp.models import *
 from UsersApp.models import *
 
