@@ -42,7 +42,7 @@ class Venue(models.Model):
 
 class VenueAdminUser(User):
 	venue = models.ForeignKey(Venue, null=True)
-	phone_number = models.PositiveIntegerField(blank=True, null=True
+	phone_number = models.PositiveIntegerField(blank=True, null=True)
 	
 	objects = UserManager()
 	
