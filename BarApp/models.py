@@ -2,6 +2,7 @@
 from django.db import models
 from ApiApp.models import BaseModel
 from VenueApp.models import Venue
+from UsersApp.models import AppUser
 
 ###################################################################
 
@@ -63,7 +64,7 @@ class BarOrder(BaseModel):
 ###################################################################
 
 class BarDrinkOrdered(models.Model):
-	order = models.ForeignKey(Order)
+	order = models.ForeignKey(BarOrder)
 	drink_name = models.CharField(max_length=255)
 	quantity = models.PositiveIntegerField()
 	unit_price = models.DecimalField(decimal_places=2, max_digits=6)
