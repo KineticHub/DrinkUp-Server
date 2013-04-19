@@ -1,7 +1,7 @@
 #DrinkUp/BarApp
 from django.db import models
 from ApiApp.models import BaseModel
-from VenueApp.models import Venue
+from VenueApp.models import Venue, VenueDrinkType
 from UsersApp.models import AppUser
 
 ###################################################################
@@ -24,7 +24,7 @@ class VenueBar(BaseModel):
 		
 class BarDrink(BaseModel):
 	bar = models.ForeignKey(VenueBar)
-	drink_type = models.ForeignKey('DrinkType')
+	drink_type = models.ForeignKey('VenueApp.VenueDrinkType')
 	name = models.CharField(max_length=255)
 	price = models.DecimalField(decimal_places=2, max_digits=6)
 	happyhour_price = models.DecimalField(decimal_places=2, max_digits=6)
@@ -43,7 +43,7 @@ class BarOrder(BaseModel):
 	Order_Status_Options = ((1, 'UNFILLED'), (2,'IN PROGRESS'), (3,'WAITING CUSTOMER'), (4,'ORDER COMPLETE'), (5,'ORDER NOT CLAIMED'))
 
 	bar = models.ForeignKey(VenueBar)
-	appuser = models.ForeignKey('AppUser', related_name='appuser_owner')
+	appuser = models.ForeignKey('UsersApp.AppUser', related_name='appuser_owner')
 	total = models.DecimalField(decimal_places=2, max_digits=6)
 	tax = models.DecimalField(decimal_places=2, max_digits=6)
 	sub_total = models.DecimalField(decimal_places=2, max_digits=6)
