@@ -1,6 +1,7 @@
 #DrinkUp/BarApp
 from django.db import models
 from ApiApp.models import BaseModel
+from VenueApp.models import Venue
 
 ###################################################################
 
