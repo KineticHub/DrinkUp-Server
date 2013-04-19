@@ -104,7 +104,7 @@ def CreateAppUser(request):
 								new_appuser.save()
 
 						serialized_response = serializers.serialize('json', [ new_user, ])
-			return HttpResponse(serialized_response, mimetype="application/json")
+						return HttpResponse(serialized_response, mimetype="application/json")
 
 						#return errors about form, meant to be called as view
 			#return register(request = request, backend = 'registration.backends.default.DefaultBackend')
