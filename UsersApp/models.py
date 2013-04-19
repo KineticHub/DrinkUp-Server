@@ -1,7 +1,7 @@
 #DrinkUp/UsersApp
 from django.db import models
 from ApiApp.models import BaseModel
-from django.contrib.auth.models import User, AbstractUser, UserManager
+from django.contrib.auth.models import User, UserManager
 from django.db.models.signals import post_save
 
 ###################################################################
