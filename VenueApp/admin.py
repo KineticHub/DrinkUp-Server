@@ -87,9 +87,9 @@ class BarAdminUserAdmin(UserAdmin):
 	
 	def queryset(self, request):
 		if request.user.is_superuser:
-			return BarAdminUserAdmin.objects.all()
+			return BarAdminUser.objects.all()
 		venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
-		return BarAdminUserAdmin.objects.filter(venue = venue_admin.venue)
+		return BarAdminUser.objects.filter(venue = venue_admin.venue)
 
 	def get_fieldsets(self, request, obj=None):
 		if obj:
