@@ -49,6 +49,8 @@ class VenueAdminUser(User):
 	class Meta:
 		verbose_name = "Venue Admin User"
 		
+###################################################################		
+		
 class BarAdminUser(User):
 	venue = models.ForeignKey(Venue, null=True)
 	bar = models.ForeignKey('BarApp.VenueBar', null=True)
@@ -57,7 +59,7 @@ class BarAdminUser(User):
 	objects = UserManager()
 	
 	class Meta:
-		verbose_name = "Camp Admin User"
+		verbose_name = "Bar Admin User"
 
 ###################################################################
 
