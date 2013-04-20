@@ -44,7 +44,7 @@ class VenueAdminUserAdmin(UserAdmin):
 		if not request.user.is_superuser:
 			try:
 				venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
-				obj.reservation = venue_admin.venue
+				obj.venue = venue_admin.venue
 			except:
 				obj.is_active = False
 		obj.is_staff = True
