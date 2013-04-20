@@ -128,7 +128,7 @@ class VenueDrinkTypeAdmin(admin.ModelAdmin):
 		obj.save()
 	
 	def queryset(self, request): 
-		qs = super(BarDrinkTypeAdmin, self).queryset(request)
+		qs = super(VenueDrinkTypeAdmin, self).queryset(request)
 		if request.user.is_superuser:
 				return qs
 		try:
