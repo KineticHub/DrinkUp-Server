@@ -114,7 +114,28 @@ class BarAdminUserAdmin(UserAdmin):
 		else:
 			obj.groups.add(group)
 			
+###################################################################	
+
+class VenueDrinkTypeAdmin(admin.ModelAdmin):
+	exclude = ('user',)
+	
+	def queryset(self, request): 
+		qs = super(BarDrinkTypeAdmin, self).queryset(request)
+		if request.user.is_superuser:
+				return qs
+		try:
+			venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+			return qs.filter(venue=venue_admin.venue)
+		except:
+			try:
+				bar_admin = BarAdminUser.objects.get(pk=request.user.id)
+				return qs.filter(venue=bar_admin.venue)
+			except:
+				# THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDING IS GOOD
+				pass
+		return None
+			
 admin.site.register(Venue)
-admin.site.register(VenueBar)
 admin.site.register(VenueAdminUser, VenueAdminUserAdmin)
 admin.site.register(BarAdminUser, BarAdminUserAdmin)
+admin.site.register(VenueDrinkType, VenueDrinkTypeAdmin)

@@ -19,7 +19,7 @@ class VenueBar(BaseModel):
 		
 	class Meta:
 		ordering = ['name']
-		verbose_name = 'Bars'
+		verbose_name = 'Bar'
 		
 ###################################################################
 		
