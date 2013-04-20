@@ -53,7 +53,7 @@ class VenueAdminUser(User):
 		
 class BarAdminUser(User):
 	venue = models.ForeignKey(Venue, null=True)
-	bar = models.ForeignKey('BarApp.VenueBar', null=True)
+	bar = models.ForeignKey('BarApp.VenueBar')
 	
 	# Use UserManager to get the create_user method, etc.
 	objects = UserManager()
