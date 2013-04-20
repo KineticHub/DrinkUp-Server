@@ -7,11 +7,29 @@ from BarApp.models import *
 class VenueBarAdmin(admin.ModelAdmin):
 	exclude = ('user',)
 	
+	def get_readonly_fields(self, request, obj=None):
+		if not  request.user.is_superuser:
+			return self.readonly_fields + ('venue',)
+		return self.readonly_fields
+	
 	def save_model(self, request, obj, form, change):
 		try:
 			obj.user
 		except:
 			obj.user = request.user
+			
+		if not request.user.is_superuser:
+                    try:
+                        venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+                        obj.venue = venue_admin.venue
+                    except:
+                        try:
+                            bar_admin = BarAdminUser.objects.get(pk=request.user.id)
+                            obj.venue = bar_admin.venue
+                        except:
+                            # THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDLING IS GOOD
+                            pass
+		
 		obj.save()
 	
 	def queryset(self, request): 
@@ -88,4 +106,4 @@ class BarOrderAdmin(admin.ModelAdmin):
 
 admin.site.register(VenueBar, VenueBarAdmin)
 admin.site.register(BarDrink, BarDrinkAdmin)
-admin.site.register(BarOrder)
+admin.site.register(BarOrder, BarOrderAdmin)
