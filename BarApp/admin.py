@@ -56,6 +56,10 @@ class BarDrinkAdmin(admin.ModelAdmin):
 			obj.user
 		except:
 			obj.user = request.user
+			
+		if request.user.groups.filter(name='Bar Admins').exists():
+			bar_admin = BarAdminUser.objects.get(pk=request.user.id)
+			obj.bar = bar_admin.bar
 		
 		obj.save()
 	
