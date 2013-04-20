@@ -7,6 +7,13 @@ from BarApp.models import *
 class VenueBarAdmin(admin.ModelAdmin):
 	exclude = ('user',)
 	
+	def save_model(self, request, obj, form, change):
+		try:
+			obj.user
+		except:
+			obj.user = request.user
+		obj.save()
+	
 	def queryset(self, request): 
 		qs = super(VenueBarAdmin, self).queryset(request)
 		if request.user.is_superuser:
@@ -25,6 +32,14 @@ class VenueBarAdmin(admin.ModelAdmin):
 	
 class BarDrinkAdmin(admin.ModelAdmin):
 	exclude = ('user',)
+	
+	def save_model(self, request, obj, form, change):
+		try:
+			obj.user
+		except:
+			obj.user = request.user
+		
+		obj.save()
 	
 	def get_readonly_fields(self, request, obj=None):
 		if request.user.groups.filter(name='Bar Admins').exists():

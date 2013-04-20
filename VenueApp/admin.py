@@ -119,6 +119,14 @@ class BarAdminUserAdmin(UserAdmin):
 class VenueDrinkTypeAdmin(admin.ModelAdmin):
 	exclude = ('user',)
 	
+	def save_model(self, request, obj, form, change):
+		try:
+			obj.user
+		except:
+			obj.user = request.user
+		
+		obj.save()
+	
 	def queryset(self, request): 
 		qs = super(BarDrinkTypeAdmin, self).queryset(request)
 		if request.user.is_superuser:
