@@ -70,7 +70,7 @@ class BarAdminUserAdmin(UserAdmin):
 	add_fieldsets = ((None, { 'classes': ('wide',), 'fields': ('username', 'email', 'password1', 'password2')}),)
 	add_form = UserCreationForm
 	
-	fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'is_active', 'reservation', 'camp')}),)
+	fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'is_active', 'venue', 'bar')}),)
 	restricted_fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'is_active')}),)
 
 	def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -82,7 +82,7 @@ class BarAdminUserAdmin(UserAdmin):
 		
 	def get_readonly_fields(self, request, obj=None):
 		if not request.user.is_superuser:
-			return self.readonly_fields + ('reservation',)
+			return self.readonly_fields + ('venue',)
 		return self.readonly_fields
 	
 	def queryset(self, request):
