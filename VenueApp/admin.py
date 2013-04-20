@@ -115,5 +115,6 @@ class BarAdminUserAdmin(UserAdmin):
 			obj.groups.add(group)
 			
 admin.site.register(Venue)
+admin.site.register(VenueBar)
 admin.site.register(VenueAdminUser, VenueAdminUserAdmin)
 admin.site.register(BarAdminUser, BarAdminUserAdmin)

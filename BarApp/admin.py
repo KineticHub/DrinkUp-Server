@@ -10,5 +10,7 @@ from BarApp.models import *
 # class BarDrinkAdmin(FilterUserAdmin):
 	# exclude = ('user',)
 
-admin.site.register(VenueBar)#, VenueBarAdmin)
+#admin.site.register(VenueBar)#, VenueBarAdmin)
 admin.site.register(BarDrink)#, BarDrinkAdmin)
+admin.site.register(BarOrder)
+admin.site.register(VenueDrinkType)#, BarDrinkAdmin)
