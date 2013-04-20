@@ -59,7 +59,7 @@ class BarAdminUser(User):
 	objects = UserManager()
 	
 	class Meta:
-		verbose_name = "Bar Admin User"
+		verbose_name = "Venue Bar Admin User"
 
 ###################################################################
 
