@@ -67,7 +67,7 @@ class BarAdminUserChangeForm(UserChangeForm):
 class BarAdminUserAdmin(UserAdmin):
 	form = BarAdminUserChangeForm
 
-	add_fieldsets = ((None, { 'classes': ('wide',), 'fields': ('username', 'email', 'password1', 'password2')}),)
+	add_fieldsets = ((None, { 'classes': ('wide',), 'fields': ('username', 'email', 'password1', 'password2', 'bar')}),)
 	add_form = UserCreationForm
 	
 	fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'is_active', 'venue', 'bar')}),)
