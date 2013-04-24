@@ -144,9 +144,7 @@ SERIALIZATION_MODULES = {
     'json': 'wadofstuff.django.serializers.json'
 }
 
-BALANCED = {
-            'API_KEY': '5f3e2ee0a3b211e28fc8026ba7f8ec28',
-            }
+BALANCED_API_KEY='5f3e2ee0a3b211e28fc8026ba7f8ec28'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -168,7 +166,6 @@ INSTALLED_APPS = (
     #'bootstrap_admin',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'django_balanced' ,
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
