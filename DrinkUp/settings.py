@@ -145,7 +145,7 @@ SERIALIZATION_MODULES = {
 }
 
 BALANCED = {
-            'API_KEY': os.environ.get('BALANCED_API_KEY'),
+            'API_KEY': '5f3e2ee0a3b211e28fc8026ba7f8ec28',
             }
 
 INSTALLED_APPS = (
