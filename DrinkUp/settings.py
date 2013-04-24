@@ -144,6 +144,10 @@ SERIALIZATION_MODULES = {
     'json': 'wadofstuff.django.serializers.json'
 }
 
+BALANCED = {
+            'API_KEY': os.environ.get('BALANCED_API_KEY'),
+            }
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -153,6 +157,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
+    'django_balanced',
     'registration',
     'ApiApp',
 	'VenueApp',
