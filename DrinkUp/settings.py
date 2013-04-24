@@ -157,7 +157,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
-    'django_balanced',
     'registration',
     'ApiApp',
 	'VenueApp',
@@ -169,6 +168,7 @@ INSTALLED_APPS = (
     #'bootstrap_admin',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'django_balanced',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
