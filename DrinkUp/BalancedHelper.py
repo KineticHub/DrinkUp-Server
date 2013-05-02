@@ -32,8 +32,7 @@ class BalancedPaymentsHelper:
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 			
-		merchant_data =
-		{
+		merchant_data = {
 			    'phone_number': '140899188155',
                             'email_address': 'test@example.com',
 			    'name': 'Skripts4Kids',
