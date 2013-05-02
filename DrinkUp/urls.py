@@ -20,7 +20,7 @@ urlpatterns += patterns('ApiApp.views',
 	url(r'^api/token/$', 'EmptyTokenCall'),
 
 	url(r'^api/venues/all/$', 'AllVenues'),
-        url(r'^api/venues/nearby/(\d+\.\d+)/(\d+\.\d+)/$', 'VenuesNearLocation'),
+        url(r'^api/venues/nearby/(-?\d+\.\d+)/(-?\d+\.\d+)/(\d+\.\d+)$', 'VenuesNearLocation'),
 	url(r'^api/venues/bars/(?P<venue_id>\d{1,10})/$', 'VenueBars'),
 	url(r'^api/venues/bars/drinks/types/(?P<bar_id>\d{1,10})/$', 'BarDrinkTypes'),
 	url(r'^api/venues/bars/drinks/(?P<bar_id>\d{1,10})/(?P<type_id>\d{1,10})/$', 'BarDrinksOfType'),
