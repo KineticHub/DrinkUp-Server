@@ -22,7 +22,7 @@ class VenueAdminUserAdmin(UserAdmin):
 	form = VenueAdminUserChangeForm
 
 	add_fieldsets = ((None, { 'classes': ('wide',), 'fields': ('username', 'email', 'password1', 'password2', 'phone_number', 'dob', 'postal_code', 'street_address')}),)
-	add_form = UserCreationForm
+	add_form = VenueAdminUserCreationForm#UserCreationForm
 	
 	fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'is_active', 'venue')}),)
 	restricted_fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'is_active')}),)
