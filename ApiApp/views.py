@@ -41,6 +41,7 @@ from registration.backends import get_backend
 #from registration.backends import default as registration_backend_default
 
 #geopy imports
+from geopy import geocoders
 from geopy import distance
 from geopy.point import Point
 
@@ -54,13 +55,18 @@ def AllVenues(request):
 
 def VenuesNearLocation(request):
         if request.method == 'GET':
+                zipcode = request.GET.get('zipcode')
                 lat = request.GET.get('lat')
                 long = request.GET.get('long')
                 radius = request.GET.get('radius', '0.5')
 
                 if not lat or not long:
-                        response = json.dumps({'status': 'missing params',})
-			return HttpResponse(response, mimetype="application/json")
+                        if zipcode:
+                                g = geocoders.GoogleV3()
+                                place, lat, long = g.geocode(zipcode)
+                        else:
+                                response = json.dumps({'status': 'missing params',})
+                                return HttpResponse(response, mimetype="application/json")
                 
                 all_venues = Venue.objects.all()
                 user_point = Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001
