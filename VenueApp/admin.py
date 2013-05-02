@@ -215,7 +215,7 @@ class VenueBankAccountAdmin(admin.ModelAdmin):
 ###################################################################	
 
 class VenueAdmin(admin.ModelAdmin):
-	exclude = ('user',  'bp_merchant')
+	exclude = ('bp_merchant',)
 		
 	def save_model(self, request, obj, form, change):
 		try:
