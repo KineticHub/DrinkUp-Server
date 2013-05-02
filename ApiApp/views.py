@@ -52,8 +52,16 @@ def AllVenues(request):
 		response = json_serializer.serialize(venues_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
-def VenuesNearLocation(request, lat, long, radius):
+def VenuesNearLocation(request):
         if request.method == 'GET':
+                lat = request.GET.get('lat')
+                long = request.GET.get('long')
+                radius = request.GET.get('radius', '0.5')
+
+                if not lat or not long:
+                        response = json.dumps({'status': 'missing params',})
+			return HttpResponse(response, mimetype="application/json")
+                
                 all_venues = Venue.objects.all()
                 user_point = Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001
 
