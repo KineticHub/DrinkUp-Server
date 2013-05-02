@@ -12,9 +12,11 @@ from facepy import GraphAPI
 class Venue(models.Model):
 	name = models.CharField(max_length=255)
 	bp_merchant = models.CharField(max_length=255, blank=True)
-	contact_email = models.EmailField(max_length=255, blank=True)
-	contact_number = models.PositiveIntegerField(blank=True, null=True)
-	address = models.TextField()
+	contact_email = models.EmailField(max_length=255)
+	contact_number = models.PositiveIntegerField()
+	street_address = models.CharField(max_length=255)
+	postal_code = models.CharField(max_length=255)
+	tax_id = models.CharField(max_length=255)
 	icon = models.URLField(blank=True)
 	facebook_id = models.CharField(max_length=255, blank=True, null=True)
 	foursquare_id = models.CharField(max_length=255, blank=True, null=True)
@@ -31,10 +33,9 @@ class Venue(models.Model):
 
         # set coordinates
         def set_coords(self):
-            toFind = self.address
             g = geocoders.GoogleV3()
-
-            place, (lat, lng) = g.geocode(toFind)
+            place_area, (lat, lng) = g.geocode(self.postal_code)
+            place, (lat, lng) = g.geocode(self.street_address +' '+ place_area)
 
             self.latitude = lat
             self.longitude = lng
@@ -43,7 +44,10 @@ class Venue(models.Model):
 
 class VenueAdminUser(User):
 	venue = models.ForeignKey(Venue, null=True)
-	phone_number = models.PositiveIntegerField(blank=True, null=True)
+	phone_number = models.PositiveIntegerField()
+	dob = models.DateField()
+	postal_code = models.CharField(max_length=5)
+	street_address = models.CharField(max_length=255)
 	
 	objects = UserManager()
 	

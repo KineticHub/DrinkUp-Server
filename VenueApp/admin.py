@@ -7,7 +7,9 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.contrib.auth.models import Group
 
-###################################################################	
+###################################################################
+class VenueAdminUserCreationForm(UserCreationForm):
+        email = forms.CharField(max_length=75, required=True)
 
 class VenueAdminUserChangeForm(UserChangeForm):
 	class Meta:
@@ -17,7 +19,7 @@ class VenueAdminUserAdmin(UserAdmin):
 		
 	form = VenueAdminUserChangeForm
 
-	add_fieldsets = ((None, { 'classes': ('wide',), 'fields': ('username', 'email', 'password1', 'password2')}),)
+	add_fieldsets = ((None, { 'classes': ('wide',), 'fields': ('username', 'email', 'password1', 'password2', 'phone_number', 'dob', 'postal_code', 'street_address')}),)
 	add_form = UserCreationForm
 	
 	fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'is_active', 'venue')}),)
