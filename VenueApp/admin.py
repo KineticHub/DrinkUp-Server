@@ -13,6 +13,7 @@ from django.contrib.auth.models import Group
 class VenueAdminUserCreationForm(UserCreationForm):
         email = forms.CharField(max_length=120, required=True)
         postal_code = forms.CharField(max_length=120, required=True)
+        #dob = forms.DateField(initial='1969-01-01')
 
 class VenueAdminUserChangeForm(UserChangeForm):
 	class Meta:
