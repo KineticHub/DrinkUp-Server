@@ -58,7 +58,7 @@ def VenuesNearLocation(request):
                 zipcode = request.GET.get('zipcode')
                 lat = request.GET.get('lat')
                 long = request.GET.get('long')
-                radius = request.GET.get('radius', '0.5')
+                radius = request.GET.get('radius', '1.0')
 
                 if not lat or not long:
                         if zipcode:
