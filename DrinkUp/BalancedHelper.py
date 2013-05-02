@@ -46,8 +46,8 @@ class BalancedPaymentsHelper:
 		account = balanced.Account().save()
 
 		try:
-		    account.add_merchant(merchant_data)
-			bank_account = self.setupNewBankAccount(bank_info['routing_number'], bank_info['account_number'], bank_info['account_type'], bank_info['name'])
+                        account.add_merchant(merchant_data)
+                        bank_account = self.setupNewBankAccount(bank_info['routing_number'], bank_info['account_number'], bank_info['account_type'], bank_info['name'])
 			account.add_bank_account(bank_account.uri)
 			return account
 		except balanced.exc.MoreInformationRequiredError as ex:
