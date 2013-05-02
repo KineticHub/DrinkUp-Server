@@ -135,6 +135,10 @@ def CreateAppUser(request):
 						if new_user:
 								new_appuser = AppUser(user = new_user)
 								new_appuser.save()
+
+								new_account = BalancedPaymentsHelper.setupNewBuyerAccount(username=username, email_address=email)
+								new_appuser.bp_account = new_account.uri
+								new_appuser.save()
 								# even if user is not verified yet, make an account on bp
 								# for them and save it immediately
 
