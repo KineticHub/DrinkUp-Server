@@ -3,8 +3,8 @@ from django.conf import settings
 
 class BalancedPaymentsHelper:
 
-        def __init__(self):
-                marketplace = balanced.configure(settings.BALANCED_API_KEY)
+		def __init__(self):
+				marketplace = balanced.configure(settings.BALANCED_API_KEY)
 		if not balanced.Marketplace.my_marketplace:
 			raise Exception("Marketplace.my_marketplace should not be nil")
 
@@ -19,10 +19,10 @@ class BalancedPaymentsHelper:
 			self.setupMarketplace()
 			
 		bank_account = balanced.BankAccount (
-			    routing_number=routing_number,
-			    account_number=account_number,
+				routing_number=routing_number,
+				account_number=account_number,
 				type=account_type,
-			    name=name,
+				name=name,
 			).save()
 		
 		return bank_account
@@ -33,45 +33,45 @@ class BalancedPaymentsHelper:
 			self.setupMarketplace()
 			
 		merchant_data = {
-			    'phone_number': merchant.contact_number,
-                            'email_address': merchant.contact_email,
-			    'name': merchant.name,
-			    'postal_code': merchant.postal_code,
-			    'street_address': merchant.street_address,
-			    'tax_id': merchant.tax_id,
-                            'type': 'business',
-			    'person': {
-                                    'phone_number': person.phone_number,
-                                    'name': person.get_full_name(),
-                                    'dob': person.dob,
-                                    'postal_code': person.postal_code,
-                                    'street_address': person.street_address,
-                                    'type': 'person',
-			    },
+				'phone_number': merchant.contact_number,
+							'email_address': merchant.contact_email,
+				'name': merchant.name,
+				'postal_code': merchant.postal_code,
+				'street_address': merchant.street_address,
+				'tax_id': merchant.tax_id,
+							'type': 'business',
+				'person': {
+									'phone_number': person.phone_number,
+									'name': person.get_full_name(),
+									'dob': person.dob,
+									'postal_code': person.postal_code,
+									'street_address': person.street_address,
+									'type': 'person',
+				},
 			}
 			
 		account = balanced.Account().save()
 
 		try:
-                        account.add_merchant(merchant_data)
-                        bank_account = self.setupNewBankAccount(bank['routing_number'], bank['account_number'], bank['account_type'], bank['name'])
+			account.add_merchant(merchant_data)
+			bank_account = self.setupNewBankAccount(bank.routing_number, bank.account_number, bank.account_type, bank.name)
 			account.add_bank_account(bank_account.uri)
 			return account
 		except balanced.exc.MoreInformationRequiredError as ex:
-		    # could not identify this account.
-		    print 'redirect merchant to:', ex.redirect_uri
+			# could not identify this account.
+			print 'redirect merchant to:', ex.redirect_uri
 		except balanced.exc.HTTPError as error:
-		    # TODO: handle 400 and 409 exceptions as required
-		    raise
+			# TODO: handle 400 and 409 exceptions as required
+			raise
 		
 	def setupNewCreditCard(self, card_number, expiration_month, expiration_year, security_code):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 			
 		card = balanced.Card(
-		    card_number=card_number,
-		    expiration_month=expiration_month,
-		    expiration_year=expiration_year,
+			card_number=card_number,
+			expiration_month=expiration_month,
+			expiration_year=expiration_year,
 			security_code=security_code
 		).save()
 		return card
@@ -100,9 +100,9 @@ class BalancedPaymentsHelper:
 			
 		buyer = balanced.Account.find(account_uri)
 		debit = buyer.debit(
-		    appears_on_statement_as='DrinkUp - ' + bar_name,
-		    amount=amount,
-		    description= buyer.name + ' at ' + bar_name,
+			appears_on_statement_as='DrinkUp - ' + bar_name,
+			amount=amount,
+			description= buyer.name + ' at ' + bar_name,
 			source_uri=source_uri
 		)
 		return debit
@@ -115,8 +115,8 @@ class BalancedPaymentsHelper:
 		
 		try:
 			hold = buyer.hold(
-			    amount=amount,
-			    description= buyer.name + ' at ' + bar_name,
+				amount=amount,
+				description= buyer.name + ' at ' + bar_name,
 				source_uri=source_uri
 			)
 			return hold
@@ -138,7 +138,7 @@ class BalancedPaymentsHelper:
 			
 		hold = balanced.Hold.find(hold_uri)
 		debit = hold.capture(
-		    appears_on_statement_as='DrinkUp-' + bar_name,
+			appears_on_statement_as='DrinkUp-' + bar_name,
 		)
 		
 		return debit

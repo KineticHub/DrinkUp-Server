@@ -90,6 +90,7 @@ class VenueBankAccount(BaseModel):
 	routing_number = models.CharField(max_length=255)
 	account_number = models.CharField(max_length=255)
 	account_type = models.CharField(choices=Account_Type_Options, max_length=15)
+	bp_uri = models.CharField(max_length=255)
 	
 	class Meta:
 		verbose_name = "Venue Bank Account"
