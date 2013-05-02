@@ -27,27 +27,26 @@ class BalancedPaymentsHelper:
 		
 		return bank_account
 		
-	def setupNewMerchantAccount(self, bank_info, merchant_info, person_info):
+	def setupNewMerchantAccount(self, bank, merchant, person):
 	
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 			
 		merchant_data = {
-			    'phone_number': '140899188155',
-                            'email_address': 'test@example.com',
-			    'name': 'Skripts4Kids',
-			    'postal_code': '91111',
-			    'type': 'business',
-			    'street_address': '555 VoidMain Road',
-			    'tax_id': '211111111',
-			    'person':
-                            {
-                                    'phone_number': '14089999999',
-                                    'name': 'Timmy Q. CopyPasta',
-                                    'dob': '1989-12',
-                                    'postal_code': '94110',
+			    'phone_number': merchant.contact_number,
+                            'email_address': merchant.contact_email,
+			    'name': merchant.name,
+			    'postal_code': merchant.postal_code,
+			    'street_address': merchant.street_address,
+			    'tax_id': merchant.tax_id,
+                            'type': 'business',
+			    'person': {
+                                    'phone_number': person.phone_number,
+                                    'name': person.get_full_name(),
+                                    'dob': person.dob,
+                                    'postal_code': person.postal_code,
+                                    'street_address': person.street_address,
                                     'type': 'person',
-                                    'street_address': '121 Skriptkid Row',
 			    },
 			}
 			
@@ -55,7 +54,7 @@ class BalancedPaymentsHelper:
 
 		try:
                         account.add_merchant(merchant_data)
-                        bank_account = self.setupNewBankAccount(bank_info['routing_number'], bank_info['account_number'], bank_info['account_type'], bank_info['name'])
+                        bank_account = self.setupNewBankAccount(bank['routing_number'], bank['account_number'], bank['account_type'], bank['name'])
 			account.add_bank_account(bank_account.uri)
 			return account
 		except balanced.exc.MoreInformationRequiredError as ex:

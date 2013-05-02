@@ -78,3 +78,20 @@ class VenueDrinkType(BaseModel):
 		
 	class Meta:
 		ordering = ['name']
+		
+###################################################################
+
+class VenueBankAccount(BaseModel):
+
+	Account_Type_Options = (('checking', 'checking'), ('savings','savings'))
+
+	venue = models.ForeignKey(Venue)
+	bank_name = models.CharField(max_length=255)
+	routing_number = models.CharField(max_length=255)
+	account_number = models.CharField(max_length=255)
+	account_type = models.CharField(choices=Account_Type_Options, max_length=15)
+	
+	class Meta:
+		verbose_name = "Venue Bank Account"
+		
+###################################################################

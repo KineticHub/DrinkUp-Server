@@ -11,19 +11,19 @@ from django.contrib.auth.models import Group
 
 ###################################################################
 class VenueAdminUserCreationForm(UserCreationForm):
-        first_name = forms.CharField(max_length=120, required=True)
-        last_name = forms.CharField(max_length=120, required=True)
-        email = forms.CharField(max_length=120, required=True)
-        postal_code = forms.CharField(max_length=120, required=True)
-        dob = forms.DateField(initial='', help_text = 'Please use the following format, YYYY-MM-DD', label = 'Date of Birth')
-        phone_number = forms.IntegerField(help_text = 'Please use digits only, ie. 1112223333')
+		first_name = forms.CharField(max_length=120, required=True)
+		last_name = forms.CharField(max_length=120, required=True)
+		email = forms.CharField(max_length=120, required=True)
+		postal_code = forms.CharField(max_length=120, required=True)
+		dob = forms.DateField(initial='', help_text = 'Please use the following format, YYYY-MM-DD', label = 'Date of Birth')
+		phone_number = forms.IntegerField(help_text = 'Please use digits only, ie. 1112223333')
 
 class VenueAdminUserChangeForm(UserChangeForm):
 
-        first_name = forms.CharField(max_length=120, required=True)
-        last_name = forms.CharField(max_length=120, required=True)
-        email = forms.CharField(max_length=120, required=True)
-        
+		first_name = forms.CharField(max_length=120, required=True)
+		last_name = forms.CharField(max_length=120, required=True)
+		email = forms.CharField(max_length=120, required=True)
+		
 	class Meta:
 		model = VenueAdminUser
 
@@ -145,16 +145,16 @@ class VenueDrinkTypeAdmin(admin.ModelAdmin):
 			obj.user = request.user
 			
 		if not request.user.is_superuser:
-                    try:
-                        venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
-                        obj.venue = venue_admin.venue
-                    except:
-                        try:
-                            bar_admin = BarAdminUser.objects.get(pk=request.user.id)
-                            obj.venue = bar_admin.venue
-                        except:
-                            # THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDLING IS GOOD
-                            pass
+					try:
+						venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+						obj.venue = venue_admin.venue
+					except:
+						try:
+							bar_admin = BarAdminUser.objects.get(pk=request.user.id)
+							obj.venue = bar_admin.venue
+						except:
+							# THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDLING IS GOOD
+							pass
 		
 		obj.save()
 	
@@ -170,11 +170,75 @@ class VenueDrinkTypeAdmin(admin.ModelAdmin):
 				bar_admin = BarAdminUser.objects.get(pk=request.user.id)
 				return qs.filter(venue=bar_admin.venue)
 			except:
-				# THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDING IS GOOD
+				# THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDLING IS GOOD
 				pass
 		return None
+		
+###################################################################	
+
+class VenueBankAccountAdmin(admin.ModelAdmin):
+	exclude = ('user',)
+	
+	def get_readonly_fields(self, request, obj=None):
+		if not  request.user.is_superuser:
+			return self.readonly_fields + ('venue',)
+		return self.readonly_fields
+		
+	def save_model(self, request, obj, form, change):
+		try:
+			obj.user
+		except:
+			obj.user = request.user
 			
-admin.site.register(Venue)
+		if not request.user.is_superuser:
+					try:
+						venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+						obj.venue = venue_admin.venue
+					except:
+						# THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDLING IS GOOD
+						pass
+		
+		obj.save()
+	
+	def queryset(self, request): 
+		qs = super(VenueBankAccountAdmin, self).queryset(request)
+		if request.user.is_superuser:
+				return qs
+		try:
+			venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+			return qs.filter(venue=venue_admin.venue)
+		except:
+			# THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDLING IS GOOD
+			pass
+		return None
+		
+###################################################################	
+
+class VenueAdmin(admin.ModelAdmin):
+	exclude = ('user',  'bp_merchant')
+		
+	def save_model(self, request, obj, form, change):
+		try:
+			obj.user
+		except:
+			obj.user = request.user
+			
+		obj.save()
+	
+	def queryset(self, request): 
+		qs = super(VenueBankAccountAdmin, self).queryset(request)
+		if request.user.is_superuser:
+				return qs
+		try:
+			venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+			return qs.filter(pk=venue_admin.venue.id)
+		except:
+			# THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDLING IS GOOD
+			pass
+		return None
+			
+admin.site.register(Venue, VenueAdmin)BankAccount
 admin.site.register(VenueAdminUser, VenueAdminUserAdmin)
 admin.site.register(BarAdminUser, BarAdminUserAdmin)
 admin.site.register(VenueDrinkType, VenueDrinkTypeAdmin)
+admin.site.register(VenueBankAccount, VenueBankAccountAdmin)
