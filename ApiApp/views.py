@@ -52,7 +52,7 @@ def AllVenues(request):
 		response = json_serializer.serialize(venues_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
-def VenuesNearLocation(request, lat, long, distance):
+def VenuesNearLocation(request, lat, long, radius):
         if request.method == 'GET':
                 all_venues = Venue.objects.all()
                 user_point = Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001
@@ -60,7 +60,7 @@ def VenuesNearLocation(request, lat, long, distance):
                 nearby_venues = []
                 for venue in all_venues:
                         venue_point = Point(str(venue.latitude)+";"+str(venue.longitude))
-                        if distance.distance(venue_point, user_point).miles < distance:
+                        if distance.distance(venue_point, user_point).miles < float(radius):
                                 nearby_venues.append(venue)
 
                 son_serializer = serializers.get_serializer("json")()
