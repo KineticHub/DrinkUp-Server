@@ -11,12 +11,19 @@ from django.contrib.auth.models import Group
 
 ###################################################################
 class VenueAdminUserCreationForm(UserCreationForm):
+        first_name = forms.CharField(max_length=120, required=True)
+        last_name = forms.CharField(max_length=120, required=True)
         email = forms.CharField(max_length=120, required=True)
         postal_code = forms.CharField(max_length=120, required=True)
         dob = forms.DateField(initial='', help_text = 'Please use the following format, YYYY-MM-DD', label = 'Date of Birth')
         phone_number = forms.IntegerField(help_text = 'Please use digits only, ie. 1112223333')
 
 class VenueAdminUserChangeForm(UserChangeForm):
+
+        first_name = forms.CharField(max_length=120, required=True)
+        last_name = forms.CharField(max_length=120, required=True)
+        email = forms.CharField(max_length=120, required=True)
+        
 	class Meta:
 		model = VenueAdminUser
 
@@ -24,11 +31,11 @@ class VenueAdminUserAdmin(UserAdmin):
 		
 	form = VenueAdminUserChangeForm
 
-	add_fieldsets = ((None, { 'classes': ('wide',), 'fields': ('username', 'email', 'password1', 'password2', 'phone_number', 'dob', 'postal_code', 'street_address')}),)
+	add_fieldsets = ((None, { 'classes': ('wide',), 'fields': ('username', 'email', 'password1', 'password2','first_name', 'last_name', 'phone_number', 'dob', 'postal_code', 'street_address')}),)
 	add_form = VenueAdminUserCreationForm#UserCreationForm
 	
-	fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'is_active', 'venue')}),)
-	restricted_fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'is_active')}),)
+	fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'dob', 'phone_number', 'postal_code', 'street_address', 'is_active', 'venue')}),)
+	restricted_fieldsets = ((None, {'fields': ('username', 'password', 'first_name', 'last_name', 'email', 'dob', 'phone_number', 'postal_code',  'street_address', 'is_active')}),)
 
 	def get_readonly_fields(self, request, obj=None):
 		if not request.user.is_superuser:
