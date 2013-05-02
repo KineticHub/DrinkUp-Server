@@ -5,8 +5,8 @@ class BalancedPaymentsHelper:
 
 	def __init__(self):
 			marketplace = balanced.configure(settings.BALANCED_API_KEY)
-		if not balanced.Marketplace.my_marketplace:
-			raise Exception("Marketplace.my_marketplace should not be nil")
+			if not balanced.Marketplace.my_marketplace:
+				raise Exception("Marketplace.my_marketplace should not be nil")
 
 	def setupMarketplace(self):
 		marketplace = balanced.configure(settings.BALANCED_API_KEY)
