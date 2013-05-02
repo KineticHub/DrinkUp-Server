@@ -237,7 +237,7 @@ class VenueAdmin(admin.ModelAdmin):
 			pass
 		return None
 			
-admin.site.register(Venue, VenueAdmin)BankAccount
+admin.site.register(Venue, VenueAdmin)
 admin.site.register(VenueAdminUser, VenueAdminUserAdmin)
 admin.site.register(BarAdminUser, BarAdminUserAdmin)
 admin.site.register(VenueDrinkType, VenueDrinkTypeAdmin)
