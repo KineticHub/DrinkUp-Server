@@ -59,11 +59,11 @@ class VenueAdminUser(User):
 		super(VenueAdminUser, self).save(*args, **kwargs)
 
 		# create a new merchant account
-		def createMerchant(self):
-			helper = BalancedPaymentsHelper()
-			account = helper.setupNewMerchantAccount(merchant = self.venue, person = self)
-			self.venue.bp_merchant = account.uri
-			self.venue.save()
+	def createMerchant(self):
+		helper = BalancedPaymentsHelper()
+		account = helper.setupNewMerchantAccount(merchant = self.venue, person = self)
+		self.venue.bp_merchant = account.uri
+		self.venue.save()
 			
 	class Meta:
 		verbose_name = "Venue Admin User"
