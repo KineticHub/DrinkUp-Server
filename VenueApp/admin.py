@@ -226,7 +226,7 @@ class VenueAdmin(admin.ModelAdmin):
 		obj.save()
 	
 	def queryset(self, request): 
-		qs = super(VenueBankAccountAdmin, self).queryset(request)
+		qs = super(VenueAdmin, self).queryset(request)
 		if request.user.is_superuser:
 				return qs
 		try:
