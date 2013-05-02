@@ -26,7 +26,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-#custom imports
+#model imports
 from VenueApp.models import *
 from BarApp.models import *
 from UsersApp.models import *
@@ -40,12 +40,31 @@ from registration.views import *
 from registration.backends import get_backend
 #from registration.backends import default as registration_backend_default
 
+#geopy imports
+from geopy import distance
+from geopy.point import Point
+
 def AllVenues(request):
 	if request.method == 'GET':
 		venues_to_return = Venue.objects.all()
 		
 		json_serializer = serializers.get_serializer("json")()
 		response = json_serializer.serialize(venues_to_return, ensure_ascii=False)
+		return HttpResponse(response, mimetype="application/json")
+
+def VenuesNearLocation(request, lat, long, distance):
+        if request.method == 'GET':
+                all_venues = Venue.objects.all()
+                user_point = Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001
+
+                nearby_venues = []
+                for venue in all_venues:
+                        venue_point = Point(str(venue.latitude)+";"+str(venue.longitude))
+                        if distance.distance(venue_point, user_point).miles < distance:
+                                nearby_venues.append(venue)
+
+                son_serializer = serializers.get_serializer("json")()
+		response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
 def VenueBars(request, venue_id):
@@ -185,6 +204,8 @@ def CreateNewOrder(request):
 				
 				new_order = BarOrder(user_id=primary_user, bar=bar, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description, transaction_id=transaction_id)
 				new_order.save()
+
+				# make a new hold in bp, return URI and save in new_order
 				
 				for drink in drinks_data:
 					drink_type = VenueDrinkType.objects.get(pk=int(drink['drink_type']))
