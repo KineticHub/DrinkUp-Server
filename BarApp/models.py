@@ -41,7 +41,7 @@ class BarDrink(BaseModel):
 
 class BarOrder(BaseModel):
 
-	Order_Status_Options = ((1, 'UNFILLED'), (2,'IN PROGRESS'), (3,'WAITING CUSTOMER'), (4,'ORDER COMPLETE'), (5,'ORDER NOT CLAIMED'), (6,'ORDER CANCELLED')))
+	Order_Status_Options = ((1, 'UNFILLED'), (2,'IN PROGRESS'), (3,'WAITING CUSTOMER'), (4,'ORDER COMPLETE'), (5,'ORDER NOT CLAIMED'), (6,'ORDER CANCELLED'))
 
 	bar = models.ForeignKey(VenueBar)
 	bp_transaction =  models.CharField(max_length=255, blank=True)
