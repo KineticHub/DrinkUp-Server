@@ -63,7 +63,7 @@ def VenuesNearLocation(request, lat, long, radius):
                         if distance.distance(venue_point, user_point).miles < float(radius):
                                 nearby_venues.append(venue)
 
-                son_serializer = serializers.get_serializer("json")()
+                json_serializer = serializers.get_serializer("json")()
 		response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
