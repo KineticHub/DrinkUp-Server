@@ -24,8 +24,8 @@ class VenueAdminUserChangeForm(UserChangeForm):
 		last_name = forms.CharField(max_length=120, required=True)
 		email = forms.CharField(max_length=120, required=True)
 		
-	class Meta:
-		model = VenueAdminUser
+		class Meta:
+			model = VenueAdminUser
 
 class VenueAdminUserAdmin(UserAdmin):
 		
