@@ -69,7 +69,7 @@ def VenuesNearLocation(request):
                                 return HttpResponse(response, mimetype="application/json")
                 
                 all_venues = Venue.objects.all()
-                user_point = Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001
+                user_point = Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001 (Buruss)
 
                 nearby_venues = []
                 for venue in all_venues:
@@ -135,6 +135,8 @@ def CreateAppUser(request):
 						if new_user:
 								new_appuser = AppUser(user = new_user)
 								new_appuser.save()
+								# even if user is not verified yet, make an account on bp
+								# for them and save it immediately
 
 						serialized_response = serializers.serialize('json', [ new_user, ])
 						return HttpResponse(serialized_response, mimetype="application/json")
