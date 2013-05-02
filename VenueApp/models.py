@@ -54,9 +54,9 @@ class VenueAdminUser(User):
 	objects = UserManager()
 	
 	def save(self, *args, **kwargs):
-			if not self.venue.bp_merchant or len(self.venue.bp_merchant) == 0:
-				self.createMerchant()
-			super(VenueAdminUser, self).save(*args, **kwargs)
+		if not self.venue.bp_merchant or len(self.venue.bp_merchant) == 0:
+			self.createMerchant()
+		super(VenueAdminUser, self).save(*args, **kwargs)
 
 		# create a new merchant account
 		def createMerchant(self):
