@@ -11,6 +11,7 @@ from facepy import GraphAPI
 
 class Venue(models.Model):
 	name = models.CharField(max_length=255)
+	bp_merchant = models.CharField(max_length=255, blank=True)
 	contact_email = models.EmailField(max_length=255, blank=True)
 	contact_number = models.PositiveIntegerField(blank=True, null=True)
 	address = models.TextField()

@@ -11,6 +11,7 @@ class AppUser(models.Model):
 	Gender_Options = (('male', 'male'), ('female','female'), ('transgender','transgender'))
 
 	user = models.OneToOneField(User)
+	bp_account = models.CharField(max_length=255, blank=True)
 	profile_image = models.URLField(blank=True)
 	birthdate = models.DateField(blank=True, null=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
