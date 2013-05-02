@@ -63,7 +63,7 @@ def VenuesNearLocation(request):
                 if not lat or not long:
                         if zipcode:
                                 g = geocoders.GoogleV3()
-                                place, lat, long = g.geocode(zipcode)
+                                place, (lat, long) = g.geocode(zipcode)
                         else:
                                 response = json.dumps({'status': 'missing params',})
                                 return HttpResponse(response, mimetype="application/json")
