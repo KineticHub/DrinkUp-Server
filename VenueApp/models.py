@@ -4,6 +4,8 @@ from ApiApp.models import BaseModel
 from django.contrib.auth.models import User, UserManager
 from django.db.models.signals import post_save
 
+from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+
 from geopy import geocoders
 from facepy import GraphAPI
 
@@ -27,23 +29,23 @@ class Venue(models.Model):
 		return self.name
 
 	def save(self, *args, **kwargs):
-                if not self.pk or self.latitude == 0 or not self.longitude == 0:
-                        self.set_coords()
-                super(Venue, self).save(*args, **kwargs)
+			if not self.pk or self.latitude == 0 or not self.longitude == 0:
+					self.set_coords()
+			super(Venue, self).save(*args, **kwargs)
 
-        # set coordinates
-        def set_coords(self):
-            g = geocoders.GoogleV3()
-            place_area, (lat, lng) = g.geocode(self.postal_code)
-            place, (lat, lng) = g.geocode(self.street_address +' '+ place_area)
+		# set coordinates
+		def set_coords(self):
+			g = geocoders.GoogleV3()
+			place_area, (lat, lng) = g.geocode(self.postal_code)
+			place, (lat, lng) = g.geocode(self.street_address +' '+ place_area)
 
-            self.latitude = lat
-            self.longitude = lng
+			self.latitude = lat
+			self.longitude = lng
 		
 ###################################################################
 
 class VenueAdminUser(User):
-	venue = models.ForeignKey(Venue, null=True)
+	venue = models.ForeignKey(Venue)
 	phone_number = models.PositiveIntegerField()
 	dob = models.DateField()
 	postal_code = models.CharField(max_length=5)
@@ -51,6 +53,18 @@ class VenueAdminUser(User):
 	
 	objects = UserManager()
 	
+	def save(self, *args, **kwargs):
+			if not self.venue.bp_merchant or len(self.venue.bp_merchant) == 0:
+				self.createMerchant()
+			super(VenueAdminUser, self).save(*args, **kwargs)
+
+		# create a new merchant account
+		def createMerchant(self):
+			helper = BalancedPaymentsHelper()
+			account = helper.setupNewMerchantAccount(merchant = self.venue, person = self)
+			self.venue.bp_merchant = account.uri
+			self.venue.save()
+			
 	class Meta:
 		verbose_name = "Venue Admin User"
 		

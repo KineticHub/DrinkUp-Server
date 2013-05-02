@@ -4,7 +4,6 @@
 import json
 from datetime import datetime
 from decimal import *
-from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 
 #django view helpers
 from django.core import serializers
@@ -46,6 +45,9 @@ from geopy import geocoders
 from geopy import distance
 from geopy.point import Point
 
+#BalancedPayments
+from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+
 def AllVenues(request):
 	if request.method == 'GET':
 		venues_to_return = Venue.objects.all()
@@ -55,30 +57,30 @@ def AllVenues(request):
 		return HttpResponse(response, mimetype="application/json")
 
 def VenuesNearLocation(request):
-        if request.method == 'GET':
-                zipcode = request.GET.get('zipcode')
-                lat = request.GET.get('lat')
-                long = request.GET.get('long')
-                radius = request.GET.get('radius', '1.0')
+		if request.method == 'GET':
+				zipcode = request.GET.get('zipcode')
+				lat = request.GET.get('lat')
+				long = request.GET.get('long')
+				radius = request.GET.get('radius', '1.0')
 
-                if not lat or not long:
-                        if zipcode:
-                                g = geocoders.GoogleV3()
-                                place, (lat, long) = g.geocode(zipcode)
-                        else:
-                                response = json.dumps({'status': 'missing params',})
-                                return HttpResponse(response, mimetype="application/json")
-                
-                all_venues = Venue.objects.all()
-                user_point = Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001 (Buruss)
+				if not lat or not long:
+						if zipcode:
+								g = geocoders.GoogleV3()
+								place, (lat, long) = g.geocode(zipcode)
+						else:
+								response = json.dumps({'status': 'missing params',})
+								return HttpResponse(response, mimetype="application/json")
+				
+				all_venues = Venue.objects.all()
+				user_point = Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001 (Buruss)
 
-                nearby_venues = []
-                for venue in all_venues:
-                        venue_point = Point(str(venue.latitude)+";"+str(venue.longitude))
-                        if distance.distance(venue_point, user_point).miles < float(radius):
-                                nearby_venues.append(venue)
+				nearby_venues = []
+				for venue in all_venues:
+						venue_point = Point(str(venue.latitude)+";"+str(venue.longitude))
+						if distance.distance(venue_point, user_point).miles < float(radius):
+								nearby_venues.append(venue)
 
-                json_serializer = serializers.get_serializer("json")()
+				json_serializer = serializers.get_serializer("json")()
 		response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
@@ -138,7 +140,7 @@ def CreateAppUser(request):
 								new_appuser.save()
 
 								
-                                                                helper = BalancedPaymentsHelper()
+								helper = BalancedPaymentsHelper()
 								new_account = helper.setupNewBuyerAccount(username=username, email_address=email)
 								new_appuser.bp_account = new_account.uri
 								new_appuser.save()

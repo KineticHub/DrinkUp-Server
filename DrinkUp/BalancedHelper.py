@@ -27,7 +27,7 @@ class BalancedPaymentsHelper:
 		
 		return bank_account
 		
-	def setupNewMerchantAccount(self, bank, merchant, person):
+	def setupNewMerchantAccount(self, merchant, person):
 	
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
@@ -54,8 +54,6 @@ class BalancedPaymentsHelper:
 
 		try:
 			account.add_merchant(merchant_data)
-			bank_account = self.setupNewBankAccount(bank.routing_number, bank.account_number, bank.account_type, bank.name)
-			account.add_bank_account(bank_account.uri)
 			return account
 		except balanced.exc.MoreInformationRequiredError as ex:
 			# could not identify this account.
@@ -63,6 +61,15 @@ class BalancedPaymentsHelper:
 		except balanced.exc.HTTPError as error:
 			# TODO: handle 400 and 409 exceptions as required
 			raise
+			
+	def setMerchantBankAccount(self, merchant, bank):
+		if not balanced.Marketplace.my_marketplace:
+			self.setupMarketplace()
+		
+		account = balanced.Account.find(merchant.bp_merchant)
+		bank_account = self.setupNewBankAccount(bank.routing_number, bank.account_number, bank.account_type, bank.name)
+		account.add_bank_account(bank_account.uri)
+		return bank_account
 		
 	def setupNewCreditCard(self, card_number, expiration_month, expiration_year, security_code):
 		if not balanced.Marketplace.my_marketplace:
