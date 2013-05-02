@@ -15,7 +15,7 @@ class Venue(models.Model):
 	contact_email = models.EmailField(max_length=255)
 	contact_number = models.PositiveIntegerField()
 	street_address = models.CharField(max_length=255)
-	postal_code = models.CharField(max_length=255)
+	postal_code = models.CharField(max_length=5)
 	tax_id = models.CharField(max_length=255)
 	icon = models.URLField(blank=True)
 	facebook_id = models.CharField(max_length=255, blank=True, null=True)

@@ -11,7 +11,7 @@ from django.contrib.auth.models import Group
 
 ###################################################################
 class VenueAdminUserCreationForm(UserCreationForm):
-        email = forms.CharField(max_length=75, required=True)
+        email = forms.CharField(max_length=100, required=True)
 
 class VenueAdminUserChangeForm(UserChangeForm):
 	class Meta:
