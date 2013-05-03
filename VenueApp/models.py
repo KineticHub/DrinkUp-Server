@@ -15,7 +15,7 @@ class Venue(models.Model):
 	name = models.CharField(max_length=255)
 	bp_merchant = models.CharField(max_length=255, blank=True)
 	contact_email = models.EmailField(max_length=255)
-	contact_number = models.PositiveIntegerField()
+	contact_number = models.BigIntegerField()
 	street_address = models.CharField(max_length=255)
 	postal_code = models.CharField(max_length=5)
 	tax_id = models.CharField(max_length=255)
@@ -46,7 +46,7 @@ class Venue(models.Model):
 
 class VenueAdminUser(User):
 	venue = models.ForeignKey(Venue)
-	phone_number = models.PositiveIntegerField()
+	phone_number = models.BigIntegerField()
 	dob = models.DateField()
 	postal_code = models.CharField(max_length=5)
 	street_address = models.CharField(max_length=255)
