@@ -4,6 +4,8 @@ from ApiApp.models import BaseModel
 from django.contrib.auth.models import User, UserManager
 from django.db.models.signals import post_save
 
+from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+
 ###################################################################
 
 class AppUser(models.Model):
@@ -17,6 +19,17 @@ class AppUser(models.Model):
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
 	foursquare_user = models.OneToOneField('FourSquareAppUser', verbose_name='Foursquare Profile', blank=True, null=True)
+
+	def save(self, *args, **kwargs):
+		if not self.bp_account or len(self.bp_account) == 0:
+			self.createAccount()
+		super(AppUser, self).save(*args, **kwargs)
+
+	# create a new buyer account
+	def createAccount(self):
+		helper = BalancedPaymentsHelper()
+                new_account = helper.setupNewBuyerAccount(username=self.username, email_address=self.email)
+                self.bp_account = new_account.uri
 
 	def __unicode__(self):
 		return self.user.username
