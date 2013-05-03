@@ -43,7 +43,7 @@ class BalancedPaymentsHelper:
 				'person': {
 									'phone_number': person.phone_number,
 									'name': person.get_full_name(),
-									'dob': person.dob,
+									'dob': person.dob[:-1], # there is a Z at the end of datetime, need to remove it for this
 									'postal_code': person.postal_code,
 									'street_address': person.street_address,
 									'type': 'person',
