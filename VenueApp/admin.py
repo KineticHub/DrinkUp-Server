@@ -177,7 +177,7 @@ class VenueDrinkTypeAdmin(admin.ModelAdmin):
 ###################################################################	
 
 class VenueBankAccountAdmin(admin.ModelAdmin):
-	exclude = ('user',)
+	exclude = ('user', 'bp_uri',)
 	
 	def get_readonly_fields(self, request, obj=None):
 		if not  request.user.is_superuser:

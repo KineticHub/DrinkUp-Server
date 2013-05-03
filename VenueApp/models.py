@@ -116,6 +116,9 @@ class VenueBankAccount(BaseModel):
 		helper = BalancedPaymentsHelper()
 		bank_account = helper.addMerchantBankAccount(merchant = self.venue, bank = self)
 		self.bp_uri = bank_account.uri
+
+        def __unicode__(self):
+		return self.account_type + ' ' + self.account_number[:4]
 	
 	class Meta:
 		verbose_name = "Venue Bank Account"
