@@ -28,7 +28,7 @@ class AppUser(models.Model):
 	# create a new buyer account
 	def createAccount(self):
 		helper = BalancedPaymentsHelper()
-                new_account = helper.setupNewBuyerAccount(username=self.username, email_address=self.email)
+                new_account = helper.setupNewBuyerAccount(username=self.user.username, email_address=self.email)
                 self.bp_account = new_account.uri
 
 	def __unicode__(self):
