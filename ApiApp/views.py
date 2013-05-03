@@ -136,16 +136,8 @@ def CreateAppUser(request):
 						new_user = backend.register(request, **kwargs)
 
 						if new_user:
-								new_appuser = AppUser(user = new_user)
-								new_appuser.save()
-
-								
-								helper = BalancedPaymentsHelper()
-								new_account = helper.setupNewBuyerAccount(username=username, email_address=email)
-								new_appuser.bp_account = new_account.uri
-								new_appuser.save()
-								# even if user is not verified yet, make an account on bp
-								# for them and save it immediately
+							new_appuser = AppUser(user = new_user)
+							new_appuser.save()
 
 						serialized_response = serializers.serialize('json', [ new_user, ])
 						return HttpResponse(serialized_response, mimetype="application/json")
