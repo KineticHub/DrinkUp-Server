@@ -4,6 +4,8 @@ from ApiApp.models import BaseModel
 from VenueApp.models import Venue, VenueDrinkType
 from UsersApp.models import AppUser
 
+from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+
 ###################################################################
 
 class VenueBar(BaseModel):
@@ -55,6 +57,17 @@ class BarOrder(BaseModel):
 	current_status = models.IntegerField(max_length=1,choices=Order_Status_Options)
 	description = models.TextField(blank=True)
 	payment_processed = models.BooleanField()
+
+	def save(self, *args, **kwargs):
+		if not self.bp_transaction or len(self.bp_transaction) == 0:
+			self.createHold()
+		super(BarOrder, self).save(*args, **kwargs)
+
+        # create a new merchant account
+	def createHold(self):
+		helper = BalancedPaymentsHelper()
+		hold = helper.addHoldDebitForBuyerCreditCard(account = self.appuser, order = self)
+		self.bp_transaction = hold.uri
 
 	def __unicode__(self):
 		return str(self.appuser)

@@ -114,16 +114,16 @@ class BalancedPaymentsHelper:
 		)
 		return debit
 		
-	def addHoldDebitForBuyerCreditCard(self, account_uri, amount, source_uri=None):
+	def addHoldDebitForBuyerCreditCard(self, account, order, source_uri=None):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 
-		buyer = balanced.Account.find(account_uri)
+		buyer = balanced.Account.find(account.bp_account)
 		
 		try:
 			hold = buyer.hold(
-				amount=amount,
-				description= buyer.name + ' at ' + bar_name,
+				amount=order.grand_total,
+				description= buyer.name + ' at ' + order.bar.venue.name,
 				source_uri=source_uri
 			)
 			return hold
