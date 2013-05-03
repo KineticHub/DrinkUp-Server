@@ -106,6 +106,17 @@ class VenueBankAccount(BaseModel):
 	account_type = models.CharField(choices=Account_Type_Options, max_length=15)
 	bp_uri = models.CharField(max_length=255, blank=True, null=True)
 	
+	def save(self, *args, **kwargs):
+		if not self.bp_uri or len(self.bp_uri) == 0:
+			self.addBankToMerchant()
+		super(VenueBankAccount, self).save(*args, **kwargs)
+
+	# create a new bank account, add to merchant account
+	def addBankToMerchant(self):
+		helper = BalancedPaymentsHelper()
+		bank_account = helper.addMerchantBankAccount(merchant = self.venue, bank = self)
+		self.bp_uri = bank_account.uri
+	
 	class Meta:
 		verbose_name = "Venue Bank Account"
 		

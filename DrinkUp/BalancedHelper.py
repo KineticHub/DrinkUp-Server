@@ -62,7 +62,7 @@ class BalancedPaymentsHelper:
 			# TODO: handle 400 and 409 exceptions as required
 			raise
 			
-	def setMerchantBankAccount(self, merchant, bank):
+	def addMerchantBankAccount(self, merchant, bank):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 		
