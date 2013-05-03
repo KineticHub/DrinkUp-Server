@@ -67,7 +67,7 @@ class BalancedPaymentsHelper:
 			self.setupMarketplace()
 		
 		account = balanced.Account.find(merchant.bp_merchant)
-		bank_account = self.setupNewBankAccount(bank.routing_number, bank.account_number, bank.account_type, bank.name)
+		bank_account = self.setupNewBankAccount(bank.routing_number, bank.account_number, bank.account_type, bank.bank_name)
 		account.add_bank_account(bank_account.uri)
 		return bank_account
 		
