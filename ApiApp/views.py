@@ -183,6 +183,7 @@ def LogoutAppUser(request):
 def UpdateUserCard(request):
         if request.method == 'POST':
                 if request.user.is_authenticated():
+                        pass
                         
                         
 
@@ -398,7 +399,8 @@ def FacebookMobileLogin(request):
 
 						new_user.backend = 'django.contrib.auth.backends.ModelBackend'
 						login(request, new_user)
-					
+
+                                                response = json.dumps({'status': 'success', 'user':new_user})
 						return HttpResponse(me.__dict__)
 		
 		else:
