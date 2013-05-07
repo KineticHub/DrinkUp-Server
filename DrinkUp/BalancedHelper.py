@@ -91,6 +91,10 @@ class BalancedPaymentsHelper:
 		card = self.setupNewCreditCard(card_info['card_number'], card_info['expiration_month'], card_info['expiration_year'], card_info['security_code'])
 		account.add_card(card.uri)
 		return account
+
+	def updateBuyerCreditCard(self, cc_uri, account_uri):
+                account = balanced.Account.find(account_uri)
+                #need to finish this, invalidate old card and add new one
 	
 	def setupNewBuyerAccount(self, username, email_address, card_uri=None):
 		if not balanced.Marketplace.my_marketplace:

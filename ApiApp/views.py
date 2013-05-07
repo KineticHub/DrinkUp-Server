@@ -81,8 +81,8 @@ def VenuesNearLocation(request):
 								nearby_venues.append(venue)
 
 				json_serializer = serializers.get_serializer("json")()
-		response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
-		return HttpResponse(response, mimetype="application/json")
+                                response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
+                                return HttpResponse(response, mimetype="application/json")
 
 def VenueBars(request, venue_id):
 	if request.method == 'GET':
@@ -180,6 +180,12 @@ def LogoutAppUser(request):
 	response = json.dumps({'status': 'success',})
 	return HttpResponse(response, mimetype="application/json")
 
+def UpdateUserCard(request):
+        if request.method == 'POST':
+                if request.user.is_authenticated():
+                        
+                        
+
 def EmptyTokenCall(request):
 	request.META["CSRF_COOKIE_USED"] = True
 	return HttpResponse('success')
@@ -221,8 +227,6 @@ def CreateNewOrder(request):
 				
 				new_order = BarOrder(user_id=primary_user, bar=bar, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description, transaction_id=transaction_id)
 				new_order.save()
-
-				# make a new hold in bp, return URI and save in new_order
 				
 				for drink in drinks_data:
 					drink_type = VenueDrinkType.objects.get(pk=int(drink['drink_type']))
@@ -372,7 +376,7 @@ def FacebookMobileLogin(request):
 						user = find_fb_user.appuser.user
 						user.backend = 'django.contrib.auth.backends.ModelBackend'
 						login(request, user)
-						response = json.dumps({'status': 'success',})
+						response = json.dumps({'status': 'success', 'user':user})
 						return HttpResponse(response, mimetype="application/json")
 					
 					except FacebookAppUser.DoesNotExist:
@@ -409,8 +413,9 @@ def FacebookMobileLogin(request):
 				if (type(me.name) == type(unicode())):
 					try:
 						#also need to update to the current token
-						find_fb_user = FacebookAppUser.objects.get(fb_uid=me.id)
-						response = json.dumps({'status': 'success',})
+						fb_user = FacebookAppUser.objects.get(fb_uid=me.id)
+						user = fb_user.appuser.user
+						response = json.dumps({'status': 'success', 'user':user, 'fb_user':fb_user})
 						return HttpResponse(response, mimetype="application/json")
 						#if (find_fb_user.appuser.user == request.user):
 							#find_fb_user.oauth_token = new_token
