@@ -378,8 +378,7 @@ def FacebookMobileLogin(request):
 						user.backend = 'django.contrib.auth.backends.ModelBackend'
 						login(request, user)
 						#response = json.dumps({'status': 'success', 'user':user})
-						serialized_response = json.loads(serializers.serialize('json', [find_fb_user.appuser, ], relations = { 'user': { 'fields': ( 'pk', 'username', 'first_name', 'last_name', 'email', ) },  'facebook_user': { 'fields': ( 'fb_uid', 'fb_email', ) }, } ) )
-						return HttpResponse(serialized_response, mimetype="application/json")
+						serialized_response = serializers.serialize('json', [find_fb_user.appuser, ], relations = { 'user': { 'fields': ( 'username', 'first_name', 'last_name', 'email', ) },  'facebook_user': { 'fields': ( 'fb_uid', 'fb_email', ) }, } )						return HttpResponse(serialized_response, mimetype="application/json")
 					
 					except FacebookAppUser.DoesNotExist:
 
@@ -404,7 +403,7 @@ def FacebookMobileLogin(request):
                                                 #response = json.dumps({'status': 'success', 'user':new_user})
                                                 #serialized_response = serializers.serialize('json', [ new_user, ])
 						#return HttpResponse(me.__dict__)
-						serialized_response = json.loads(serializers.serialize('json', [new_appuser, ], relations = { 'user': { 'fields': ( 'pk', 'username', 'first_name', 'last_name', 'email', ) },  'facebook_user': { 'fields': ( 'fb_uid', 'fb_email', ) }, } ) )
+						serialized_response = serializers.serialize('json', [new_appuser, ], relations = { 'user': { 'fields': ('username', 'first_name', 'last_name', 'email', ) },  'facebook_user': { 'fields': ( 'fb_uid', 'fb_email', ) }, } ) 
                                                 return HttpResponse(serialized_response, mimetype="application/json")
 		
 		else:
@@ -424,7 +423,7 @@ def FacebookMobileLogin(request):
 						#response = json.dumps({'status': 'success', 'user':user, 'fb_user':fb_user})
 						#serialized_response = serializers.serialize('json', [ user, fb_user, ])
 						#return HttpResponse(me.__dict__)
-						serialized_response = json.loads(serializers.serialize('json', [fb_user.appuser, ], relations = { 'user': { 'fields': ( 'pk', 'username', 'first_name', 'last_name', 'email', ) },  'facebook_user': { 'fields': ( 'fb_uid', 'fb_email', ) }, } ) )
+						serialized_response = serializers.serialize('json', [fb_user.appuser, ], relations = { 'user': { 'fields': ( 'username', 'first_name', 'last_name', 'email', ) },  'facebook_user': { 'fields': ( 'fb_uid', 'fb_email', ) }, } )
                                                 return HttpResponse(serialized_response, mimetype="application/json")
 						#return HttpResponse(response, mimetype="application/json")
 						#if (find_fb_user.appuser.user == request.user):
