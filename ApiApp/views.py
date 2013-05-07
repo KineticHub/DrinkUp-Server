@@ -400,8 +400,10 @@ def FacebookMobileLogin(request):
 						new_user.backend = 'django.contrib.auth.backends.ModelBackend'
 						login(request, new_user)
 
-                                                response = json.dumps({'status': 'success', 'user':new_user})
-						return HttpResponse(me.__dict__)
+                                                #response = json.dumps({'status': 'success', 'user':new_user})
+                                                serialized_response = serializers.serialize('json', [ new_user, ])
+						#return HttpResponse(me.__dict__)
+                                                return HttpResponse(serialized_response, mimetype="application/json")
 		
 		else:
 			if token and expiration and creation:
@@ -417,8 +419,11 @@ def FacebookMobileLogin(request):
 						#also need to update to the current token
 						fb_user = FacebookAppUser.objects.get(fb_uid=me.id)
 						user = fb_user.appuser.user
-						response = json.dumps({'status': 'success', 'user':user, 'fb_user':fb_user})
-						return HttpResponse(response, mimetype="application/json")
+						#response = json.dumps({'status': 'success', 'user':user, 'fb_user':fb_user})
+						serialized_response = serializers.serialize('json', [ user, fb_user, ])
+						#return HttpResponse(me.__dict__)
+                                                return HttpResponse(serialized_response, mimetype="application/json")
+						#return HttpResponse(response, mimetype="application/json")
 						#if (find_fb_user.appuser.user == request.user):
 							#find_fb_user.oauth_token = new_token
 							#find_fb_user.save()
