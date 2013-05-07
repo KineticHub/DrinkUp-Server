@@ -379,7 +379,7 @@ def FacebookMobileLogin(request):
 						login(request, user)
 						#response = json.dumps({'status': 'success', 'user':user})
 						serialized_response = json.loads(serializers.serialize('json', [find_fb_user.appuser, ], relations = { 'user': { 'fields': ( 'pk', 'username', 'first_name', 'last_name', 'email', ) },  'facebook_user': { 'fields': ( 'fb_uid', 'fb_email', ) }, } ) )
-						return HttpResponse(response, mimetype="application/json")
+						return HttpResponse(serialized_response, mimetype="application/json")
 					
 					except FacebookAppUser.DoesNotExist:
 
