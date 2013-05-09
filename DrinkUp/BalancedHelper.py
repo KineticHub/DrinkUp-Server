@@ -9,7 +9,7 @@ class BalancedPaymentsHelper:
 				raise Exception("Marketplace.my_marketplace should not be nil")
 
 	def setupMarketplace(self):
-		marketplace = balanced.configure(settings.BALANCED_API_KEY)
+		marimketplace = balanced.configure(settings.BALANCED_API_KEY)
 		if not balanced.Marketplace.my_marketplace:
 			raise Exception("Marketplace.my_marketplace should not be nil")
 		return marketplace
@@ -94,7 +94,11 @@ class BalancedPaymentsHelper:
 
 	def updateBuyerCreditCard(self, cc_uri, account_uri):
                 account = balanced.Account.find(account_uri)
-                #need to finish this, invalidate old card and add new one
+                for card in account.cards:
+                        card.is_valid=False
+                        card.save()
+                account.add_card(cc_uri)
+                return account
 	
 	def setupNewBuyerAccount(self, username, email_address, card_uri=None):
 		if not balanced.Marketplace.my_marketplace:

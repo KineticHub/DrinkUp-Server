@@ -183,7 +183,16 @@ def LogoutAppUser(request):
 def UpdateUserCard(request):
         if request.method == 'POST':
                 if request.user.is_authenticated():
-                        pass
+                        cc_uri = request.POST.get('cc_uri', None)
+                        if cc_uri is not None:
+                                helper = BalancedPaymentsHelper()
+                                helper.updateBuyerCreditCard(cc_uri=cc_uri, account_uri=request.user.appuser.bp_account)
+                                response = json.dumps({'status': 'success',})
+                                return HttpResponse(response, mimetype="application/json")
+                        else:
+                                response = json.dumps({'status': 'invalid',})
+                                return HttpResponse(response, mimetype="application/json", status=401)
+                        
                         
                         
 

@@ -29,6 +29,7 @@ urlpatterns += patterns('ApiApp.views',
 	url(r'^api/user/create/$', 'CreateAppUser'),
 	url(r'^api/user/logout/$', 'LogoutAppUser'),
 	url(r'^api/user/authenticated/$', 'CheckAppUserAuthenticated'),
+        url(r'^api/user/update_card/$', 'UpdateUserCard'),
 
     url(r'^api/orders/create/$', 'CreateNewOrder'),
     url(r'^api/orders/update/$', 'UpdateOrderStatus'),
