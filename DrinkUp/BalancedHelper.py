@@ -130,7 +130,7 @@ class BalancedPaymentsHelper:
 		
 		try:
 			hold = buyer.hold(
-				amount=order.grand_total*100, #this needs to be in pennies
+				amount=float(order.grand_total)*100, #this needs to be in pennies
 				description= buyer.name + ' at ' + order.bar.venue.name,
 				source_uri=source_uri
 			)
