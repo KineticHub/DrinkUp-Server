@@ -150,10 +150,10 @@ class BalancedPaymentsHelper:
 	def captureHoldForOrder(self, order):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
-		
+		appears = 'DrinkUp ' + order.bar.venue.name
 		hold = balanced.Hold.find(order.bp_transaction)
 		debit = hold.capture(
-			appears_on_statement_as='DrinkUp -' + order.bar.venue.name,
+			appears_on_statement_as= appears[:21],
 		)
 		
 		return debit
@@ -161,10 +161,10 @@ class BalancedPaymentsHelper:
 	def voidHoldForOrder(self, order):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
-			
+		appears = 'DrinkUp ' + order.bar.venue.name
 		hold = balanced.Hold.find(order.bp_transaction)
 		hold.void(
-			appears_on_statement_as='Voided: DrinkUp -' + order.bar.venue.name,
+			appears_on_statement_as='Voided DrinkUp Trans',
 		)
 		
 			
