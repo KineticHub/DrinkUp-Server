@@ -163,7 +163,6 @@ class BalancedPaymentsHelper:
 			self.setupMarketplace()
 		appears = 'DrinkUp ' + order.bar.venue.name
 		hold = balanced.Hold.find(order.bp_transaction)
-		voided = hold.void()
-		return voided
+		hold.void()
 			
 			
