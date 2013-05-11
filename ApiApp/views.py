@@ -227,7 +227,6 @@ def CreateNewOrder(request):
 			fees = request.POST.get('fees', None)
 			grand_total = request.POST.get('grand_total', None)
 			description = request.POST.get('description', '')
-			transaction_id = request.POST.get('transaction_id', '')
 			drinks = request.POST.get('drinks', None)
 
 			if bar_id and total and tax and sub_total and tip and fees and grand_total and drinks:
@@ -235,7 +234,7 @@ def CreateNewOrder(request):
 				bar = VenueBar.objects.get(pk=bar_id)
 				drinks_data = json.loads(drinks)
 				
-				new_order = BarOrder(user_id=primary_user, bar=bar, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description, transaction_id=transaction_id)
+				new_order = BarOrder(user_id=primary_user, bar=bar, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
 				new_order.save()
 				
 				for drink in drinks_data:
