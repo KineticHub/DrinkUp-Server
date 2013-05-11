@@ -183,7 +183,7 @@ def LogoutAppUser(request):
 def UpdateUserCard(request):
         if request.method == 'POST':
                 if request.user.is_authenticated():
-                        cc_uri = request.POST.get('cc_uri', None)
+                        cc_uri = request.POST.get('uri', None)
                         if cc_uri is not None:
                                 helper = BalancedPaymentsHelper()
                                 helper.updateBuyerCreditCard(cc_uri=cc_uri, account_uri=request.user.appuser.bp_account)
