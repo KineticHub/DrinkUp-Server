@@ -163,9 +163,9 @@ class BalancedPaymentsHelper:
 			self.setupMarketplace()
 		appears = 'DrinkUp ' + order.bar.venue.name
 		hold = balanced.Hold.find(order.bp_transaction)
-		hold.void(
+		voided = hold.void(
 			appears_on_statement_as='Voided DrinkUp Trans',
 		)
-		
+		return voided
 			
 			
