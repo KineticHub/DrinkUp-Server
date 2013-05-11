@@ -75,12 +75,12 @@ class BarOrder(BaseModel):
 
 	def captureHold(self):
 		helper = BalancedPaymentsHelper()
-		hold = helper.captureHoldForOrder(account = self.appuser, order = self)
+		hold = helper.captureHoldForOrder(order = self)
 		self.bp_transaction = hold.uri
 
 	def voidHold(self):
 		helper = BalancedPaymentsHelper()
-		hold = helper.voidHoldForOrder(account = self.appuser, order = self)
+		hold = helper.voidHoldForOrder(order = self)
 		self.bp_transaction = hold.uri
 
 	def __unicode__(self):

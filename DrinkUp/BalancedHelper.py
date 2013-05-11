@@ -147,24 +147,24 @@ class BalancedPaymentsHelper:
 			#...     print 'caught'                                      
 			#...     print error.status_code
 			
-	def captureHoldForOrder(self, hold_uri, bar_name):
+	def captureHoldForOrder(self, order):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
-			
-		hold = balanced.Hold.find(hold_uri)
+		
+		hold = balanced.Hold.find(order.bp_transaction)
 		debit = hold.capture(
-			appears_on_statement_as='DrinkUp-' + bar_name,
+			appears_on_statement_as='DrinkUp -' + order.bar.venue.name,
 		)
 		
 		return debit
 		
-	def voidHoldForOrder(self, hold_uri, bar_name):
+	def voidHoldForOrder(self, order):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 			
-		hold = balanced.Hold.find(hold_uri)
+		hold = balanced.Hold.find(order.bp_transaction)
 		hold.void(
-			appears_on_statement_as='Voided: DrinkUp-' + bar_name,
+			appears_on_statement_as='Voided: DrinkUp -' + order.bar.venue.name,
 		)
 		
 			
