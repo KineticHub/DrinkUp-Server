@@ -43,7 +43,7 @@ class BarDrink(BaseModel):
 
 class BarOrder(BaseModel):
 
-	Order_Status_Options = ((1, 'UNFILLED'), (2,'IN PROGRESS'), (3,'WAITING CUSTOMER'), (4,'ORDER COMPLETE'), (5,'ORDER NOT CLAIMED'), (6,'ORDER CANCELLED'))
+	Order_Status_Options = ((1, 'UNFILLED'), (2,'IN PROGRESS'), (3,'WAITING CUSTOMER'), (4,'ORDER COMPLETE'), (5,'ORDER CANCELLED'), (6,'ORDER NOT CLAIMED'))
 
 	bar = models.ForeignKey(VenueBar)
 	bp_transaction =  models.CharField(max_length=255, blank=True)
@@ -61,12 +61,26 @@ class BarOrder(BaseModel):
 	def save(self, *args, **kwargs):
 		if not self.bp_transaction or len(self.bp_transaction) == 0:
 			self.createHold()
+		if self.current_status == 4:
+                        self.captureHold()
+		if self.current_status == 5:
+                        self.voidHold()
 		super(BarOrder, self).save(*args, **kwargs)
 
         # create a new merchant account
 	def createHold(self):
 		helper = BalancedPaymentsHelper()
-		hold = helper.addHoldDebitForBuyerCreditCard(account = self.appuser, order = self)
+		hold = helper.createHoldForOrder(account = self.appuser, order = self)
+		self.bp_transaction = hold.uri
+
+	def captureHold(self):
+		helper = BalancedPaymentsHelper()
+		hold = helper.captureHoldForOrder(account = self.appuser, order = self)
+		self.bp_transaction = hold.uri
+
+	def voidHold(self):
+		helper = BalancedPaymentsHelper()
+		hold = helper.voidHoldForOrder(account = self.appuser, order = self)
 		self.bp_transaction = hold.uri
 
 	def __unicode__(self):

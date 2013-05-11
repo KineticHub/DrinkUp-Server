@@ -4,15 +4,15 @@ from django.conf import settings
 class BalancedPaymentsHelper:
 
 	def __init__(self):
-			marketplace = balanced.configure(settings.BALANCED_API_KEY)
+			balanced.configure(settings.BALANCED_API_KEY)
 			if not balanced.Marketplace.my_marketplace:
 				raise Exception("Marketplace.my_marketplace should not be nil")
 
 	def setupMarketplace(self):
-		marimketplace = balanced.configure(settings.BALANCED_API_KEY)
+		balanced.configure(settings.BALANCED_API_KEY)
 		if not balanced.Marketplace.my_marketplace:
 			raise Exception("Marketplace.my_marketplace should not be nil")
-		return marketplace
+		return balanced.Marketplace.my_marketplace
 		
 	def setupNewBankAccount(self, routing_number, account_number, account_type, name):
 		if not balanced.Marketplace.my_marketplace:
@@ -122,7 +122,7 @@ class BalancedPaymentsHelper:
 		)
 		return debit
 		
-	def addHoldDebitForBuyerCreditCard(self, account, order, source_uri=None):
+	def createHoldForOrder(self, account, order, source_uri=None):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 
@@ -147,7 +147,7 @@ class BalancedPaymentsHelper:
 			#...     print 'caught'                                      
 			#...     print error.status_code
 			
-	def captureHoldDebitForBuyerCreditCard(self, hold_uri, bar_name):
+	def captureHoldForOrder(self, hold_uri, bar_name):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 			
@@ -158,7 +158,7 @@ class BalancedPaymentsHelper:
 		
 		return debit
 		
-	def voidHoldDebitForBuyerCreditCard(self, hold_uri, bar_name):
+	def voidHoldForOrder(self, hold_uri, bar_name):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 			
