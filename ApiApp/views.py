@@ -323,8 +323,9 @@ def UpdateOrderStatus(request):
 			order = BarOrder.objects.get(pk=order_id)
 			order.current_status = new_status
 			order.save()
-			response = json.dumps({'status': 'success',})
-			return HttpResponse(response, mimetype="application/json")
+			#response = json.dumps({'status': 'success',})
+			serialized_response = serializers.serialize('json', [ order, ])
+			return HttpResponse(serialized_response, mimetype="application/json")
 
 #END ORDER VIEWS
 ##################

@@ -82,7 +82,7 @@ class BarOrder(BaseModel):
 		hold = helper.voidHoldForOrder(order = self)
 
 	def __unicode__(self):
-		return str(self.appuser)
+		return str(self.appuser) + " " + str(self.current_status)
 		
 	class Meta:
 		ordering = ['created']
