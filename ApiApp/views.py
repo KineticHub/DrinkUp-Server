@@ -23,7 +23,7 @@ from django.db import models
 
 #django authentication
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 
 #model imports
