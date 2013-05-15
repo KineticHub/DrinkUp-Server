@@ -214,8 +214,8 @@ def CheckAppUserAuthenticated(request):
 
 #NEED TO VERIFY THAT USER IS A BARTENDER
 def CreateNewOrder(request):
-				#if not request.user.is_authenticated():
-						#return HttpResponseForbidden()
+		if not request.user.is_authenticated():
+                        return HttpResponseForbidden()
 				
 		if request.method == 'POST': #and request.user.is_authenticated():
 			bar_id = request.POST.get('bar_id', None)
