@@ -61,10 +61,13 @@ class BarOrder(BaseModel):
 	def save(self, *args, **kwargs):
 		if not self.bp_transaction or len(self.bp_transaction) == 0:
 			self.createHold()
+			self.description = 'hold created'
 		if self.current_status == 4:
                         self.captureHold()
+                        self.description = 'hold captured'
 		if self.current_status == 5:
                         self.voidHold()
+                        self.description = 'hold voided'
 		super(BarOrder, self).save(*args, **kwargs)
 
         # create a new merchant account
