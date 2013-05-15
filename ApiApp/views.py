@@ -159,7 +159,9 @@ def LoginAppUser(request):
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
 
-                if (ctype = request.POST.get('credtype', None)) and ctype == 'staff':
+		ctype = request.POST.get('credtype', None)
+
+                if ctype is not None and ctype == 'staff':
                         if not user.is_staff:
                                 return HttpResponseForbidden()
 		
