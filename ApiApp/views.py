@@ -311,21 +311,23 @@ def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0
 			response = json.dumps(all_orders)
 			return HttpResponse(response, mimetype="application/json")
 
+@permission_required('BarApp.change_BarOrder')
 def UpdateOrderStatus(request):
 		#if not request.user.is_authenticated():
 						#return HttpResponseForbidden()
 				
-	if request.method == 'POST': #and request.user.is_authenticated():
-		order_id = request.POST.get('order_id', None)
-		new_status = request.POST.get('new_status', None)
+	if request.method == 'POST':
+                if request.user.is_authenticated():
+                        order_id = request.POST.get('order_id', None)
+                        new_status = request.POST.get('new_status', None)
 
-		if order_id and new_status:
-			order = BarOrder.objects.get(pk=order_id)
-			order.current_status = new_status
-			order.save()
-			#response = json.dumps({'status': 'success',})
-			serialized_response = serializers.serialize('json', [ order, ])
-			return HttpResponse(serialized_response, mimetype="application/json")
+                        if order_id and new_status:
+                                order = BarOrder.objects.get(pk=order_id)
+                                order.current_status = new_status
+                                order.save()
+                                #response = json.dumps({'status': 'success',})
+                                serialized_response = serializers.serialize('json', [ order, ])
+                                return HttpResponse(serialized_response, mimetype="application/json")
 
 #END ORDER VIEWS
 ##################
