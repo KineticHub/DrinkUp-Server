@@ -25,6 +25,7 @@ from django.db import models
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
+from django.contrib.admin.views.decorators import staff_member_required
 
 #model imports
 from VenueApp.models import *
@@ -157,6 +158,11 @@ def LoginAppUser(request):
 		username = request.POST['username']
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
+
+                if (ctype = request.POST.get('credtype', None)) and ctype == 'staff':
+                        if not user.is_staff:
+                                return HttpResponseForbidden()
+		
 		if user is not None:
 			if user.is_active:
 				login(request, user)
@@ -250,6 +256,7 @@ def CreateNewOrder(request):
 				serialized_response = serializers.serialize('json', [ new_order, ])
 				return HttpResponse(serialized_response, mimetype="application/json")
 
+@staff_member_required
 def GetNewOrdersForBarSince(request, bar_id, since_time):
 	
 	if request.method == 'GET':
@@ -270,7 +277,7 @@ def GetNewOrdersForBarSince(request, bar_id, since_time):
 		response = json.dumps(all_orders)
 		return HttpResponse(response, mimetype="application/json")
 						
-
+@staff_member_required
 def GetOrdersForBarWithStatus(request, bar_id, status):
 		if request.method == 'GET':
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
@@ -291,6 +298,7 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			response = json.dumps(all_orders)
 			return HttpResponse(response, mimetype="application/json")
 
+@staff_member_required
 def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
 		if request.method == 'GET':
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
@@ -311,23 +319,22 @@ def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0
 			response = json.dumps(all_orders)
 			return HttpResponse(response, mimetype="application/json")
 
-@permission_required('BarApp.change_BarOrder')
+@staff_member_required
 def UpdateOrderStatus(request):
 		#if not request.user.is_authenticated():
 						#return HttpResponseForbidden()
 				
 	if request.method == 'POST':
-                if request.user.is_authenticated():
-                        order_id = request.POST.get('order_id', None)
-                        new_status = request.POST.get('new_status', None)
+                order_id = request.POST.get('order_id', None)
+                new_status = request.POST.get('new_status', None)
 
-                        if order_id and new_status:
-                                order = BarOrder.objects.get(pk=order_id)
-                                order.current_status = new_status
-                                order.save()
-                                #response = json.dumps({'status': 'success',})
-                                serialized_response = serializers.serialize('json', [ order, ])
-                                return HttpResponse(serialized_response, mimetype="application/json")
+                if order_id and new_status:
+                        order = BarOrder.objects.get(pk=order_id)
+                        order.current_status = new_status
+                        order.save()
+                        #response = json.dumps({'status': 'success',})
+                        serialized_response = serializers.serialize('json', [ order, ])
+                        return HttpResponse(serialized_response, mimetype="application/json")
 
 #END ORDER VIEWS
 ##################
