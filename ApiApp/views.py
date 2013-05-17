@@ -183,6 +183,31 @@ def LoginAppUser(request):
 			return HttpResponse(response, mimetype="application/json", status=401)
 			# Return an 'invalid login' error message.
 
+def LoginBarAdmin(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+		
+		if user is not None:
+			if user.is_active and user.is_staff:
+				login(request, user)
+				bartender = BarAdminUser.objects.get(pk=request.user.id)
+				# Redirect to a success page.
+				#return redirect('/api/venues/all/')
+				#response = json.dumps({'status': 'success',})
+				serialized_response = serializers.serialize('json', [ user, bartender])
+				return HttpResponse(serialized_response, mimetype="application/json")
+				#return HttpResponse(response, mimetype="application/json")
+			else:
+				response = json.dumps({'status': 'inactive',})
+				return HttpResponse(response, mimetype="application/json", status=401)
+				# Return a 'disabled account' error message
+		else:
+			response = json.dumps({'status': 'unauthorized',})
+			return HttpResponse(response, mimetype="application/json", status=401)
+			# Return an 'invalid login' error message.
+
 def LogoutAppUser(request):
 	logout(request)
 	response = json.dumps({'status': 'success',})
