@@ -264,7 +264,7 @@ def GetNewOrdersForBarSince(request, bar_id, since_time):
 	if request.method == 'GET':
 
                 bartender = BarAdminUser.objects.get(pk=request.user.id)
-                if bartender.bar.pk != bar_id:
+                if bartender.bar.pk != int(bar_id):
                         return HttpResponseForbidden()
 
                 
@@ -291,7 +291,7 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
 
                         bartender = BarAdminUser.objects.get(pk=request.user.id)
-                        if bartender.bar.pk != bar_id:
+                        if bartender.bar.pk != int(bar_id):
                                 return HttpResponseForbidden()
 			
 			drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__current_status=status)
@@ -315,7 +315,7 @@ def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0
 		if request.method == 'GET':
 
                         bartender = BarAdminUser.objects.get(pk=request.user.id)
-                        if bartender.bar.pk != bar_id:
+                        if bartender.bar.pk != int(bar_id):
                                 return HttpResponseForbidden()
                         
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
