@@ -262,6 +262,12 @@ def CreateNewOrder(request):
 def GetNewOrdersForBarSince(request, bar_id, since_time):
 	
 	if request.method == 'GET':
+
+                bartender = BarAdminUser.objects.get(pk=request.user.id)
+                if bartender.bar.pk != bar_id:
+                        return HttpResponseForbidden()
+
+                
 		#CHECK THE LAST FILTER DATETIME COMPARISON
 		drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__created__gte = datetime.fromtimestamp(float(since_time)))
 			
@@ -283,6 +289,10 @@ def GetNewOrdersForBarSince(request, bar_id, since_time):
 def GetOrdersForBarWithStatus(request, bar_id, status):
 		if request.method == 'GET':
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
+
+                        bartender = BarAdminUser.objects.get(pk=request.user.id)
+                        if bartender.bar.pk != bar_id:
+                                return HttpResponseForbidden()
 			
 			drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__current_status=status)
 			
@@ -303,6 +313,11 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 @staff_member_required
 def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
 		if request.method == 'GET':
+
+                        bartender = BarAdminUser.objects.get(pk=request.user.id)
+                        if bartender.bar.pk != bar_id:
+                                return HttpResponseForbidden()
+                        
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
 			time_start = datetime.fromtimestamp(float(time_start))
 			time_end = datetime.fromtimestamp(float(time_end))
@@ -324,7 +339,7 @@ def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0
 @staff_member_required
 def UpdateOrderStatus(request):
 		#if not request.user.is_authenticated():
-						#return HttpResponseForbidden()
+                        #return HttpResponseForbidden()
 				
 	if request.method == 'POST':
                 order_id = request.POST.get('order_id', None)
