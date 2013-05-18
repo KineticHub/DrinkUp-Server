@@ -284,17 +284,15 @@ def CreateNewOrder(request):
 				return HttpResponse(serialized_response, mimetype="application/json")
 
 @staff_member_required
-def GetNewOrdersForBarSince(request, bar_id, since_time):
+def GetNewOrdersForBarSince(request, since_time, status=0):
 	
 	if request.method == 'GET':
 
                 bartender = BarAdminUser.objects.get(pk=request.user.id)
-                if bartender.bar.pk != int(bar_id):
-                        return HttpResponseForbidden()
-
+                bar_id = bartender.bar.pk
                 
 		#CHECK THE LAST FILTER DATETIME COMPARISON
-		drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__created__gte = datetime.fromtimestamp(float(since_time)))
+		drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__created__gte = datetime.fromtimestamp(float(since_time))).filter(order__current_status=status)
 			
 		all_orders = []
 		from itertools import groupby
@@ -311,13 +309,12 @@ def GetNewOrdersForBarSince(request, bar_id, since_time):
 		return HttpResponse(response, mimetype="application/json")
 						
 @staff_member_required
-def GetOrdersForBarWithStatus(request, bar_id, status):
+def GetOrdersForBarWithStatus(request, status):
 		if request.method == 'GET':
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
 
                         bartender = BarAdminUser.objects.get(pk=request.user.id)
-                        if bartender.bar.pk != int(bar_id):
-                                return HttpResponseForbidden()
+                        bar_id = bartender.bar.pk
 			
 			drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__current_status=status)
 			
@@ -336,12 +333,11 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			return HttpResponse(response, mimetype="application/json")
 
 @staff_member_required
-def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
+def GetOrdersForBarWithStatusInTimeRange(request, status, time_start = 0, time_end = datetime.today()):
 		if request.method == 'GET':
 
                         bartender = BarAdminUser.objects.get(pk=request.user.id)
-                        if bartender.bar.pk != int(bar_id):
-                                return HttpResponseForbidden()
+                        bar_id = bartender.bar.pk
                         
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
 			time_start = datetime.fromtimestamp(float(time_start))
