@@ -311,7 +311,7 @@ def GetNewOrdersForBarSince(request, bar_id=0, since_time=0, status=0):
 		return HttpResponse(response, mimetype="application/json")
 						
 @staff_member_required
-def GetOrdersForBarWithStatus(request, bar_id=0, status):
+def GetOrdersForBarWithStatus(request, bar_id=0, status=0):
 		if request.method == 'GET':
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
 
