@@ -284,12 +284,14 @@ def CreateNewOrder(request):
 				return HttpResponse(serialized_response, mimetype="application/json")
 
 @staff_member_required
-def GetNewOrdersForBarSince(request, since_time, status=0):
+def GetNewOrdersForBarSince(request, bar_id=0, since_time, status=0):
 	
 	if request.method == 'GET':
 
                 bartender = BarAdminUser.objects.get(pk=request.user.id)
-                bar_id = bartender.bar.pk
+
+                if bar_id == 0:
+                        bar_id = bartender.bar.pk
                 
 		#CHECK THE LAST FILTER DATETIME COMPARISON
 		drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__created__gte = datetime.fromtimestamp(float(since_time))).filter(order__current_status=status)
@@ -309,12 +311,14 @@ def GetNewOrdersForBarSince(request, since_time, status=0):
 		return HttpResponse(response, mimetype="application/json")
 						
 @staff_member_required
-def GetOrdersForBarWithStatus(request, status):
+def GetOrdersForBarWithStatus(request, bar_id, status):
 		if request.method == 'GET':
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
 
                         bartender = BarAdminUser.objects.get(pk=request.user.id)
-                        bar_id = bartender.bar.pk
+
+                        if bar_id == 0:
+                                bar_id = bartender.bar.pk
 			
 			drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__current_status=status)
 			
@@ -333,11 +337,13 @@ def GetOrdersForBarWithStatus(request, status):
 			return HttpResponse(response, mimetype="application/json")
 
 @staff_member_required
-def GetOrdersForBarWithStatusInTimeRange(request, status, time_start = 0, time_end = datetime.today()):
+def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
 		if request.method == 'GET':
 
                         bartender = BarAdminUser.objects.get(pk=request.user.id)
-                        bar_id = bartender.bar.pk
+
+                        if bar_id == 0:
+                                bar_id = bartender.bar.pk
                         
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
 			time_start = datetime.fromtimestamp(float(time_start))
