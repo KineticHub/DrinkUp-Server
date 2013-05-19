@@ -284,7 +284,7 @@ def CreateNewOrder(request):
 				return HttpResponse(serialized_response, mimetype="application/json")
 
 @staff_member_required
-def GetNewOrdersForBarSince(request, bar_id=0, since_time, status=0):
+def GetNewOrdersForBarSince(request, bar_id=0, since_time=0, status=0):
 	
 	if request.method == 'GET':
 
@@ -311,7 +311,7 @@ def GetNewOrdersForBarSince(request, bar_id=0, since_time, status=0):
 		return HttpResponse(response, mimetype="application/json")
 						
 @staff_member_required
-def GetOrdersForBarWithStatus(request, bar_id, status):
+def GetOrdersForBarWithStatus(request, bar_id=0, status):
 		if request.method == 'GET':
 			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
 
@@ -337,7 +337,7 @@ def GetOrdersForBarWithStatus(request, bar_id, status):
 			return HttpResponse(response, mimetype="application/json")
 
 @staff_member_required
-def GetOrdersForBarWithStatusInTimeRange(request, bar_id, status, time_start = 0, time_end = datetime.today()):
+def GetOrdersForBarWithStatusInTimeRange(request, bar_id=0, status=0, time_start = 0, time_end = datetime.today()):
 		if request.method == 'GET':
 
                         bartender = BarAdminUser.objects.get(pk=request.user.id)
