@@ -146,6 +146,10 @@ SERIALIZATION_MODULES = {
 
 BALANCED_API_KEY='5f3e2ee0a3b211e28fc8026ba7f8ec28'
 
+UA_APP_KEY = 'eKW8DeUHRBeIUkcKKAbc1g'
+UA_APP_SECRET = 'gV7KroWvRu-pd2QdUETegw'
+UA_APP_MASTER_SECRET = 'BY3UQjEwR9W4bnggTiOafA'
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -29,8 +29,9 @@ class Venue(models.Model):
 		return self.name
 
 	def save(self, *args, **kwargs):
-			if not self.pk or self.latitude == 0 or not self.longitude:
-					self.set_coords()
+			if not self.pk or not self.latitude or not self.longitude:
+					#self.set_coords()
+                                        pass
 			super(Venue, self).save(*args, **kwargs)
 
 		# set coordinates

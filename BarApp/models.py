@@ -5,6 +5,7 @@ from VenueApp.models import Venue, VenueDrinkType
 from UsersApp.models import AppUser
 
 from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+from DrinkUp.AirshipHelper import AirshipHelper
 
 ###################################################################
 
@@ -62,6 +63,8 @@ class BarOrder(BaseModel):
 		if not self.bp_transaction or len(self.bp_transaction) == 0:
 			self.createHold()
 			self.description = 'hold created'
+		if int(self.current_status) == 2:
+                        self.updateProgress()
 		if int(self.current_status) == 4:
                         self.captureHold()
                         self.description = 'hold captured'
@@ -76,13 +79,22 @@ class BarOrder(BaseModel):
 		hold = helper.createHoldForOrder(account = self.appuser, order = self)
 		self.bp_transaction = hold.uri
 
+	def updateProgress(self):
+                uahelper = AirshipHelper()
+		uahepler.pushMessageForUser(user=self.appuser, message='Your order is being made!')
+
 	def captureHold(self):
 		helper = BalancedPaymentsHelper()
 		hold = helper.captureHoldForOrder(order = self)
+		uahelper = AirshipHelper()
+		uahepler.pushMessageForUser(user=self.appuser, message='Your order is ready! DrinkUp!')
 
 	def voidHold(self):
 		helper = BalancedPaymentsHelper()
 		hold = helper.voidHoldForOrder(order = self)
+		uahelper = AirshipHelper()
+		uahepler.pushMessageForUser(user=self.appuser, message='Your order was cancelled. No worries, we still like you!')
+		
 
 	def __unicode__(self):
 		return str(self.appuser) + " " + str(self.current_status)
