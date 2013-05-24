@@ -87,7 +87,7 @@ class BarOrder(BaseModel):
 
 	def updateReady(self):
                 uahelper = AirshipHelper()
-		uahelper.pushMessageForUser(message='Your order is ready! DrinkUp!', user=self.appuser.user, status=3)
+		uahelper.pushMessageForUser(message='Your order is ready! Go get it and DrinkUp!', user=self.appuser.user, status=3)
 
 	def captureHold(self):
 		helper = BalancedPaymentsHelper()
