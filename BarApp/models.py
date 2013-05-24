@@ -81,19 +81,19 @@ class BarOrder(BaseModel):
 
 	def updateProgress(self):
                 uahelper = AirshipHelper()
-		uahelper.pushMessageForUser(user=self.appuser, message='Your order is being made!')
+		uahelper.pushMessageForUser(message='Your order is being made!', user=self.appuser)
 
 	def captureHold(self):
 		helper = BalancedPaymentsHelper()
 		hold = helper.captureHoldForOrder(order = self)
 		uahelper = AirshipHelper()
-		uahelper.pushMessageForUser(user=self.appuser, message='Your order is ready! DrinkUp!')
+		uahelper.pushMessageForUser(message='Your order is ready! DrinkUp!', user=self.appuser)
 
 	def voidHold(self):
 		helper = BalancedPaymentsHelper()
 		hold = helper.voidHoldForOrder(order = self)
 		uahelper = AirshipHelper()
-		uahelper.pushMessageForUser(user=self.appuser, message='Your order was cancelled. No worries, we still like you!')
+		uahelper.pushMessageForUser(message='Your order was cancelled. No worries, we still like you!', user=self.appuser)
 		
 
 	def __unicode__(self):
