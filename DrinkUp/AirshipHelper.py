@@ -1,4 +1,4 @@
-import airship
+import urbanairship
 from django.conf import settings
 
 class AirshipHelper:
