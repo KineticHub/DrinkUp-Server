@@ -65,6 +65,8 @@ class BarOrder(BaseModel):
 			self.description = 'hold created'
 		if int(self.current_status) == 2:
                         self.updateProgress()
+                if int(self.current_status) == 3:
+                        self.updateReady()
 		if int(self.current_status) == 4:
                         self.captureHold()
                         self.description = 'hold captured'
@@ -83,11 +85,13 @@ class BarOrder(BaseModel):
                 uahelper = AirshipHelper()
 		uahelper.pushMessageForUser(message='Your order is being made!', user=self.appuser.user)
 
+	def updateReady(self):
+                uahelper = AirshipHelper()
+		uahelper.pushMessageForUser(message='Your order is ready! DrinkUp!', user=self.appuser.user)
+
 	def captureHold(self):
 		helper = BalancedPaymentsHelper()
 		hold = helper.captureHoldForOrder(order = self)
-		uahelper = AirshipHelper()
-		uahelper.pushMessageForUser(message='Your order is ready! DrinkUp!', user=self.appuser.user)
 
 	def voidHold(self):
 		helper = BalancedPaymentsHelper()
