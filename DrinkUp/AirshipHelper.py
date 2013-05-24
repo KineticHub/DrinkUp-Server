@@ -7,4 +7,4 @@ class AirshipHelper:
         self.airship = urbanairship.Airship(settings.UA_APP_KEY, settings.UA_APP_MASTER_SECRET)
 
     def pushMessageForUser(self, message, user):
-        airship.push({'aps': {'alert': message, 'badge':'1'}}, alias=['appuser'+user.pk])
+        self.airship.push({'aps': {'alert': message, 'badge':'1'}}, alias=['appuser'+user.pk])
