@@ -49,6 +49,28 @@ from geopy.point import Point
 #BalancedPayments
 from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 
+def CurrentLocation(request):
+        if request.method == 'GET':
+                g = geocoders.GoogleV3()
+                if not lat or not long:
+                        if zipcode:
+                                place, (lat, long) = g.geocode(zipcode)
+                        else:
+                                response = json.dumps({'status': 'missing params',})
+                                return HttpResponse(response, mimetype="application/json")
+
+                url_request = url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+str(lat)+','+str(long)+'&sensor=false'
+                place_returned = g.geocode_url(url, False)
+                place_string = place_returned[0][-2]
+                list_place = city = place_string.split(',')
+                
+                if len(list_place) > 3:
+                        city = [list_place[-3], list_place[-2]]
+
+                response = json.dumps({'status': 'duplicate',})
+		return HttpResponse(response, mimetype="application/json", status=403)
+
+
 def AllVenues(request):
 	if request.method == 'GET':
 		venues_to_return = Venue.objects.all()
@@ -64,15 +86,14 @@ def VenuesNearLocation(request):
 				long = request.GET.get('long')
 				radius = request.GET.get('radius', '1.0')
 
-				g = geocoders.GoogleV3()
-
 				if not lat or not long:
 						if zipcode:
-								place, (lat, long) = g.geocode(zipcode)
+                                                        g = geocoders.GoogleV3()
+                                                        place, (lat, long) = g.geocode(zipcode)
 						else:
-								response = json.dumps({'status': 'missing params',})
-								return HttpResponse(response, mimetype="application/json")
-				
+                                                        response = json.dumps({'status': 'missing params',})
+                                                        return HttpResponse(response, mimetype="application/json")
+                        
 				all_venues = Venue.objects.all()
 				user_point = Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001 (Buruss)
 
@@ -82,16 +103,8 @@ def VenuesNearLocation(request):
 						if distance.distance(venue_point, user_point).miles < float(radius):
 								nearby_venues.append(venue)
 
-				url_request = url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+str(lat)+','+str(long)+'&sensor=false'
-				place_returned = g.geocode_url(url, False)
-				place_string = place_returned[0][-2]
-				list_place = city = place_string.split(',')
-				
-				if len(list_place) > 3:
-                                        city = [list_place[-3], list_place[-2]]
-
 				json_serializer = serializers.get_serializer("json")()
-                                response = json.dumps({'bars':json_serializer.serialize(nearby_venues, ensure_ascii=False), 'location':city})
+                                response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
                                 return HttpResponse(response, mimetype="application/json")
                 
 
