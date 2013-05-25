@@ -17,6 +17,7 @@ class Venue(models.Model):
 	contact_email = models.EmailField(max_length=255)
 	contact_number = models.BigIntegerField()
 	street_address = models.CharField(max_length=255)
+	city = models.CharField(max_length=255)
 	postal_code = models.CharField(max_length=5)
 	tax_id = models.CharField(max_length=255)
 	icon = models.URLField(blank=True)
@@ -38,7 +39,7 @@ class Venue(models.Model):
 	def set_coords(self):
 			g = geocoders.GoogleV3()
 			place_area, (lat, lng) = g.geocode(self.postal_code)
-			place, (lat, lng) = g.geocode(self.street_address +' '+ place_area)
+			place, (lat, lng) = g.geocode(self.street_address +' '+ self.postal_code)
 
 			self.latitude = lat
 			self.longitude = lng
