@@ -71,8 +71,8 @@ def CurrentLocation(request):
                 if len(list_place) > 3:
                         city = [list_place[-3], list_place[-2]]
 
-                response = json.dumps({'status': 'duplicate',})
-		return HttpResponse(response, mimetype="application/json", status=403)
+                response = json.dumps(city)
+		return HttpResponse(response, mimetype="application/json")
 
 
 def AllVenues(request):
