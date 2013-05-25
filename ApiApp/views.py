@@ -91,7 +91,7 @@ def VenuesNearLocation(request):
                                         city = [list_place[-3], list_place[-2]]
 
 				json_serializer = serializers.get_serializer("json")()
-                                response = {'bars':json_serializer.serialize(nearby_venues, ensure_ascii=False), 'location':city}
+                                response = json.dumps({'bars':json_serializer.serialize(nearby_venues, ensure_ascii=False), 'location':city})
                                 return HttpResponse(response, mimetype="application/json")
                 
 
