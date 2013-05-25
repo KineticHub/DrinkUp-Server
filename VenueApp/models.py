@@ -39,7 +39,7 @@ class Venue(models.Model):
 	def set_coords(self):
 			g = geocoders.GoogleV3()
 			place_area, (lat, lng) = g.geocode(self.postal_code)
-			place, (lat, lng) = g.geocode(self.street_address +' '+ self.postal_code)
+			place, (lat, lng) = g.geocode(self.street_address +', '+self.city+' ' + self.postal_code)
 
 			self.latitude = lat
 			self.longitude = lng
