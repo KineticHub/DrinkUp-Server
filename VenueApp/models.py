@@ -30,7 +30,7 @@ class Venue(models.Model):
 
 	def save(self, *args, **kwargs):
 			if not self.pk or not self.latitude or not self.longitude:
-					#self.set_coords()
+					self.set_coords()
                                         pass
 			super(Venue, self).save(*args, **kwargs)
 
