@@ -85,8 +85,10 @@ def VenuesNearLocation(request):
 				url_request = url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+str(lat)+','+str(long)+'&sensor=false'
 				place_returned = g.geocode_url(url, False)
 				place_string = place_returned[0][-2]
-				list_place = place_string.split(',')
-				city = [list_place[-3], list_place[-2]]
+				list_place = city = place_string.split(',')
+				
+				if len(list_place) > 3:
+                                        city = [list_place[-3], list_place[-2]]
 
 				json_serializer = serializers.get_serializer("json")()
                                 response = {'bars':json_serializer.serialize(nearby_venues, ensure_ascii=False), 'location':city}
