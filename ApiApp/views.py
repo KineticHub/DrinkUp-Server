@@ -51,7 +51,11 @@ from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 
 def CurrentLocation(request):
         if request.method == 'GET':
+                zipcode = request.GET.get('zipcode')
+                lat = request.GET.get('lat')
+                long = request.GET.get('long')
                 g = geocoders.GoogleV3()
+                
                 if not lat or not long:
                         if zipcode:
                                 place, (lat, long) = g.geocode(zipcode)
