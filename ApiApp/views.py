@@ -64,9 +64,10 @@ def VenuesNearLocation(request):
 				long = request.GET.get('long')
 				radius = request.GET.get('radius', '1.0')
 
+				g = geocoders.GoogleV3()
+
 				if not lat or not long:
 						if zipcode:
-								g = geocoders.GoogleV3()
 								place, (lat, long) = g.geocode(zipcode)
 						else:
 								response = json.dumps({'status': 'missing params',})
@@ -81,9 +82,16 @@ def VenuesNearLocation(request):
 						if distance.distance(venue_point, user_point).miles < float(radius):
 								nearby_venues.append(venue)
 
+				url_request = url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+str(lat)+','+str(long)+'&sensor=false'
+				place_returned = g.geocode_url(url, False)
+				place_string = place_returned[0][-2]
+				list_place = place_string.split(',')
+				city = [list_place[-3], list_place[-2]]
+
 				json_serializer = serializers.get_serializer("json")()
-                                response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
+                                response = {'bars':json_serializer.serialize(nearby_venues, ensure_ascii=False), 'location':city}
                                 return HttpResponse(response, mimetype="application/json")
+                
 
 def VenueBars(request, venue_id):
 	if request.method == 'GET':
