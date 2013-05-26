@@ -1,4 +1,5 @@
 #DrinkUp/VenueApp
+from urllib import urlencode
 from django.db import models
 from ApiApp.models import BaseModel
 from django.contrib.auth.models import User, UserManager
@@ -37,9 +38,17 @@ class Venue(models.Model):
 
 		# set coordinates
 	def set_coords(self):
+                        address = self.street_address +', '+self.city
+
+                        domain = 'maps.googleapis.com'
+                        params = {'address':address}
+
+                        url = 'http://%(domain)s/maps/api/geocode/json?%(params)s&sensor=false' % ({'domain': domain, 'params': urlencode(params)})
+                        
 			g = geocoders.GoogleV3()
-			place_area, (lat, lng) = g.geocode(self.postal_code)
-			place, (lat, lng) = g.geocode(self.street_address +', '+self.city)
+			place, (lat, lng) = g.geocode_url(url, True)
+			#place_area, (lat, lng) = g.geocode(self.postal_code)
+			#place, (lat, lng) = g.geocode(self.street_address +', '+self.city)
 
 			self.latitude = lat
 			self.longitude = lng
