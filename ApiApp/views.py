@@ -99,11 +99,11 @@ def VenuesNearLocation(request):
                                                         return HttpResponse(response, mimetype="application/json")
                         
 				all_venues = Venue.objects.all()
-				user_point = Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001 (Buruss)
+				user_point = (lat, long)#Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001 (Buruss)
 
 				nearby_venues = []
 				for venue in all_venues:
-						venue_point = Point(str(venue.latitude)+";"+str(venue.longitude))
+						venue_point = (venue.latitude, venue.longitude)#Point(str(venue.latitude)+";"+str(venue.longitude))
 						if distance.distance(venue_point, user_point).miles < float(radius):
 								nearby_venues.append(venue)
 
