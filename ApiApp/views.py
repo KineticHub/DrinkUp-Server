@@ -240,6 +240,14 @@ def LogoutAppUser(request):
 	response = json.dumps({'status': 'success',})
 	return HttpResponse(response, mimetype="application/json")
 
+def InvalidateUserCard(request):
+        if request.method == 'GET':
+                if request.user.is_authenticated():
+                        helper = BalancedPaymentsHelper()
+                        helper.invalidateBuyerCreditCard(account_uri=request.user.appuser.bp_account)
+                        response = json.dumps({'status': 'success',})
+                        return HttpResponse(response, mimetype="application/json")
+
 def UpdateUserCard(request):
         if request.method == 'POST':
                 if request.user.is_authenticated():

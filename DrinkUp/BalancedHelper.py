@@ -107,6 +107,12 @@ class BalancedPaymentsHelper:
                         if card.is_valid == True:
                                 valid_card = card
                 return valid_card
+
+        def invalidateBuyerCreditCard(self, account_uri):
+                account = balanced.Account.find(account_uri)
+                for card in account.cards:
+                        card.is_valid=False
+                        card.save()
 	
 	def setupNewBuyerAccount(self, username, email_address, card_uri=None):
 		if not balanced.Marketplace.my_marketplace:
