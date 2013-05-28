@@ -253,8 +253,14 @@ def UpdateUserCard(request):
                                 response = json.dumps({'status': 'invalid',})
                                 return HttpResponse(response, mimetype="application/json", status=401)
                         
-                        
-                        
+def CurrentUserCard(request):
+        if request.method == 'GET':
+                if request.user.is_authenticated():
+                        helper = BalancedPaymentsHelper()
+                        card = helper.getBuyerCreditCardInfo(account_uri=request.user.appuser.bp_account)
+                        json_serializer = serializers.get_serializer("json")()
+                        response = json_serializer.serialize(card, ensure_ascii=False)
+                        return HttpResponse(response, mimetype="application/json")
 
 def EmptyTokenCall(request):
 	request.META["CSRF_COOKIE_USED"] = True

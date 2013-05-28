@@ -99,6 +99,14 @@ class BalancedPaymentsHelper:
                         card.save()
                 account.add_card(cc_uri)
                 return account
+
+        def getBuyerCreditCardInfo(self, account_uri):
+                account = balanced.Account.find(account_uri)
+                valid_card = None
+                for card in account.cards:
+                        if card.is_valid == True:
+                                valid_card = card
+                return valid_card
 	
 	def setupNewBuyerAccount(self, username, email_address, card_uri=None):
 		if not balanced.Marketplace.my_marketplace:
