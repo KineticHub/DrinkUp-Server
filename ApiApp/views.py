@@ -259,7 +259,7 @@ def CurrentUserCard(request):
                         helper = BalancedPaymentsHelper()
                         card = helper.getBuyerCreditCardInfo(account_uri=request.user.appuser.bp_account)
                         json_serializer = serializers.get_serializer("json")()
-                        response = json_serializer.serialize(card, ensure_ascii=False)
+                        response = json_serializer.serialize([card, ], ensure_ascii=False)
                         return HttpResponse(response, mimetype="application/json")
 
 def EmptyTokenCall(request):
