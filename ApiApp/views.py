@@ -266,7 +266,7 @@ def CurrentUserCard(request):
                 if request.user.is_authenticated():
                         helper = BalancedPaymentsHelper()
                         card = helper.getBuyerCreditCardInfo(account_uri=request.user.appuser.bp_account)
-                        response_card = None
+                        response_card = {}
                         if card is not None:
                                 response_card = {'last_four':card.last_four, 'expiration_year':card.expiration_year, 'expiration_month':card.expiration_month, 'card_type':card.card_type}
                         response = json.dumps(response_card)
