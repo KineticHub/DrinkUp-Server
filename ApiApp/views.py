@@ -141,48 +141,54 @@ def CreateAppUser(request):
 		password = request.POST['password']
 		
 		try:
-			find_user = User.objects.get(email=email)
 			find_user = User.objects.get(username=username)
-			response = json.dumps({'status': 'duplicate',})
+			response = json.dumps({'status': 'duplicate user',})
 			return HttpResponse(response, mimetype="application/json", status=403)
 			
 		except User.DoesNotExist:
 
-                        """ THIS IS USED FOR EMAIL VERIFICATION STYLE
+                        try:
+                                find_user = User.objects.get(email=email)
+                                response = json.dumps({'status': 'duplicate email',})
+                                return HttpResponse(response, mimetype="application/json", status=403)
 
-                        backend = get_backend('registration.backends.default.DefaultBackend')
-                        if not backend.registration_allowed(request):
-                                        return redirect(disallowed_url)
+                        except User.DoesNotExist:
 
-                        kwargs = {}
-                        kwargs['username'] = request.POST['username']
-                        kwargs['email'] = request.POST['email']
-                        kwargs['password1'] = request.POST['password']
+                                """ THIS IS USED FOR EMAIL VERIFICATION STYLE
 
-                        new_user = backend.register(request, **kwargs)
+                                backend = get_backend('registration.backends.default.DefaultBackend')
+                                if not backend.registration_allowed(request):
+                                                return redirect(disallowed_url)
 
-                        if new_user:
+                                kwargs = {}
+                                kwargs['username'] = request.POST['username']
+                                kwargs['email'] = request.POST['email']
+                                kwargs['password1'] = request.POST['password']
+
+                                new_user = backend.register(request, **kwargs)
+
+                                if new_user:
+                                        new_appuser = AppUser(user = new_user)
+                                        new_appuser.save()
+
+                                serialized_response = serializers.serialize('json', [ new_user, ])
+                                return HttpResponse(serialized_response, mimetype="application/json")
+
+                                """
+                                new_user = User.objects.create_user(username = username, email = email, password = password)
                                 new_appuser = AppUser(user = new_user)
+
+                                new_user.save()
                                 new_appuser.save()
 
-                        serialized_response = serializers.serialize('json', [ new_user, ])
-                        return HttpResponse(serialized_response, mimetype="application/json")
+                                #return errors about form, meant to be called as view
+                                #return register(request = request, backend = 'registration.backends.default.DefaultBackend')
 
-                        """
-                        new_user = User.objects.create_user(username = username, email = email, password = password)
-                        new_appuser = AppUser(user = new_user)
+                                user = authenticate(username=username, password=password)
+                                login(request, user)
 
-                        new_user.save()
-                        new_appuser.save()
-
-                        #return errors about form, meant to be called as view
-                        #return register(request = request, backend = 'registration.backends.default.DefaultBackend')
-
-                        user = authenticate(username=username, password=password)
-                        login(request, user)
-
-                        serialized_response = serializers.serialize('json', [ new_appuser, ])
-                        return HttpResponse(serialized_response, mimetype="application/json")
+                                serialized_response = serializers.serialize('json', [ new_appuser, ])
+                                return HttpResponse(serialized_response, mimetype="application/json")
 
 #NEED TO CHECK FOR DUPLICATE USERS
 def LoginAppUser(request):
