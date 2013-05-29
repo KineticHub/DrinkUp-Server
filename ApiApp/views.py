@@ -142,15 +142,13 @@ def CreateAppUser(request):
 		
 		try:
 			find_user = User.objects.get(email=email)
+			find_user = User.objects.get(username=username)
 			response = json.dumps({'status': 'duplicate',})
 			return HttpResponse(response, mimetype="application/json", status=403)
 			
 		except User.DoesNotExist:
-			#new_user = User.objects.create_user(username = username, email = email, password = password)
-			#new_appuser = AppUser(user = new_user)
-			
-			#new_user.save()
-			#new_appuser.save()
+
+                                                """ THIS IS USED FOR EMAIL VERIFICATION STYLE
 
 						backend = get_backend('registration.backends.default.DefaultBackend')
 						if not backend.registration_allowed(request):
@@ -170,14 +168,21 @@ def CreateAppUser(request):
 						serialized_response = serializers.serialize('json', [ new_user, ])
 						return HttpResponse(serialized_response, mimetype="application/json")
 
-						#return errors about form, meant to be called as view
+						"""
+                        new_user = User.objects.create_user(username = username, email = email, password = password)
+			new_appuser = AppUser(user = new_user)
+			
+			new_user.save()
+			new_appuser.save()
+
+			#return errors about form, meant to be called as view
 			#return register(request = request, backend = 'registration.backends.default.DefaultBackend')
 			
-			#user = authenticate(username=username, password=password)
-			#login(request, user)
+			user = authenticate(username=username, password=password)
+			login(request, user)
 			
-			#serialized_response = serializers.serialize('json', [ new_user, ])
-			#return HttpResponse(serialized_response, mimetype="application/json")
+			serialized_response = serializers.serialize('json', [ new_user, ])
+			return HttpResponse(serialized_response, mimetype="application/json")
 
 #NEED TO CHECK FOR DUPLICATE USERS
 def LoginAppUser(request):
