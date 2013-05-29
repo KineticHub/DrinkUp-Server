@@ -148,41 +148,41 @@ def CreateAppUser(request):
 			
 		except User.DoesNotExist:
 
-                                                """ THIS IS USED FOR EMAIL VERIFICATION STYLE
+                        """ THIS IS USED FOR EMAIL VERIFICATION STYLE
 
-						backend = get_backend('registration.backends.default.DefaultBackend')
-						if not backend.registration_allowed(request):
-								return redirect(disallowed_url)
+                        backend = get_backend('registration.backends.default.DefaultBackend')
+                        if not backend.registration_allowed(request):
+                                        return redirect(disallowed_url)
 
-						kwargs = {}
-						kwargs['username'] = request.POST['username']
-						kwargs['email'] = request.POST['email']
-						kwargs['password1'] = request.POST['password']
+                        kwargs = {}
+                        kwargs['username'] = request.POST['username']
+                        kwargs['email'] = request.POST['email']
+                        kwargs['password1'] = request.POST['password']
 
-						new_user = backend.register(request, **kwargs)
+                        new_user = backend.register(request, **kwargs)
 
-						if new_user:
-							new_appuser = AppUser(user = new_user)
-							new_appuser.save()
+                        if new_user:
+                                new_appuser = AppUser(user = new_user)
+                                new_appuser.save()
 
-						serialized_response = serializers.serialize('json', [ new_user, ])
-						return HttpResponse(serialized_response, mimetype="application/json")
+                        serialized_response = serializers.serialize('json', [ new_user, ])
+                        return HttpResponse(serialized_response, mimetype="application/json")
 
-						"""
+                        """
                         new_user = User.objects.create_user(username = username, email = email, password = password)
-			new_appuser = AppUser(user = new_user)
-			
-			new_user.save()
-			new_appuser.save()
+                        new_appuser = AppUser(user = new_user)
 
-			#return errors about form, meant to be called as view
-			#return register(request = request, backend = 'registration.backends.default.DefaultBackend')
-			
-			user = authenticate(username=username, password=password)
-			login(request, user)
-			
-			serialized_response = serializers.serialize('json', [ new_user, ])
-			return HttpResponse(serialized_response, mimetype="application/json")
+                        new_user.save()
+                        new_appuser.save()
+
+                        #return errors about form, meant to be called as view
+                        #return register(request = request, backend = 'registration.backends.default.DefaultBackend')
+
+                        user = authenticate(username=username, password=password)
+                        login(request, user)
+
+                        serialized_response = serializers.serialize('json', [ new_user, ])
+                        return HttpResponse(serialized_response, mimetype="application/json")
 
 #NEED TO CHECK FOR DUPLICATE USERS
 def LoginAppUser(request):
