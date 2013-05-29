@@ -181,7 +181,7 @@ def CreateAppUser(request):
                         user = authenticate(username=username, password=password)
                         login(request, user)
 
-                        serialized_response = serializers.serialize('json', [ new_user, ])
+                        serialized_response = serializers.serialize('json', [ new_appuser, ])
                         return HttpResponse(serialized_response, mimetype="application/json")
 
 #NEED TO CHECK FOR DUPLICATE USERS
