@@ -46,7 +46,7 @@ class Venue(models.Model):
                         url = 'http://%(domain)s/maps/api/geocode/json?%(params)s&sensor=false' % ({'domain': domain, 'params': urlencode(params)})
                         
 			g = geocoders.GoogleV3()
-			place, (lat, lng) = g.geocode_url(url, True)
+			place, (lat, lng) = g.geocode_url(url, False)[0]
 			#place_area, (lat, lng) = g.geocode(self.postal_code)
 			#place, (lat, lng) = g.geocode(self.street_address +', '+self.city)
 
