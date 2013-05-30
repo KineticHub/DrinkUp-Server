@@ -99,7 +99,7 @@ class VenueDrinkType(BaseModel):
 	icon = models.URLField(blank=True)
 
 	def __unicode__(self):
-		return self.name
+		return self.venue.name + ' ' + self.name
 		
 	class Meta:
 		ordering = ['name']
