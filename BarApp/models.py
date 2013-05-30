@@ -18,7 +18,7 @@ class VenueBar(BaseModel):
 	is_active = models.BooleanField(default=True)
 
 	def __unicode__(self):
-		return self.name
+		return self.venue.name + ' ' + self.name
 		
 	class Meta:
 		ordering = ['name']
