@@ -109,7 +109,8 @@ class BarDrinkAdmin(admin.ModelAdmin):
 			if bar_admin:
                                 kwargs["queryset"] = VenueBar.objects.filter(venue=bar_admin.venue)
 			return db_field.formfield(**kwargs)
-                
+
+                return super(FilterUserAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 		
 class BarOrderAdmin(admin.ModelAdmin):
 	exclude = ('user',)
