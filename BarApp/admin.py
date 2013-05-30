@@ -83,6 +83,33 @@ class BarDrinkAdmin(admin.ModelAdmin):
 				# THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDING IS GOOD
 				pass
 		return None
+
+	def formfield_for_foreignkey(self, db_field, request, **kwargs):
+
+                venue_admin = None
+                bar_admin = None
+                try:
+                    venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+                except:
+                    try:
+                        bar_admin = BarAdminUser.objects.get(pk=request.user.id)
+                    except:
+                        # THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDING IS GOOD 
+                        pass
+                
+                if db_field.name == "drink_type" and not request.user.is_superuser:
+                        if venue_admin:
+				kwargs["queryset"] = VenueDrinkType.objects.filter(venue=venue_admin.venue)
+			if bar_admin:
+                                kwargs["queryset"] = VenueDrinkType.objects.filter(venue=bar_admin.venue)
+			return db_field.formfield(**kwargs)
+		if db_field.name == "bar" and not request.user.is_superuser:
+                        if venue_admin:
+				kwargs["queryset"] = VenueBar.objects.filter(venue=venue_admin.venue)
+			if bar_admin:
+                                kwargs["queryset"] = VenueBar.objects.filter(venue=bar_admin.venue)
+			return db_field.formfield(**kwargs)
+                
 		
 class BarOrderAdmin(admin.ModelAdmin):
 	exclude = ('user',)
