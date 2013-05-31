@@ -255,8 +255,10 @@ def UpdateUserProfilePicture(request):
         if request.method == 'POST':
                 pictureURL = request.POST.get('pictureURL', None)
                 if pictureURL and request.user.is_authenticated():
-                        user = request.user.appuser.profile_image = pictureURL
-                        serialized_response = serializers.serialize('json', [ user, ])
+                        appuser = AppUser.objects.get(pk=request.user.appuser.pk)
+                        appuser.profile_image = pictureURL
+                        appuser.save()
+                        serialized_response = serializers.serialize('json', [ appuser, ])
 			return HttpResponse(serialized_response, mimetype="application/json")
                         
                 else:
