@@ -2,9 +2,16 @@
 from django.db import models
 from ApiApp.models import BaseModel
 from django.contrib.auth.models import User, UserManager
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 
 from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+
+###################################################################
+
+@receiver(pre_save, sender=User)
+def user_pre_save(sender, instance, **kwargs):
+    instance.username = instance.username.lower()
+#pre_save.connect(user_pre_save, sender=User)
 
 ###################################################################
 
