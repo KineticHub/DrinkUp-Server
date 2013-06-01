@@ -12,7 +12,7 @@ from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 @receiver(pre_save, sender=User)
 def user_pre_save(sender, instance, **kwargs):
     instance.username = instance.username.lower()
-#pre_save.connect(user_pre_save, sender=User)
+    instance.email = instance.email.lower()
 
 ###################################################################
 

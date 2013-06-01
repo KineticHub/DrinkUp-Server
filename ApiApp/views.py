@@ -138,7 +138,7 @@ def BarDrinksOfType(request, bar_id, type_id):
 def CreateAppUser(request):
 	if request.method == 'POST':
 		username = request.POST['username'].lower()
-		email = request.POST['email']
+		email = request.POST['email'].lower()
 		password = request.POST['password']
 		
 		try:
