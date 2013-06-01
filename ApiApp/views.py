@@ -137,7 +137,7 @@ def BarDrinksOfType(request, bar_id, type_id):
 
 def CreateAppUser(request):
 	if request.method == 'POST':
-		username = request.POST['username']
+		username = request.POST['username'].lower()
 		email = request.POST['email']
 		password = request.POST['password']
 		
@@ -194,7 +194,7 @@ def CreateAppUser(request):
 #NEED TO CHECK FOR DUPLICATE USERS
 def LoginAppUser(request):
 	if request.method == 'POST':
-		username = request.POST['username']
+		username = request.POST['username'].lower()
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
 
@@ -224,7 +224,7 @@ def LoginAppUser(request):
 
 def LoginBarAdmin(request):
 	if request.method == 'POST':
-		username = request.POST['username']
+		username = request.POST['username'].lower()
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
 		
@@ -521,7 +521,7 @@ def FacebookMobileLogin(request):
 						new_fb_user = FacebookAppUser(user_id = primary_user, fb_uid = me.id, fb_email = me.email, oauth_token = new_token)
 						new_fb_user.save()
 						
-						new_user = User.objects.create_user(username = me.username, email = me.email, password = token)
+						new_user = User.objects.create_user(username = me.username.lower(), email = me.email, password = token)
 						new_user.first_name = me.first_name
 						new_user.last_name = me.last_name
 						new_user.save()
