@@ -13,7 +13,8 @@ from django.core.context_processors import csrf
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import redirect 
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 #django models
 from django.db.models.loading import get_model
@@ -504,7 +505,7 @@ def FacebookMobileLogin(request):
 						find_fb_user = FacebookAppUser.objects.get(fb_uid=me.id)
 						find_fb_user.oauth_token = new_token
 						find_fb_user.save()
-						user = find_fb_user.appuser.user
+						user = User.objects.get(pk=find_fb_user.appuser.user.pk)
 						user.backend = 'django.contrib.auth.backends.ModelBackend'
 						login(request, user)
 						#response = json.dumps({'status': 'success', 'user':user})
@@ -527,6 +528,9 @@ def FacebookMobileLogin(request):
 						
 						new_appuser = AppUser(user = new_user, facebook_user = new_fb_user, gender = me.gender, birthdate = birthday)
 						new_appuser.save()
+
+						new_fb_user.appuser = new_appuser
+						new_fb_user.save()
 
 						new_user.backend = 'django.contrib.auth.backends.ModelBackend'
 						login(request, new_user)
