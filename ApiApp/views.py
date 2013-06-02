@@ -4,6 +4,7 @@
 import json
 from datetime import datetime
 from decimal import *
+import re
 
 #django view helpers
 from django.core import serializers
@@ -154,6 +155,10 @@ def CreateAppUser(request):
                                 return HttpResponse(response, mimetype="application/json", status=403)
 
                         except User.DoesNotExist:
+
+                                if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+                                        response = json.dumps({'status': 'invalid email',})
+                                        return HttpResponse(response, mimetype="application/json", status=403)
 
                                 """ THIS IS USED FOR EMAIL VERIFICATION STYLE
 
