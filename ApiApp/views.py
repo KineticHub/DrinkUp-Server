@@ -284,8 +284,9 @@ def UpdateUserCard(request):
                         cc_uri = request.POST.get('uri', None)
                         if cc_uri is not None:
                                 helper = BalancedPaymentsHelper()
-                                helper.updateBuyerCreditCard(cc_uri=cc_uri, account_uri=request.user.appuser.bp_account)
-                                response = json.dumps({'status': 'success',})
+                                card = helper.updateBuyerCreditCard(cc_uri=cc_uri, account_uri=request.user.appuser.bp_account)
+                                response_card = {'last_four':card.last_four, 'expiration_year':card.expiration_year, 'expiration_month':card.expiration_month, 'card_type':card.card_type}
+                                response = json.dumps(response_card)
                                 return HttpResponse(response, mimetype="application/json")
                         else:
                                 response = json.dumps({'status': 'invalid',})

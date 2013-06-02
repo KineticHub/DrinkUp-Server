@@ -98,7 +98,7 @@ class BalancedPaymentsHelper:
                         card.is_valid=False
                         card.save()
                 account.add_card(cc_uri)
-                return account
+                return self.getBuyerCreditCardInfo(account_uri)
 
         def getBuyerCreditCardInfo(self, account_uri):
                 account = balanced.Account.find(account_uri)
