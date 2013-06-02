@@ -15,7 +15,6 @@ from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import redirect
-from django.contrib.auth.models import User
 
 #django models
 from django.db.models.loading import get_model
@@ -215,7 +214,7 @@ def LoginAppUser(request):
 				# Redirect to a success page.
 				#return redirect('/api/venues/all/')
 				#response = json.dumps({'status': 'success',})
-				serialized_response = serializers.serialize('json', [user])
+				serialized_response = serializers.serialize('json', [user.appuser ,user])
 				return HttpResponse(serialized_response, mimetype="application/json")
 				#return HttpResponse(response, mimetype="application/json")
 			else:
