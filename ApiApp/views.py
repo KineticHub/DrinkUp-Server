@@ -300,7 +300,7 @@ def CurrentUserCard(request):
                         if card is not None:
                                 response_card = {'last_four':card.last_four, 'expiration_year':card.expiration_year, 'expiration_month':card.expiration_month, 'card_type':card.card_type}
                         else:
-                                response_card = 'no card found'
+                                response_card = ['no card found',]
                         response = json.dumps(response_card)
                         return HttpResponse(response, mimetype="application/json")
 
