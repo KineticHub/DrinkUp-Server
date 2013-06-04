@@ -256,14 +256,26 @@ def LogoutAppUser(request):
 	response = json.dumps({'status': 'success',})
 	return HttpResponse(response, mimetype="application/json")
 
-def UpdateUserProfilePicture(request):
+def UserProfilePictureSaved(request):
         if request.method == 'POST':
-                pictureURL = request.POST.get('pictureURL', None)
-                if pictureURL and request.user.is_authenticated():
+                if request.user.is_authenticated():
                         appuser = AppUser.objects.get(pk=request.user.appuser.pk)
-                        appuser.profile_image = pictureURL
+                        appuser.profile_image_saved = True
                         appuser.save()
-                        serialized_response = serializers.serialize('json', [ appuser, ])
+                        response = json.dumps({'status': 'success',})
+			return HttpResponse(serialized_response, mimetype="application/json")
+                        
+                else:
+                        response = json.dumps({'status': 'invalid',})
+                        return HttpResponse(response, mimetype="application/json", status=401)
+
+def UserProfilePictureRemoved(request):
+        if request.method == 'POST':
+                if request.user.is_authenticated():
+                        appuser = AppUser.objects.get(pk=request.user.appuser.pk)
+                        appuser.profile_image_saved = False
+                        appuser.save()
+                        response = json.dumps({'status': 'success',})
 			return HttpResponse(serialized_response, mimetype="application/json")
                         
                 else:
