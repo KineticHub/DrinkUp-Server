@@ -22,7 +22,7 @@ class AppUser(models.Model):
 
 	user = models.OneToOneField(User)
 	bp_account = models.CharField(max_length=255, blank=True)
-	profile_image = models.URLField(blank=True)
+	profile_image_saved = models.BooleanField(default=False)
 	birthdate = models.DateField(blank=True, null=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
