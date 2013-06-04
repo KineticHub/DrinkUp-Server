@@ -35,6 +35,7 @@ urlpatterns += patterns('ApiApp.views',
         url(r'^api/user/invalidate_card/$', 'InvalidateUserCard'),
         url(r'^api/user/picture_saved/$', 'UserProfilePictureSaved'),
         url(r'^api/user/picture_removed/$', 'UserProfilePictureRemoved'),
+        url(r'^api/user/order_history/$', 'GetUserOrderHistory'),
                         
         url(r'^api/bartender/login/$', 'LoginBarAdmin'),
 

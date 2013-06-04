@@ -317,6 +317,13 @@ def CurrentUserCard(request):
                         response = json.dumps(response_card)
                         return HttpResponse(response, mimetype="application/json")
 
+def GetUserOrderHistory(request):
+        if request.method == 'GET':
+                if request.user.is_authenticated():
+                        orders = BarOrder.objects.get(appuser = request.user.appuser).order_by('-id')[:100]
+                        serialized_response = serializers.serialize('json', [ orders, ])
+			return HttpResponse(serialized_response, mimetype="application/json")
+
 def EmptyTokenCall(request):
 	request.META["CSRF_COOKIE_USED"] = True
 	return HttpResponse('success')
