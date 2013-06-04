@@ -113,11 +113,11 @@ class BarDrinkAdmin(admin.ModelAdmin):
                 return super(BarDrinkAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 		
 class BarOrderAdmin(admin.ModelAdmin):
-	exclude = ('user',)
+	exclude = ('user', 'venue_name', 'bp_transaction',)
 	
 	def get_readonly_fields(self, request, obj=None):
 		if not request.user.is_superuser:
-			return self.readonly_fields + ('bar', 'appuser', 'total', 'tax', 'sub_total', 'tip', 'fees', 'grand_total', 'current_status', 'description', 'payment_processed', 'transaction_id', )
+			return self.readonly_fields + ('venue','bar', 'appuser', 'total', 'tax', 'sub_total', 'tip', 'fees', 'grand_total', 'current_status', 'description', 'payment_processed', )
 		return self.readonly_fields
 	
 	def queryset(self, request): 
