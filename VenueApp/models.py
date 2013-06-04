@@ -20,7 +20,7 @@ class Venue(models.Model):
 	street_address = models.CharField(max_length=255)
 	city = models.CharField(max_length=255)
 	postal_code = models.CharField(max_length=5)
-	tax_id = models.CharField(max_length=255)
+	tax_id = models.CharField(max_length=9)
 	icon = models.URLField(blank=True)
 	facebook_id = models.CharField(max_length=255, blank=True, null=True)
 	foursquare_id = models.CharField(max_length=255, blank=True, null=True)
