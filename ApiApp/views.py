@@ -321,7 +321,8 @@ def GetUserOrderHistory(request):
         if request.method == 'GET':
                 if request.user.is_authenticated():
                         orders = BarOrder.objects.filter(appuser = request.user.appuser).order_by('-id')[:100]
-                        serialized_response = serializers.serialize('json', [ orders, ])
+                        json_serializer = serializers.get_serializer("json")()
+                        serialized_response = json_serializer.serialize(orders, ensure_ascii=False)
 			return HttpResponse(serialized_response, mimetype="application/json")
 
 def EmptyTokenCall(request):
