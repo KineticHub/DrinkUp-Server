@@ -476,6 +476,20 @@ def UpdateOrderStatus(request):
                         serialized_response = serializers.serialize('json', [ order, ])
                         return HttpResponse(serialized_response, mimetype="application/json")
 
+def DrinksForOrder(request):
+        if request.method == 'GET':
+                if request.user.is_authenticated():
+                        order_id = request.GET.get('order_id', None)
+                        if order_id is not None:
+                                order = BarOrder.objects.get(pk=order_id)
+                                drinks = BarDrinkOrdered.objects.filter(order=order)
+                                json_serializer = serializers.get_serializer("json")()
+                                serialized_response = json_serializer.serialize(drinks, ensure_ascii=False)
+                                return HttpResponse(serialized_response, mimetype="application/json")
+                        
+        response = json.dumps({'status': 'invalid',})
+        return HttpResponse(response, mimetype="application/json", status=401)
+
 #END ORDER VIEWS
 ##################
 ##################
