@@ -4,6 +4,8 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+os.environ['DJANGO_SETTINGS_MODULE'] = "DrinkUp.settings"
+
 ADMINS = (
     ('K. Alnajar', 'kalnajar@gmail.com'),
 )
