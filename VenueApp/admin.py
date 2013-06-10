@@ -236,9 +236,89 @@ class VenueAdmin(admin.ModelAdmin):
 			# THIS SHOULD NOT HAPPEN, BUT SMOOTH HANDLING IS GOOD
 			pass
 		return None
+	    
+###################################################################
+
+class VenueOpeningHoursAdmin(admin.ModelAdmin):
+
+        exclude = ('user',)
+        
+	def get_readonly_fields(self, request, obj=None):
+		if not  request.user.is_superuser:
+			return self.readonly_fields + ('venue',)
+		return self.readonly_fields
+	
+	def save_model(self, request, obj, form, change):
+		try:
+			obj.user
+		except:
+			obj.user = request.user
+			
+		if not request.user.is_superuser:
+                    try:
+                        venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+                        obj.venue = venue_admin.venue
+                    except:
+                        pass
+		
+		obj.save()
+	
+	def queryset(self, request): 
+		qs = super(VenueOpeningHoursAdmin, self).queryset(request)
+		if request.user.is_superuser:
+				return qs
+		try:
+			venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+			return qs.filter(venue=venue_admin.venue)
+		except:
+			pass
+		    
+		return None
+	    
+###################################################################
+
+class VenueSpecialDaysAdmin(admin.ModelAdmin):
+
+        exclude = ('user',)
+    
+	def get_readonly_fields(self, request, obj=None):
+		if not  request.user.is_superuser:
+			return self.readonly_fields + ('venue',)
+		return self.readonly_fields
+	
+	def save_model(self, request, obj, form, change):
+		try:
+			obj.user
+		except:
+			obj.user = request.user
+			
+		if not request.user.is_superuser:
+                    try:
+                        venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+                        obj.venue = venue_admin.venue
+                    except:
+                        pass
+		
+		obj.save()
+	
+	def queryset(self, request): 
+		qs = super(VenueSpecialDays, self).queryset(request)
+		if request.user.is_superuser:
+				return qs
+		try:
+			venue_admin = VenueAdminUser.objects.get(pk=request.user.id)
+			return qs.filter(venue=venue_admin.venue)
+		except:
+			pass
+		    
+		return None
+
+###################################################################
 			
 admin.site.register(Venue, VenueAdmin)
 admin.site.register(VenueAdminUser, VenueAdminUserAdmin)
 admin.site.register(BarAdminUser, BarAdminUserAdmin)
 admin.site.register(VenueDrinkType, VenueDrinkTypeAdmin)
 admin.site.register(VenueBankAccount, VenueBankAccountAdmin)
+admin.site.register(VenueOpeningHours, VenueOpeningHoursAdmin)
+admin.site.register(VenueSpecialDays, VenueSpecialDaysAdmin)

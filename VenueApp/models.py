@@ -66,7 +66,7 @@ WEEKDAYS = [
   (7, "Sunday"),
 ]
 
-class VenueOpeningHours(models.Model):
+class VenueOpeningHours(BaseModel):
         venue = models.ForeignKey(Venue)
         weekday = models.IntegerField(choices=WEEKDAYS)
         open_hour = models.TimeField(default=datetime.time(0, 0, 0))
@@ -84,7 +84,7 @@ class VenueOpeningHours(models.Model):
         def get_weekday_to_display(self):
                 return WEEKDAYS[self.weekday_to]
 
-class VenueSpecialDays(models.Model):
+class VenueSpecialDays(BaseModel):
         venue = models.ForeignKey(Venue)
         holiday_date = models.DateField()
         closed = models.BooleanField(default=True)
