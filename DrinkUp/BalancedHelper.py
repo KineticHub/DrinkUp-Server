@@ -170,6 +170,12 @@ class BalancedPaymentsHelper:
 			appears_on_statement_as= appears[:21],
 		)
 		
+                amount = int(round(float(order.grand_total), 2)*100) - 5
+                merchant_account = balanced.BankAccount.find(order.venue.bp_merchant)
+		merchant_account.credit(amount=amount)
+
+		#balanced.Marketplace.my_marketplace.owner_account.credit(amount=your_fee)
+		
 		return debit
 		
 	def voidHoldForOrder(self, order):
