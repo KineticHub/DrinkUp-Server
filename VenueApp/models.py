@@ -1,4 +1,5 @@
 #DrinkUp/VenueApp
+import datetime
 from urllib import urlencode
 from django.db import models
 from ApiApp.models import BaseModel
@@ -53,6 +54,46 @@ class Venue(models.Model):
 			self.latitude = lat
 			self.longitude = lng
 		
+###################################################################
+
+WEEKDAYS = [
+  (1, _("Monday")),
+  (2, _("Tuesday")),
+  (3, _("Wednesday")),
+  (4, _("Thursday")),
+  (5, _("Friday")),
+  (6, _("Saturday")),
+  (7, _("Sunday")),
+]
+
+class VenueOpeningHours(models.Model):
+        venue = models.ForeignKey(Venue)
+        weekday = models.IntegerField(choices=WEEKDAYS)
+        open_hour = models.TimeField(default=datetime.time(0, 0, 0))
+        close_hour = models.TimeField(default=datetime.time(0, 0, 0))
+        happy_hour_start = models.TimeField(null=True, blank=True)
+        happy_hour_end = models.TimeField(null=True, blank=True)
+        closed = models.BooleanField(default=False)
+
+        class Meta:
+                unique_together = ('venue', 'weekday')
+
+        def get_weekday_from_display(self):
+                return WEEKDAYS[self.weekday_from]
+
+        def get_weekday_to_display(self):
+                return WEEKDAYS[self.weekday_to]
+
+class VenueSpecialDays(models.Model):
+        venue = models.ForeignKey(Venue)
+        holiday_date = models.DateField()
+        closed = models.BooleanField(default=True)
+        from_hour = models.TimeField(null=True, blank=True)
+        to_hour = models.TimeField(null=True, blank=True)
+
+        class Meta:
+                unique_together = ('venue', 'holiday_date')
+
 ###################################################################
 
 class VenueAdminUser(User):
