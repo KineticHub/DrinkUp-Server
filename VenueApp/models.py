@@ -27,6 +27,7 @@ class Venue(models.Model):
 	foursquare_id = models.CharField(max_length=255, blank=True, null=True)
 	latitude = models.FloatField(editable=False)
 	longitude = models.FloatField(editable=False)
+	hours = VenueHoursManager()
 
 	def __unicode__(self):
 		return self.name
@@ -96,6 +97,12 @@ class VenueSpecialDays(BaseModel):
 
 ###################################################################
 
+class VenueHoursManager(models.Manager):
+    def get_query_set(self):
+        return VenueOpeningHours.filter(venue=self)
+
+###################################################################
+
 class VenueAdminUser(User):
 	venue = models.ForeignKey(Venue)
 	phone_number = models.BigIntegerField()
@@ -119,8 +126,8 @@ class VenueAdminUser(User):
 			
 	class Meta:
 		verbose_name = "Venue Admin User"
-		
-###################################################################		
+
+###################################################################
 		
 class BarAdminUser(User):
 	venue = models.ForeignKey(Venue, null=True)
