@@ -13,12 +13,6 @@ from facepy import GraphAPI
 
 ###################################################################
 
-class VenueHoursManager(models.Manager):
-    def get_query_set(self):
-        return VenueOpeningHours.objects.filter(venue=self)
-
-###################################################################
-
 class Venue(models.Model):
 	name = models.CharField(max_length=255)
 	bp_merchant = models.CharField(max_length=255, blank=True)
@@ -59,9 +53,6 @@ class Venue(models.Model):
 
 			self.latitude = lat
 			self.longitude = lng
-
-	def venue_hours(self):
-                        pass
 		
 ###################################################################
 
