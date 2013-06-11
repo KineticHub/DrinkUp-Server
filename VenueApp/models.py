@@ -13,6 +13,12 @@ from facepy import GraphAPI
 
 ###################################################################
 
+class VenueHoursManager(models.Manager):
+    def get_query_set(self):
+        return 'VenueOpeningHours'.filter(venue=self)
+
+###################################################################
+
 class Venue(models.Model):
 	name = models.CharField(max_length=255)
 	bp_merchant = models.CharField(max_length=255, blank=True)
@@ -94,12 +100,6 @@ class VenueSpecialDays(BaseModel):
 
         class Meta:
                 unique_together = ('venue', 'holiday_date')
-
-###################################################################
-
-class VenueHoursManager(models.Manager):
-    def get_query_set(self):
-        return VenueOpeningHours.filter(venue=self)
 
 ###################################################################
 
