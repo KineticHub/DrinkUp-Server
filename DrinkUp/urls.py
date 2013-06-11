@@ -44,7 +44,7 @@ urlpatterns += patterns('ApiApp.views',
     url(r'^api/orders/drinks/$', 'DrinksForOrder'),
     url(r'^api/orders/(?P<bar_id>\d{1,10})/(?P<status>\d{1,2})/$', 'GetOrdersForBarWithStatus'),
     url(r'^api/orders/since/(?P<bar_id>\d{1,10})/(?P<since_time>\d{1,10})/(?P<status>\d{1,10})/$', 'GetNewOrdersForBarSince'),
-    url(r'^api/orders/(?P<bar_id>\d{1,10})/(?P<status>\d{1,2})/(?P<time_start>\d{1,10})/(?P<time_end>\d{1,10})/$', 'GetOrdersForBarWithStatusInTimeRange'),
+    #url(r'^api/orders/(?P<bar_id>\d{1,10})/(?P<status>\d{1,2})/(?P<time_start>\d{1,10})/(?P<time_end>\d{1,10})/$', 'GetOrdersForBarWithStatusInTimeRange'),
 
 	url(r'^index/$', 'index'),
 	url(r'^facebook/login/$', 'FacebookLogin'),
