@@ -432,32 +432,32 @@ def GetOrdersForBarWithStatus(request, bar_id=0, status=0):
 			response = json.dumps(all_orders)
 			return HttpResponse(response, mimetype="application/json")
 
-@staff_member_required
-def GetOrdersForBarWithStatusInTimeRange(request, bar_id=0, status=0, time_start = 0, time_end = datetime.today()):
-		if request.method == 'GET':
-
-                        bartender = BarAdminUser.objects.get(pk=request.user.id)
-
-                        if bar_id == 0:
-                                bar_id = bartender.bar.pk
-                        
-			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
-			time_start = datetime.fromtimestamp(float(time_start))
-			time_end = datetime.fromtimestamp(float(time_end))
-			drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__current_status=status).filter(order__updated__range=[datetime.fromtimestamp(float(time_start)), datetime.fromtimestamp(float(time_end))])
-			
-			all_orders = []
-			from itertools import groupby
-			for k, g in groupby(drinkOrders, lambda x: x.order):
-				order = json.loads(serializers.serialize('json', [ k, ]))[0]
-				drinkOrders = []
-				for item in list(g):
-					drinkOrders.append(json.loads(serializers.serialize('json', [item, ]))[0])
-				tempOrderDict = {'order':order, 'drinks':drinkOrders}
-				all_orders.append(tempOrderDict)
-			
-			response = json.dumps(all_orders)
-			return HttpResponse(response, mimetype="application/json")
+##@staff_member_required
+##def GetOrdersForBarWithStatusInTimeRange(request, bar_id=0, status=0, time_start = 0, time_end = datetime.today()):
+##		if request.method == 'GET':
+##
+##                        bartender = BarAdminUser.objects.get(pk=request.user.id)
+##
+##                        if bar_id == 0:
+##                                bar_id = bartender.bar.pk
+##                        
+##			#orders = Order.objects.filter(bar=bar_id).filter(current_status=status).filter(update__range=[time_start, time_end])
+##			time_start = datetime.fromtimestamp(float(time_start))
+##			time_end = datetime.fromtimestamp(float(time_end))
+##			drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(order__current_status=status).filter(order__updated__range=[datetime.fromtimestamp(float(time_start)), datetime.fromtimestamp(float(time_end))])
+##			
+##			all_orders = []
+##			from itertools import groupby
+##			for k, g in groupby(drinkOrders, lambda x: x.order):
+##				order = json.loads(serializers.serialize('json', [ k, ]))[0]
+##				drinkOrders = []
+##				for item in list(g):
+##					drinkOrders.append(json.loads(serializers.serialize('json', [item, ]))[0])
+##				tempOrderDict = {'order':order, 'drinks':drinkOrders}
+##				all_orders.append(tempOrderDict)
+##			
+##			response = json.dumps(all_orders)
+##			return HttpResponse(response, mimetype="application/json")
 
 @staff_member_required
 def UpdateOrderStatus(request):
