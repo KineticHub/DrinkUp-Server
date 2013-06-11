@@ -159,8 +159,8 @@ class VenueBankAccount(BaseModel):
 	bp_uri = models.CharField(max_length=255, blank=True, null=True)
 	
 	def save(self, *args, **kwargs):
-		if not self.bp_uri or len(self.bp_uri) == 0:
-			self.addBankToMerchant()
+		#if not self.bp_uri or len(self.bp_uri) == 0:
+		self.addBankToMerchant()
 		super(VenueBankAccount, self).save(*args, **kwargs)
 
 	# create a new bank account, add to merchant account

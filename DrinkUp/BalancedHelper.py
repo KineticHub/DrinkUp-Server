@@ -172,8 +172,8 @@ class BalancedPaymentsHelper:
 		
                 amount = int(round(float(order.grand_total), 2)*100) - 5
                 merchant_account = balanced.Account.find(order.venue.bp_merchant)
-                merchant_bank_account = balanced.BankAccount.find(merchant_account.bank_account)
-		merchant_bank_account.credit(amount=amount)
+                bank_account = balanced.BankAccount.find(merchant_account.bank_accounts[0])
+		bank_account.credit(amount=amount)
 
 		#balanced.Marketplace.my_marketplace.owner_account.credit(amount=your_fee)
 		
