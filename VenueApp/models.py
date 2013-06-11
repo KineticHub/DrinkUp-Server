@@ -15,7 +15,7 @@ from facepy import GraphAPI
 
 class VenueHoursManager(models.Manager):
     def get_query_set(self):
-        return 'VenueOpeningHours'.filter(venue=self)
+        return VenueOpeningHours.objects.filter(venue=self)
 
 ###################################################################
 
