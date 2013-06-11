@@ -33,7 +33,6 @@ class Venue(models.Model):
 	foursquare_id = models.CharField(max_length=255, blank=True, null=True)
 	latitude = models.FloatField(editable=False)
 	longitude = models.FloatField(editable=False)
-	hours = VenueHoursManager()
 
 	def __unicode__(self):
 		return self.name
@@ -60,6 +59,9 @@ class Venue(models.Model):
 
 			self.latitude = lat
 			self.longitude = lng
+
+	def venue_hours(self):
+                        pass
 		
 ###################################################################
 
