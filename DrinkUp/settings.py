@@ -4,7 +4,7 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-os.environ['DJANGO_SETTINGS_MODULE'] = "DrinkUp.settings"
+os.environ["DJANGO_SETTINGS_MODULE"] = '/opt/bitnami/apps/django/django_projects/DrinkUp/'
 
 ADMINS = (
     ('K. Alnajar', 'kalnajar@gmail.com'),
