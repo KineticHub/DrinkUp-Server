@@ -71,19 +71,19 @@ class BalancedPaymentsHelper:
 		account.add_bank_account(bank_account.uri)
 		return bank_account
 
-	def payVenueMerchantAccount(self, venue, amount):
-                if not balanced.Marketplace.my_marketplace:
-			self.setupMarketplace()
-			
-                merchant_account = balanced.Account.find(venue.bp_merchant)
-                #merchant_account.bank_accounts[0].credit(amount=amount)
-                #merchant_account.credit(amount=amount)
-                try:
-                    merchant_account.credit(amount=amount)
-                except AttributeError, e:
-                    print e
-                    import pdb
-                    pdb.set_trace()
+##	def payVenueMerchantAccount(self, venue, amount):
+##                if not balanced.Marketplace.my_marketplace:
+##			self.setupMarketplace()
+##			
+##                merchant_account = balanced.Account.find(venue.bp_merchant)
+##                #merchant_account.bank_accounts[0].credit(amount=amount)
+##                #merchant_account.credit(amount=amount)
+##                try:
+##                    merchant_account.credit(amount=amount)
+##                except AttributeError, e:
+##                    print e
+##                    import pdb
+##                    pdb.set_trace()
 		
 	def setupNewCreditCard(self, card_number, expiration_month, expiration_year, security_code):
 		if not balanced.Marketplace.my_marketplace:
