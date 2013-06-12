@@ -146,7 +146,7 @@ class BalancedPaymentsHelper:
 			hold = balanced.Hold(
 				amount=int(round(float(order.grand_total), 2)*100), #this needs to be in pennies
 				description= buyer.name + ' at ' + order.bar.venue.name,
-				source_uri=buyer.cards[0],
+				source_uri=source_uri,
 			).save()
 			return hold
 		except balanced.exc.HTTPError as error:
