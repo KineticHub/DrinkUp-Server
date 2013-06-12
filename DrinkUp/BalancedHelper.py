@@ -76,7 +76,8 @@ class BalancedPaymentsHelper:
 			self.setupMarketplace()
 			
                 merchant_account = balanced.Account.find(venue.bp_merchant)
-                merchant_account.bank_accounts[0].credit(amount=amount)
+                #merchant_account.bank_accounts[0].credit(amount=amount)
+                merchant_account.credit(amount=amount)
 		
 	def setupNewCreditCard(self, card_number, expiration_month, expiration_year, security_code):
 		if not balanced.Marketplace.my_marketplace:
