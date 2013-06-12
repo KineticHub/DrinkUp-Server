@@ -1,4 +1,4 @@
-#! Python Payment Script
+#!/usr/local/bin/python
 
 #model imports
 from VenueApp.models import *
