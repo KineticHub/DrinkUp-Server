@@ -24,6 +24,9 @@ class Command(BaseCommand):
                 amount = int(round(float(order.grand_total), 2)*100) - 5
                 venue_total += amount
 
+                order.payment_processed=True
+                order.save()
+
             if venue_total > 0:
                 helper.payVenueMerchantAccount(venue=venue, amount=venue_total)
 
