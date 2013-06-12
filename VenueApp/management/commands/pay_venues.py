@@ -23,6 +23,8 @@ class Command(BaseCommand):
             for order in orders:
                 amount = int(round(float(order.grand_total), 2)*100) - 5
                 venue_total += amount
-            helper.payVenueMerchantAccount(venue=venue, amount=venue_total)
+
+            if venue_total > 0:
+                helper.payVenueMerchantAccount(venue=venue, amount=venue_total)
 
             self.stdout.write('Successfully paid "%s"' % venue.name)
