@@ -143,10 +143,10 @@ class BalancedPaymentsHelper:
 		buyer = balanced.Customer.find(account.bp_account)
 		
 		try:
-			hold = buyer.hold(
+			hold = balanced.Account.hold(
 				amount=int(round(float(order.grand_total), 2)*100), #this needs to be in pennies
 				description= buyer.name + ' at ' + order.bar.venue.name,
-				source_uri=source_uri
+				source_uri=buyer.uri
 			)
 			return hold
 		except balanced.exc.HTTPError as error:
