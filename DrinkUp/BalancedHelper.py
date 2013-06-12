@@ -87,13 +87,13 @@ class BalancedPaymentsHelper:
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 			
-		account = balanced.Account.find(account_uri)
+		account = balanced.Customer.find(account_uri)
 		card = self.setupNewCreditCard(card_info['card_number'], card_info['expiration_month'], card_info['expiration_year'], card_info['security_code'])
 		account.add_card(card.uri)
 		return account
 
 	def updateBuyerCreditCard(self, cc_uri, account_uri):
-                account = balanced.Account.find(account_uri)
+                account = balanced.Customer.find(account_uri)
                 for card in account.cards:
                         card.is_valid=False
                         card.save()
@@ -101,7 +101,7 @@ class BalancedPaymentsHelper:
                 return self.getBuyerCreditCardInfo(account_uri)
 
         def getBuyerCreditCardInfo(self, account_uri):
-                account = balanced.Account.find(account_uri)
+                account = balanced.Customer.find(account_uri)
                 valid_card = None
                 for card in account.cards:
                         if card.is_valid == True:
@@ -109,7 +109,7 @@ class BalancedPaymentsHelper:
                 return valid_card
 
         def invalidateBuyerCreditCard(self, account_uri):
-                account = balanced.Account.find(account_uri)
+                account = balanced.Customer.find(account_uri)
                 for card in account.cards:
                         card.is_valid=False
                         card.save()
@@ -118,16 +118,16 @@ class BalancedPaymentsHelper:
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 			
-		account = balanced.Account(email_address=email_address, name=username).save()
+		customer = balanced.Customer(email_address=email_address, name=username).save()
 		if card_uri is not None:
 			account.add_card(card.uri)
-		return account
+		return customer
 
 	def debitBuyerCreditCard(self, account_uri, bar_name, amount, source_uri=None):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 			
-		buyer = balanced.Account.find(account_uri)
+		buyer = balanced.Customer.find(account_uri)
 		debit = buyer.debit(
 			appears_on_statement_as='DrinkUp - ' + bar_name,
 			amount=amount,
@@ -140,7 +140,7 @@ class BalancedPaymentsHelper:
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 
-		buyer = balanced.Account.find(account.bp_account)
+		buyer = balanced.Customer.find(account.bp_account)
 		
 		try:
 			hold = buyer.hold(
