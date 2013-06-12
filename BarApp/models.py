@@ -60,6 +60,7 @@ class BarOrder(BaseModel):
 	current_status = models.IntegerField(max_length=1,choices=Order_Status_Options)
 	description = models.TextField(blank=True)
 	payment_processed = models.BooleanField()
+	venue_payment_processed = models.BooleanField()
 
 	def save(self, *args, **kwargs):
 		if not self.bp_transaction or len(self.bp_transaction) == 0:
@@ -70,7 +71,9 @@ class BarOrder(BaseModel):
                 if int(self.current_status) == 3:
                         self.updateReady()
 		if int(self.current_status) == 4:
-                        self.captureHold()
+                        if not self.payment_processed:
+                                self.captureHold()
+                                self.payment_processed = True
                         self.description = 'hold captured'
 		if int(self.current_status) == 5:
                         self.voidHold()

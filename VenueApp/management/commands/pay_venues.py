@@ -16,7 +16,7 @@ class Command(BaseCommand):
         
         helper = BalancedPaymentsHelper()
         venues = Venue.objects.all()
-        orders = BarOrder.objects.filter(current_status=4, payment_processed=False)
+        orders = BarOrder.objects.filter(current_status=4, payment_processed=True, venue_payment_processed=False)
 
         for venue in venues:
             venue_total = 0
@@ -24,7 +24,7 @@ class Command(BaseCommand):
                 amount = int(round(float(order.grand_total), 2)*100) - 5
                 venue_total += amount
 
-                order.payment_processed=True
+                order.venue_payment_processed=True
                 order.save()
 
             if venue_total > 0:
