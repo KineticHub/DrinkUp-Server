@@ -23,9 +23,6 @@ class Command(BaseCommand):
             for order in orders:
                 amount = int(round(float(order.grand_total), 2)*100) - 5
                 venue_total += amount
-                
-            merchant_account = balanced.Account.find(venue.bp_merchant)
-            merchant_account.bank_accounts[0].credit(amount=venue_total)
-
+            helper.payVenueMerchantAccount(venue=venue, amount=venue_total)
 
             self.stdout.write('Successfully paid "%s"' % venue.name)

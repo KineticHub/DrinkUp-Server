@@ -70,6 +70,13 @@ class BalancedPaymentsHelper:
 		bank_account = self.setupNewBankAccount(bank.routing_number, bank.account_number, bank.account_type, bank.bank_name)
 		account.add_bank_account(bank_account.uri)
 		return bank_account
+
+	def payVenueMerchantAccount(self, venue, amount):
+                if not balanced.Marketplace.my_marketplace:
+			self.setupMarketplace()
+			
+                merchant_account = balanced.Account.find(venue.bp_merchant)
+                merchant_account.bank_accounts[0].credit(amount=amount)
 		
 	def setupNewCreditCard(self, card_number, expiration_month, expiration_year, security_code):
 		if not balanced.Marketplace.my_marketplace:
