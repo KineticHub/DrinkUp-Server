@@ -1,5 +1,9 @@
 from django.core.management.base import BaseCommand, CommandError
 
+#python imports
+from datetime import datetime
+from time import gmtime, strftime
+
 #model imports
 from VenueApp.models import *
 from BarApp.models import *
@@ -30,6 +34,6 @@ class Command(BaseCommand):
             if venue_total > 0:
                 helper.payVenueMerchantAccount(venue=venue, amount=venue_total)
 
-            self.stdout.write('Successfully paid %r a total of %r\n' % (venue.name, venue_total,))
+            self.stdout.write('Successfully paid %r a total of %r on %r\n' % (venue.name, venue_total, strftime("%Y-%m-%d %H:%M:%S", gmtime())))
             
         self.stdout.write('\n-----------------------------------\n\n')
