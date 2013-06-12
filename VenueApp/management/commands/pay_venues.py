@@ -10,7 +10,9 @@ from BarApp.models import *
 from UsersApp.models import *
 
 #BalancedPayments
-from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+import balanced
+from django.conf import settings
+#from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 
 class Command(BaseCommand):
     
@@ -18,7 +20,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         
-        helper = BalancedPaymentsHelper()
+        #helper = BalancedPaymentsHelper()
+        balanced.configure(settings.BALANCED_API_KEY)
+        
         venues = Venue.objects.all()
         orders = BarOrder.objects.filter(current_status=4, payment_processed=True, venue_payment_processed=False)
 
@@ -32,8 +36,11 @@ class Command(BaseCommand):
                 order.save()
 
             if venue_total > 0:
-                helper.payVenueMerchantAccount(venue=venue, amount=venue_total)
+                merchant_account = balanced.Account.find(venue.bp_merchant)
+                merchant_account.credit(amount=amount)
+                
+                #helper.payVenueMerchantAccount(venue=venue, amount=venue_total)
 
-            self.stdout.write('Successfully paid %r a total of %r on %r\n' % (venue.name, venue_total, strftime("%Y-%m-%d %H:%M:%S", gmtime())))
+                self.stdout.write('Successfully paid %r a total of %r on %r\n' % (venue.name, venue_total, strftime("%Y-%m-%d %H:%M:%S", gmtime())))
             
         self.stdout.write('\n-----------------------------------\n\n')
