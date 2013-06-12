@@ -1,5 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 
+import warnings
+
 #python imports
 from datetime import datetime
 from time import gmtime, strftime
@@ -13,6 +15,9 @@ from UsersApp.models import *
 import balanced
 from django.conf import settings
 #from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
 
 class Command(BaseCommand):
     
