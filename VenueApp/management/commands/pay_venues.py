@@ -24,10 +24,10 @@ class Command(BaseCommand):
         balanced.configure(settings.BALANCED_API_KEY)
         
         venues = Venue.objects.all()
-        orders = BarOrder.objects.filter(current_status=4, payment_processed=True, venue_payment_processed=False)
 
         for venue in venues:
             venue_total = 0
+            orders = BarOrder.objects.filter(venue=venue, current_status=4, payment_processed=True, venue_payment_processed=False)
             for order in orders:
                 amount = int(round(float(order.grand_total), 2)*100) - 5
                 venue_total += amount
@@ -37,7 +37,7 @@ class Command(BaseCommand):
 
             if venue_total > 0:
                 merchant_account = balanced.Account.find(venue.bp_merchant)
-                merchant_account.credit(amount=amount)
+                merchant_account.credit(amount=venue_total)
                 
                 #helper.payVenueMerchantAccount(venue=venue, amount=venue_total)
 

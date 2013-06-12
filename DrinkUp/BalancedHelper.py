@@ -82,7 +82,7 @@ class BalancedPaymentsHelper:
                     merchant_account.credit(amount=amount)
                 except AttributeError, e:
                     print e
-                    import pdb;
+                    import pdb
                     pdb.set_trace()
 		
 	def setupNewCreditCard(self, card_number, expiration_month, expiration_year, security_code):
