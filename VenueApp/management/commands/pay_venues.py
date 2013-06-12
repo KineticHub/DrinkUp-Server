@@ -30,4 +30,6 @@ class Command(BaseCommand):
             if venue_total > 0:
                 helper.payVenueMerchantAccount(venue=venue, amount=venue_total)
 
-            self.stdout.write('Successfully paid "%s"' % venue.name)
+            self.stdout.write('Successfully paid %r a total of %r\n' % (venue.name, venue_total,))
+            
+        self.stdout.write('\n-----------------------------------\n\n')
