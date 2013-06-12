@@ -24,6 +24,8 @@ class Command(BaseCommand):
     help = 'Pays out to the venues any open orders'
 
     def handle(self, *args, **options):
+
+        self.stdout.write('Payments for day: %r\n\n' %  strftime("%Y-%m-%d %H:%M:%S", gmtime()))
         
         #helper = BalancedPaymentsHelper()
         balanced.configure(settings.BALANCED_API_KEY)
