@@ -87,8 +87,9 @@ class BarOrder(BaseModel):
 		self.bp_transaction = hold.uri
 
 	def updateProgress(self):
-                uahelper = AirshipHelper()
-		uahelper.pushMessageForUser(message='Your order is being made!', user=self.appuser.user, status=2)
+                pass
+                #uahelper = AirshipHelper()
+		#uahelper.pushMessageForUser(message='Your order is being made!', user=self.appuser.user, status=2)
 
 	def updateReady(self):
                 uahelper = AirshipHelper()
