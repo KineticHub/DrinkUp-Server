@@ -69,7 +69,7 @@ class BarOrder(BaseModel):
 			pass
 		if int(self.current_status) == 2:
 						self.updateProgress()
-				if int(self.current_status) == 3:
+		if int(self.current_status) == 3:
 						self.updateReady()
 		if int(self.current_status) == 4:
 						if not self.payment_processed:
