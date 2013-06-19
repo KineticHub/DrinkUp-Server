@@ -35,7 +35,7 @@ class BarDrink(BaseModel):
 	description = models.TextField(blank=True)
 
 	def __unicode__(self):
-		return bar.name + ' ' + self.name
+		return self.bar.name + ' ' + self.name
 		
 	class Meta:
 		ordering = ['name']
