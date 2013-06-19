@@ -46,7 +46,7 @@ class BarOrder(BaseModel):
 
 	Order_Status_Options = ((1, 'UNFILLED'), (2,'IN PROGRESS'), (3,'WAITING CUSTOMER'), (4,'ORDER COMPLETE'), (5,'ORDER CANCELLED'), (6,'ORDER NOT CLAIMED'))
 
-		venue = models.ForeignKey(Venue)
+	venue = models.ForeignKey(Venue)
 	bar = models.ForeignKey(VenueBar)
 	venue_name = models.CharField(max_length=255, blank=True)
 	bp_transaction =  models.CharField(max_length=255, blank=True)
