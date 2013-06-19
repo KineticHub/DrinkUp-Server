@@ -64,20 +64,23 @@ class BarOrder(BaseModel):
 
 	def save(self, *args, **kwargs):
 		if not self.bp_transaction or len(self.bp_transaction) == 0:
-			self.createHold()
-			self.description = 'hold created'
+			#self.createHold()
+			#self.description = 'hold created'
+			pass
 		if int(self.current_status) == 2:
                         self.updateProgress()
                 if int(self.current_status) == 3:
                         self.updateReady()
 		if int(self.current_status) == 4:
                         if not self.payment_processed:
-                                self.captureHold()
+                                #self.captureHold()
+								self.processPayment()
                                 self.payment_processed = True
-                        self.description = 'hold captured'
+                        self.description = 'payment processed'
 		if int(self.current_status) == 5:
-                        self.voidHold()
-                        self.description = 'hold voided'
+                        #self.voidHold()
+                        #self.description = 'hold voided'
+						self.description = 'order cancelled'
 		super(BarOrder, self).save(*args, **kwargs)
 
         # create a new merchant account
@@ -92,7 +95,7 @@ class BarOrder(BaseModel):
 		#uahelper.pushMessageForUser(message='Your order is being made!', user=self.appuser.user, status=2)
 
 	def updateReady(self):
-                uahelper = AirshipHelper()
+		uahelper = AirshipHelper()
 		uahelper.pushMessageForUser(message='Your order is ready! Go get it and DrinkUp!', user=self.appuser.user, status=3)
 
 	def captureHold(self):
@@ -104,6 +107,10 @@ class BarOrder(BaseModel):
 		hold = helper.voidHoldForOrder(order = self)
 		uahelper = AirshipHelper()
 		uahelper.pushMessageForUser(message='Your order was cancelled. No worries, we still like you!', user=self.appuser.user, status=5)
+		
+	def processPayment(self):
+		helper = BalancedPaymentsHelper()
+		self.bp_transaction = hold.debitBuyerCreditCard(account = self.appuser, order = self)
 		
 
 	def __unicode__(self):

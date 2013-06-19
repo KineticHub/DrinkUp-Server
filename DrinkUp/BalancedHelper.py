@@ -137,16 +137,17 @@ class BalancedPaymentsHelper:
 			account.add_card(card.uri)
 		return customer
 
-	def debitBuyerCreditCard(self, account_uri, bar_name, amount, source_uri=None):
+	def debitBuyerCreditCard(self, account, order, source_uri=None):
 		if not balanced.Marketplace.my_marketplace:
 			self.setupMarketplace()
 			
-		buyer = balanced.Customer.find(account_uri)
+		buyer = balanced.Customer.find(account.bp_account)
+		appears = 'DrinkUp ' + order.bar.venue.name
 		debit = buyer.debit(
-			appears_on_statement_as='DrinkUp - ' + bar_name,
-			amount=amount,
+			appears_on_statement_as=  appears[:21],
+			amount=int(round(float(order.grand_total), 2)*100), #this needs to be in pennies
 			description= buyer.name + ' at ' + bar_name,
-			source_uri=source_uri
+			source_uri=buyer.cards[0].uri
 		)
 		return debit
 		
