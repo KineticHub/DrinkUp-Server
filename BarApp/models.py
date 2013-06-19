@@ -74,7 +74,7 @@ class BarOrder(BaseModel):
 		if int(self.current_status) == 4:
 						if not self.payment_processed:
 								#self.captureHold()
-								if not int(round(float(order.grand_total), 2)*100) < 50:
+								if not int(round(float(self.grand_total), 2)*100) < 50:
 									self.processPayment()
 								self.payment_processed = True
 						self.description = 'payment processed'
