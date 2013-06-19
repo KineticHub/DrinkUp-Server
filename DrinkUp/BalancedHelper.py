@@ -4,12 +4,12 @@ from django.conf import settings
 class BalancedPaymentsHelper:
 
 	def __init__(self):
-			balanced.configure(settings.BALANCED_API_KEY_LIVE)
+			balanced.configure(settings.BALANCED_API_KEY_TEST)
 			if not balanced.Marketplace.my_marketplace:
 				raise Exception("Marketplace.my_marketplace should not be nil")
 
 	def setupMarketplace(self):
-		balanced.configure(settings.BALANCED_API_KEY_LIVE)
+		balanced.configure(settings.BALANCED_API_KEY_TEST)
 		if not balanced.Marketplace.my_marketplace:
 			raise Exception("Marketplace.my_marketplace should not be nil")
 		return balanced.Marketplace.my_marketplace
@@ -181,7 +181,7 @@ class BalancedPaymentsHelper:
 		appears = 'DrinkUp ' + order.bar.venue.name
 		hold = balanced.Hold.find(order.bp_transaction)
 		debit = hold.capture(
-			appears_on_statement_as= appears[:21],
+			appears_on_statement_as= appears[:21]
 		)
 		
                 #amount = int(round(float(order.grand_total), 2)*100) - 5
