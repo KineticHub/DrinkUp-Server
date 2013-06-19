@@ -110,7 +110,7 @@ class BarOrder(BaseModel):
 		
 	def processPayment(self):
 		helper = BalancedPaymentsHelper()
-		self.bp_transaction = hold.debitBuyerCreditCard(account = self.appuser, order = self)
+		self.bp_transaction = helper.debitBuyerCreditCard(account = self.appuser, order = self)
 		
 
 	def __unicode__(self):
