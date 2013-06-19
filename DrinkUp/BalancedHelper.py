@@ -181,7 +181,8 @@ class BalancedPaymentsHelper:
 		appears = 'DrinkUp ' + order.bar.venue.name
 		hold = balanced.Hold.find(order.bp_transaction)
 		debit = hold.capture(
-			appears_on_statement_as= appears[:21]
+			appears_on_statement_as= appears[:21],
+			description = buyer.name + ' at ' + order.bar.venue.name,
 		)
 		
                 #amount = int(round(float(order.grand_total), 2)*100) - 5
