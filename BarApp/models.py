@@ -46,7 +46,7 @@ class BarOrder(BaseModel):
 
 	Order_Status_Options = ((1, 'UNFILLED'), (2,'IN PROGRESS'), (3,'WAITING CUSTOMER'), (4,'ORDER COMPLETE'), (5,'ORDER CANCELLED'), (6,'ORDER NOT CLAIMED'))
 
-        venue = models.ForeignKey(Venue)
+		venue = models.ForeignKey(Venue)
 	bar = models.ForeignKey(VenueBar)
 	venue_name = models.CharField(max_length=255, blank=True)
 	bp_transaction =  models.CharField(max_length=255, blank=True)
@@ -68,30 +68,30 @@ class BarOrder(BaseModel):
 			#self.description = 'hold created'
 			pass
 		if int(self.current_status) == 2:
-                        self.updateProgress()
-                if int(self.current_status) == 3:
-                        self.updateReady()
+						self.updateProgress()
+				if int(self.current_status) == 3:
+						self.updateReady()
 		if int(self.current_status) == 4:
-                        if not self.payment_processed:
-                                #self.captureHold()
+						if not self.payment_processed:
+								#self.captureHold()
 								self.processPayment()
-                                self.payment_processed = True
-                        self.description = 'payment processed'
+								self.payment_processed = True
+						self.description = 'payment processed'
 		if int(self.current_status) == 5:
-                        #self.voidHold()
-                        #self.description = 'hold voided'
+						#self.voidHold()
+						#self.description = 'hold voided'
 						self.description = 'order cancelled'
 		super(BarOrder, self).save(*args, **kwargs)
 
-        # create a new merchant account
+		# create a new merchant account
 	def createHold(self):
 		helper = BalancedPaymentsHelper()
 		hold = helper.createHoldForOrder(account = self.appuser, order = self)
 		self.bp_transaction = hold.uri
 
 	def updateProgress(self):
-                pass
-                #uahelper = AirshipHelper()
+				pass
+				#uahelper = AirshipHelper()
 		#uahelper.pushMessageForUser(message='Your order is being made!', user=self.appuser.user, status=2)
 
 	def updateReady(self):
