@@ -149,7 +149,7 @@ class BalancedPaymentsHelper:
 			description= buyer.name + ' at ' + order.bar.venue.name,
 			source_uri=buyer.cards[0].uri
 		)
-		return debit
+		return debit.uri
 		
 	def createHoldForOrder(self, account, order, source_uri=None):
 		if not balanced.Marketplace.my_marketplace:
