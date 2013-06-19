@@ -146,7 +146,7 @@ class BalancedPaymentsHelper:
 		debit = buyer.debit(
 			appears_on_statement_as=  appears[:21],
 			amount=int(round(float(order.grand_total), 2)*100), #this needs to be in pennies
-			description= buyer.name + ' at ' + bar_name,
+			description= buyer.name + ' at ' + order.bar.venue.name,
 			source_uri=buyer.cards[0].uri
 		)
 		return debit
