@@ -137,6 +137,7 @@ def BarDrinksOfType(request, bar_id, type_id):
 		response = json_serializer.serialize(drinks_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
+@csrf_exempt
 def CreateAppUser(request):
 	if request.method == 'POST':
 		username = request.POST['username'].lower()
@@ -198,6 +199,7 @@ def CreateAppUser(request):
                                 return HttpResponse(serialized_response, mimetype="application/json")
 
 #NEED TO CHECK FOR DUPLICATE USERS
+@csrf_exempt
 def LoginAppUser(request):
 	if request.method == 'POST':
 		username = request.POST['username'].lower()
@@ -292,6 +294,7 @@ def InvalidateUserCard(request):
                         response = json.dumps({'status': 'success',})
                         return HttpResponse(response, mimetype="application/json")
 
+@csrf_exempt
 def UpdateUserCard(request):
         if request.method == 'POST':
                 if request.user.is_authenticated():
@@ -344,6 +347,7 @@ def CheckAppUserAuthenticated(request):
 #BEGIN ORDER VIEWS
 
 #NEED TO VERIFY THAT USER IS A BARTENDER
+@csrf_exempt
 def CreateNewOrder(request):
 		if not request.user.is_authenticated():
                         return HttpResponseForbidden()
@@ -521,6 +525,7 @@ def FacebookLoginSuccess(request):
 	welcome = "Welcome <b>%s</b>. Your Facebook login has been completed successfully!"
 	return HttpResponse(welcome % me.username)
 
+@csrf_exempt
 def FacebookMobileLogin(request):
 	
 	if request.method == 'POST':
