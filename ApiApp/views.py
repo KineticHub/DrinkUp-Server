@@ -307,6 +307,9 @@ def UpdateUserCard(request):
                         else:
                                 response = json.dumps({'status': 'invalid',})
                                 return HttpResponse(response, mimetype="application/json", status=401)
+                else:
+                        response = json.dumps({'status': 'unauthorized',})
+			return HttpResponse(response, mimetype="application/json", status=401)
                         
 def CurrentUserCard(request):
         if request.method == 'GET':
