@@ -199,6 +199,7 @@ def CreateAppUser(request):
                                 return HttpResponse(serialized_response, mimetype="application/json")
 
 #NEED TO CHECK FOR DUPLICATE USERS
+@csrf_exempt
 def LoginAppUser(request):
 	if request.method == 'POST':
 		username = request.POST['username'].lower()
