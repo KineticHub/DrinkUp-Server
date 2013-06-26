@@ -121,6 +121,13 @@ def VenueBars(request, venue_id):
 		json_serializer = serializers.get_serializer("json")()
 		response = json_serializer.serialize(bars_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
+		
+def VenueInfo(request, venue_id):
+	if request.method == 'GET':
+		venue_to_return = Venue.objects.filter(pk=venue_id)
+		json_serializer = serializers.get_serializer("json")()
+		response = json_serializer.serialize(venue_to_return, ensure_ascii=False)
+		return HttpResponse(response, mimetype="application/json")
 
 def BarDrinkTypes(request, bar_id):
 	if request.method == 'GET':
