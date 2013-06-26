@@ -372,6 +372,19 @@ def CreateNewOrder(request):
 				bar = VenueBar.objects.get(pk=bar_id)
 				drinks_data = json.loads(drinks)
 				
+				############################
+				##SUPER TEMP FIX FOR IPHONE
+				tax = 0.0
+				sub_total = tax + total
+				fees = (0.05 * total) + 0.05
+				
+				#Need to figure out what the tip percent was supposed to be
+				tip_percent = tip / (total + 2.4 + 0.35)
+				
+				tip = (tax + fees + total) * tip_percent
+				grand_total = total + tax + fees + tip
+				############################
+				
 				new_order = BarOrder(user_id=primary_user, venue=bar.venue, bar=bar, venue_name=bar.venue.name, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
 				new_order.save()
 				
