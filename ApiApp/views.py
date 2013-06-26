@@ -375,14 +375,14 @@ def CreateNewOrder(request):
 				############################
 				##SUPER TEMP FIX FOR IPHONE
 				tax = 0.0
-				sub_total = tax + total
-				fees = (0.05 * total) + 0.05
+				sub_total = tax + float(total)
+				fees = (0.05 * float(total)) + 0.05
 				
 				#Need to figure out what the tip percent was supposed to be
-				tip_percent = tip / (total + 2.4 + 0.35)
+				tip_percent = float(tip) / (float(total) + 2.4 + 0.35)
 				
-				tip = (tax + fees + total) * tip_percent
-				grand_total = total + tax + fees + tip
+				tip = (float(tax) + float(fees) + float(total)) * tip_percent
+				grand_total = float(total) + float(tax) + float(fees) + float(tip)
 				############################
 				
 				new_order = BarOrder(user_id=primary_user, venue=bar.venue, bar=bar, venue_name=bar.venue.name, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
