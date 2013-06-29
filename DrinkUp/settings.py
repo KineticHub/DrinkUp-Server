@@ -131,10 +131,10 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'sillyservers@gmail.com'
-EMAIL_HOST_PASSWORD = 'S1llyServers'
+EMAIL_HOST_USER = 'k.alnajar@letsdrinkup.com'
+EMAIL_HOST_PASSWORD = 'Gr@$$h0pper'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'sillyservers@gmail.com'
+DEFAULT_FROM_EMAIL = 'k.alnajar@letsdrinkup.com'
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
