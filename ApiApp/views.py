@@ -110,7 +110,7 @@ def VenuesNearLocation(request):
 						if distance.distance(venue_point, user_point).miles < float(radius):
 								nearby_venues.append(venue)
 
-				if length(nearby_venues) == 0;
+				if (length(nearby_venues) == 0):
                                         nearby_venues = all_venues
 
 				json_serializer = serializers.get_serializer("json")()
