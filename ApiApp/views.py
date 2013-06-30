@@ -110,6 +110,9 @@ def VenuesNearLocation(request):
 						if distance.distance(venue_point, user_point).miles < float(radius):
 								nearby_venues.append(venue)
 
+				if length(nearby_venues) == 0;
+                                        nearby_venues = all_venues
+
 				json_serializer = serializers.get_serializer("json")()
                                 response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
                                 return HttpResponse(response, mimetype="application/json")
@@ -120,13 +123,6 @@ def VenueBars(request, venue_id):
 		bars_to_return = VenueBar.objects.filter(venue=venue_id)
 		json_serializer = serializers.get_serializer("json")()
 		response = json_serializer.serialize(bars_to_return, ensure_ascii=False)
-		return HttpResponse(response, mimetype="application/json")
-		
-def VenueInfo(request, venue_id):
-	if request.method == 'GET':
-		venue_to_return = Venue.objects.filter(pk=venue_id)
-		json_serializer = serializers.get_serializer("json")()
-		response = json_serializer.serialize(venue_to_return, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
 def BarDrinkTypes(request, bar_id):
@@ -378,19 +374,6 @@ def CreateNewOrder(request):
 				primary_user = 1
 				bar = VenueBar.objects.get(pk=bar_id)
 				drinks_data = json.loads(drinks)
-				
-				############################
-				##SUPER TEMP FIX FOR IPHONE
-				tax = 0.0
-				sub_total = tax + float(total)
-				fees = (0.05 * float(total)) + 0.05
-				
-				#Need to figure out what the tip percent was supposed to be
-				tip_percent = float(tip) / (float(total) + 2.4 + 0.35)
-				
-				tip = (float(tax) + float(fees) + float(total)) * tip_percent
-				grand_total = float(total) + float(tax) + float(fees) + float(tip)
-				############################
 				
 				new_order = BarOrder(user_id=primary_user, venue=bar.venue, bar=bar, venue_name=bar.venue.name, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
 				new_order.save()
