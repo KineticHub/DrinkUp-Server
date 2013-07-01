@@ -110,13 +110,19 @@ def VenuesNearLocation(request):
 						if distance.distance(venue_point, user_point).miles < float(radius):
 								nearby_venues.append(venue)
 
-				if (len(nearby_venues) == 0):
+				if len(nearby_venues) == 0:
                                         nearby_venues = all_venues
 
-				json_serializer = serializers.get_serializer("json")()
-                                response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
-                                return HttpResponse(response, mimetype="application/json")
-                
+                json_serializer = serializers.get_serializer("json")()
+                response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
+                return HttpResponse(response, mimetype="application/json")
+
+def VenueInfo(request, venue_id):
+    if request.method == 'GET':
+		bars_to_return = VenueBar.objects.filter(venue=venue_id)
+		json_serializer = serializers.get_serializer("json")()
+		response = json_serializer.serialize(bars_to_return, ensure_ascii=False)
+		return HttpResponse(response, mimetype="application/json")
 
 def VenueBars(request, venue_id):
 	if request.method == 'GET':
