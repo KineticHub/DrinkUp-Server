@@ -84,7 +84,7 @@ class BarOrder(BaseModel):
 						self.description = 'order cancelled'
 		super(BarOrder, self).save(*args, **kwargs)
 
-		# create a new merchant account
+	# create a new merchant account
 	def createHold(self):
 		helper = BalancedPaymentsHelper()
 		hold = helper.createHoldForOrder(account = self.appuser, order = self)

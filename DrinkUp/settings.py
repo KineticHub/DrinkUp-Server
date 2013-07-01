@@ -127,8 +127,10 @@ TEMPLATE_DIRS = (
     'opt/bitnami/apps/django/django_projects/DrinkUp/DrinkUp/templates',
 )
 
+#REGISTRATION_APP_VARS
 ACCOUNT_ACTIVATION_DAYS = 7
 
+#DJANGO_EMAIL_SETTINGS
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = 'k.alnajar@letsdrinkup.com'
@@ -136,19 +138,24 @@ EMAIL_HOST_PASSWORD = 'Gr@$$h0pper'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'k.alnajar@letsdrinkup.com'
 
+#DJANGO_SESSION_SETTINGS
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_NAME = 'CSRF-TOKEN'
 
+#GRAPPELLI_VARS
 GRAPPELLI_ADMIN_TITLE = 'DrinkUp'
 
+#WADOFSTUFF_PYTHON_APP
 SERIALIZATION_MODULES = {
     'json': 'wadofstuff.django.serializers.json'
 }
 
+#BALANCED_PAYMENTS_VARS
 BALANCED_API_KEY_LIVE='d22efde4d52611e2bf68026ba7f8ec28'
 BALANCED_API_KEY_TEST='5f3e2ee0a3b211e28fc8026ba7f8ec28'
 
+#URBAN_AIRSHIP_VARS
 UA_APP_KEY_DEV = 'eKW8DeUHRBeIUkcKKAbc1g'
 UA_APP_SECRET_DEV = 'gV7KroWvRu-pd2QdUETegw'
 UA_APP_MASTER_SECRET_DEV = 'BY3UQjEwR9W4bnggTiOafA'
@@ -157,6 +164,15 @@ UA_APP_KEY_PROD = 'KqdTDnAMSsmtk2SDyV5YVg'
 UA_APP_SECRET_PROD = 'PyGiTKt6S-Cg8d0mHhOwWw'
 UA_APP_MASTER_SECRET_PROD = 'X8yvJw9pSVGjahDEOYCJzA'
 
+#EMAIL_MANAGER_VARS
+# This attribute activates a listener to store all e-mails independently of auth_user database.
+EMAIL_DATABASE_ACTIVATED = True
+
+# If you want to use celery for sending e-mails, you can customize the task name, example:
+# EMAIL_MANAGER_USING_CELERY = True # default = False
+# EMAIL_MANAGER_TASK = 'email-manager-task' # default = None
+
+#APPS_INSTALLED
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -166,6 +182,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
+    'email_manager',
     'registration',
     'ApiApp',
 	'VenueApp',
