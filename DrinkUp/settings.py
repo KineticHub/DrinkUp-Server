@@ -182,7 +182,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_extensions',
-    'email_manager',
+    # 'email_manager',
     'registration',
     'ApiApp',
 	'VenueApp',
