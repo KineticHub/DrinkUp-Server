@@ -68,11 +68,6 @@ STATIC_URL = '/static/'
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
-# Facebook related Settings
-FACEBOOK_APP_ID = '428379253908650'
-FACEBOOK_SECRET_KEY = '22fce7553dbac54a6fa3a67e0c35568f'
-FACEBOOK_REDIRECT_URL = 'https://DrinkUp-App.com/facebook/login/success'
-
 # Additional locations of static files
 STATICFILES_DIRS = (
     #"/opt/bitnami/apps/django/django_projects/DrinkUp/bootstrap",
@@ -126,6 +121,11 @@ TEMPLATE_DIRS = (
     '/templates/',
     'opt/bitnami/apps/django/django_projects/DrinkUp/DrinkUp/templates',
 )
+
+# FACEBOOK_VARS
+FACEBOOK_APP_ID = '428379253908650'
+FACEBOOK_SECRET_KEY = '22fce7553dbac54a6fa3a67e0c35568f'
+FACEBOOK_REDIRECT_URL = 'https://DrinkUp-App.com/facebook/login/success'
 
 #REGISTRATION_APP_VARS
 ACCOUNT_ACTIVATION_DAYS = 7
