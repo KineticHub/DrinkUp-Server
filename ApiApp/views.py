@@ -12,7 +12,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
-from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie, requires_csrf_token
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import redirect
 
@@ -207,6 +207,7 @@ def CreateAppUser(request):
                                 return HttpResponse(serialized_response, mimetype="application/json")
 
 #NEED TO CHECK FOR DUPLICATE USERS
+@requires_csrf_token
 def LoginAppUser(request):
 	if request.method == 'POST':
 		username = request.POST['username'].lower()
