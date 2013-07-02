@@ -340,8 +340,8 @@ def GetUserOrderHistory(request):
 			return HttpResponse(serialized_response, mimetype="application/json")
 
 def EmptyTokenCall(request):
-	request.META["CSRF_COOKIE_USED"] = True
-	response = json.dumps({'status': 'success',})
+    request.META["CSRF_COOKIE_USED"] = True
+    response = json.dumps({'status': 'success',})
     return HttpResponse(response, mimetype="application/json", status=200)
 
 def CheckAppUserAuthenticated(request):
