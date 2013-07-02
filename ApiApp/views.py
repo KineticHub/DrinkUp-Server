@@ -340,9 +340,9 @@ def GetUserOrderHistory(request):
 			return HttpResponse(serialized_response, mimetype="application/json")
 
 def EmptyTokenCall(request):
-    from django.middleware.csrf import get_token
+    from django.core.context_processors import csrf
     request.META["CSRF_COOKIE_USED"] = True
-    response = json.dumps({'status': 'success', 'csrf_token' : get_token(request)})
+    response = json.dumps({'status': 'success', 'csrf_token' : unicode(csrf(request)['csrf_token'])})
     return HttpResponse(response, mimetype="application/json", status=200)
 
 def CheckAppUserAuthenticated(request):
