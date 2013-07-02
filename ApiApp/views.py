@@ -341,7 +341,8 @@ def GetUserOrderHistory(request):
 
 def EmptyTokenCall(request):
 	request.META["CSRF_COOKIE_USED"] = True
-	return HttpResponse('success')
+	response = json.dumps({'status': 'success',})
+    return HttpResponse(response, mimetype="application/json", status=200)
 
 def CheckAppUserAuthenticated(request):
 	if request.method == 'GET':
