@@ -1,5 +1,26 @@
 __author__ = 'Kinetic'
 
+from email_manager.feature_send_email import EmailSender
+from email_manager.models import EmailType, UserEmailPreferences
+
+def send_email(email_args):
+    users = email_args['users']
+    subject = email_args['subject']
+    content = email_args['content']
+    html_content = email_args['html_content']
+    email_type = email_args['email_type']
+    EmailSender().send_email_to_users(users, additional_emails=None, subject, content, html_content, email_type)
+
+def send_order_receipt_email(order):
+    email_args={}
+    email_args['users'] = order.appuser.user
+    email_args['subject'] = 'Your receipt for DrinkUp order {order_id}'.format(order_id=order.pk)
+    email_args['content'] = 'This is where the order information will be given.'
+    email_args['html_content'] = 'This is where the <b>HTMML</b> version of the order information will be given.'
+    email_args['email_type'] = EmailType.objects.get(pk=1)
+
+
+
 # from django.core.mail import send_mail, BadHeaderError
 #
 # def send_email(email_args):

@@ -6,6 +6,7 @@ from UsersApp.models import AppUser
 
 from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 from DrinkUp.AirshipHelper import AirshipHelper
+from DrinkUp.EmailHelper import send_order_receipt_email
 
 ###################################################################
 
@@ -77,6 +78,7 @@ class BarOrder(BaseModel):
 								if not int(round(float(self.grand_total), 2)*100) < 50:
 									self.processPayment()
 								self.payment_processed = True
+                                send_order_receipt_email(self)
 						self.description = 'payment processed'
 		if int(self.current_status) == 5:
 						#self.voidHold()
