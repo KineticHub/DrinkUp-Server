@@ -9,7 +9,8 @@ def send_email(email_args):
     content = email_args['content']
     html_content = email_args['html_content']
     email_type = email_args['email_type']
-    EmailSender().send_email_to_users(users, additional_emails=None, subject, content, html_content, email_type)
+    additional_emails=None
+    EmailSender().send_email_to_users(users, additional_emails, subject, content, html_content, email_type)
 
 def send_order_receipt_email(order):
     email_args={}
