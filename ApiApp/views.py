@@ -12,7 +12,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidde
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import redirect
 
@@ -339,6 +339,7 @@ def GetUserOrderHistory(request):
                         serialized_response = json_serializer.serialize(orders, ensure_ascii=False)
 			return HttpResponse(serialized_response, mimetype="application/json")
 
+@ensure_csrf_cookie
 def EmptyTokenCall(request):
 	request.META["CSRF_COOKIE_USED"] = True
 	return HttpResponse('success')
