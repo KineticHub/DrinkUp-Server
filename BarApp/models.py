@@ -2,6 +2,7 @@
 from django.db import models
 from ApiApp.models import BaseModel
 from VenueApp.models import Venue, VenueDrinkType
+from django.contrib.auth.models import User
 from UsersApp.models import AppUser
 
 from DrinkUp.BalancedHelper import BalancedPaymentsHelper
@@ -85,6 +86,8 @@ class BarOrder(BaseModel):
             #self.voidHold()
             #self.description = 'hold voided'
             self.description = 'order cancelled'
+        if !self.user:
+            self.user = User.objects.get(pk=1)
         super(BarOrder, self).save(*args, **kwargs)
 
     # create a new merchant account
