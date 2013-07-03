@@ -86,6 +86,8 @@ class BarOrder(BaseModel):
             #self.voidHold()
             #self.description = 'hold voided'
             self.description = 'order cancelled'
+        if not self.user_id:
+            self.user_id = 1
         super(BarOrder, self).save(*args, **kwargs)
 
     # create a new merchant account

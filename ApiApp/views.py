@@ -378,7 +378,18 @@ def CreateNewOrder(request):
 				bar = VenueBar.objects.get(pk=bar_id)
 				drinks_data = json.loads(drinks)
 				
-				new_order = BarOrder(user_id=primary_user, venue=bar.venue, bar=bar, venue_name=bar.venue.name, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
+				new_order = BarOrder(user_id=primary_user,
+                                     venue=bar.venue,
+                                     bar=bar,
+                                     venue_name=bar.venue.name,
+                                     appuser=appuser,
+                                     total=total,
+                                     tax=tax,
+                                     sub_total=sub_total,
+                                     tip=tip, fees=fees,
+                                     grand_total=grand_total,
+                                     current_status=1,
+                                     description=description)
 				new_order.save()
 				
 				for drink in drinks_data:
