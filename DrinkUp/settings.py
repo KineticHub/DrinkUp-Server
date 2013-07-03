@@ -122,9 +122,6 @@ TEMPLATE_DIRS = (
     'opt/bitnami/apps/django/django_projects/DrinkUp/DrinkUp/templates',
 )
 
-ALLOWED_HOSTS = [
-    '54.225.126.238', # Allow domain and subdomains
-]
 #DJANGO EMAIL VAR
 EMAIL_SUBJECT_PREFIX = 'DrinkUp: '
 
