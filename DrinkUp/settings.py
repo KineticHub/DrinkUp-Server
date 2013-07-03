@@ -121,6 +121,8 @@ TEMPLATE_DIRS = (
     '/templates/',
     'opt/bitnami/apps/django/django_projects/DrinkUp/DrinkUp/templates',
 )
+#DJANGO EMAIL VAR
+EMAIL_SUBJECT_PREFIX = 'DrinkUp: '
 
 # FACEBOOK_VARS
 FACEBOOK_APP_ID = '428379253908650'
