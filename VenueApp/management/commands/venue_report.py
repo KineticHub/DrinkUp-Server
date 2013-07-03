@@ -1,26 +1,29 @@
-from django.core.management.base import BaseCommand, CommandError
-
-#python imports
-from datetime import datetime, timedelta
-from time import gmtime, strftime
 import warnings
-import csv
-
-#model imports
-from VenueApp.models import *
-from BarApp.models import *
-from UsersApp.models import *
-
-#BalancedPayments
-import balanced
-from django.conf import settings
-#from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
 
 
 class Command(BaseCommand):
+
+    from django.core.management.base import BaseCommand, CommandError
+
+    #python imports
+    from datetime import datetime, timedelta
+    from time import gmtime, strftime
+    import warnings
+    import csv
+
+    #model imports
+    from VenueApp.models import *
+    from BarApp.models import *
+    from UsersApp.models import *
+
+    #BalancedPayments
+    import balanced
+    from django.conf import settings
+    #from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+
     help = 'Sends a report to the venues of orders processed over the past day'
 
     def handle(self, *args, **options):
