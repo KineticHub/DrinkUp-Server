@@ -19,6 +19,7 @@ def send_order_receipt_email(order):
     email_args['content'] = 'This is where the order information will be given.'
     email_args['html_content'] = 'This is where the <b>HTMML</b> version of the order information will be given.'
     email_args['email_type'] = EmailType.objects.get(pk=1)
+    send_email(email_args)
 
 
 
