@@ -216,9 +216,9 @@ def LoginAppUser(request):
 
 		ctype = request.POST.get('credtype', None)
 
-				if ctype is not None and ctype == 'staff':
-						if not user.is_staff:
-								return HttpResponseForbidden()
+        if ctype is not None and ctype == 'staff':
+            if not user.is_staff:
+                return HttpResponseForbidden()
 
 		if user is not None:
 			if user.is_active:

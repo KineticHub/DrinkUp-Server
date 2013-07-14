@@ -7,7 +7,7 @@ TEMPLATE_DEBUG = DEBUG
 #os.environ["DJANGO_SETTINGS_MODULE"] = '/opt/bitnami/apps/django/django_projects/DrinkUp/'
 
 ADMINS = (
-    ('K. Alnajar', 'kalnajar@gmail.com'),
+    ('K. Alnajar', 'kalnajar09@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -142,7 +142,8 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'k.alnajar@letsdrinkup.com'
 
 #DJANGO_SESSION_SETTINGS
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_AGE = 15778500 # 6 months
+SESSION_COOKIE_SECURE = True # only send via HTTPS
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_NAME = 'CSRF-TOKEN'
 
