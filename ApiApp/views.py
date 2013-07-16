@@ -377,15 +377,15 @@ def CreateNewOrder(request):
 				
 				############################
 				##SUPER TEMP FIX FOR IPHONE
-				tax = 0.0
-				sub_total = tax + float(total)
-				fees = (0.05 * float(total)) + 0.05
-				
-				#Need to figure out what the tip percent was supposed to be
-				tip_percent = float(tip) / (float(total) + 2.4 + 0.35)
-				
-				tip = (float(tax) + float(fees) + float(total)) * tip_percent
-				grand_total = float(total) + float(tax) + float(fees) + float(tip)
+				# tax = 0.0
+				# sub_total = tax + float(total)
+				# fees = (0.05 * float(total)) + 0.05
+				#
+				# #Need to figure out what the tip percent was supposed to be
+				# tip_percent = float(tip) / (float(total) + 2.4 + 0.35)
+				#
+				# tip = (float(tax) + float(fees) + float(total)) * tip_percent
+				# grand_total = float(total) + float(tax) + float(fees) + float(tip)
 				############################
 				
 				new_order = BarOrder(user_id=primary_user, venue=bar.venue, bar=bar, venue_name=bar.venue.name, appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees, grand_total=grand_total, current_status=1, description=description)
@@ -395,7 +395,7 @@ def CreateNewOrder(request):
 					drink_type = VenueDrinkType.objects.get(pk=int(drink['drink_type']))
 					price = Decimal(drink['price'])
 					is_happyhour = False
-					if bar.happyhour_start < datetime.now().time() and bar.happyhour_end > datetime.now().time():
+					if bar.happyhour_start < datetime.now().time() < bar.happyhour_end:
 						price = Decimal(drink['happyhour_price'])
 						is_happyhour = True
 					new_drink_ordered = BarDrinkOrdered(order=new_order, drink_name=drink['name'], quantity=int(drink['quantity']), unit_price=price, drink_type=drink_type.name, ordered_during_happyhour=is_happyhour)
