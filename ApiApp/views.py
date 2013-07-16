@@ -549,6 +549,7 @@ def FacebookLoginSuccess(request):
 	welcome = "Welcome <b>%s</b>. Your Facebook login has been completed successfully!"
 	return HttpResponse(welcome % me.username)
 
+@csrf_exempt
 def FacebookMobileLogin(request):
 	
 	if request.method == 'POST':
