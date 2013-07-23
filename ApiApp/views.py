@@ -205,7 +205,13 @@ def CreateAppUser(request):
                                 serialized_response = serializers.serialize('json', [ new_appuser, new_user])
                                 return HttpResponse(serialized_response, mimetype="application/json")
 
-#NEED TO CHECK FOR DUPLICATE USERS
+def UserAccountInfo(request):
+	if request.method == 'GET':
+		serialized_response = serializers.serialize('json', [request.user.appuser, request.user])
+		return HttpResponse(serialized_response, mimetype="application/json")
+	else:
+		return HttpResponseForbidden()
+
 @csrf_exempt
 def LoginAppUser(request):
 	if request.method == 'POST':
