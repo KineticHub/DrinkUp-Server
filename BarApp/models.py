@@ -6,6 +6,7 @@ from UsersApp.models import AppUser
 
 from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 from DrinkUp.AirshipHelper import AirshipHelper
+from DrinkUp.EmailHelper import send_order_receipt_email
 
 ###################################################################
 
@@ -78,6 +79,7 @@ class BarOrder(BaseModel):
 									self.processPayment()
 								self.payment_processed = True
 						self.description = 'payment processed'
+						send_order_receipt_email(self)
 		if int(self.current_status) == 5:
 						#self.voidHold()
 						#self.description = 'hold voided'
