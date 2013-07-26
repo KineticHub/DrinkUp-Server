@@ -127,6 +127,25 @@ TEMPLATE_DIRS = (
     'opt/bitnami/apps/django/django_projects/DrinkUp/DrinkUp/templates',
 )
 
+#DJANGO EMAIL VAR
+EMAIL_SENDER_PREFIX = 'DrinkUp'
+MANDRILL_API_KEY = "VXljMAygdNGr9hlhCzNJZA"
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+
+#DJANGO_EMAIL_SETTINGS
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'k.alnajar@letsdrinkup.com'
+EMAIL_HOST_PASSWORD = 'Gr@$$h0pper'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'k.alnajar@letsdrinkup.com'
+
+#DJANGO_SESSION_SETTINGS
+SESSION_COOKIE_AGE = 15778500 # 6 months
+SESSION_COOKIE_SECURE = True # only send via HTTPS
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_NAME = 'CSRF-TOKEN'
+
 ACCOUNT_ACTIVATION_DAYS = 7
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -173,6 +192,8 @@ INSTALLED_APPS = (
 	'UsersApp',
     'south',
     'grappelli',
+    'mathfilters',
+    'djrill',
     #'admin_bootstrap',
     #'bootstrap_admin',
     # Uncomment the next line to enable the admin:

@@ -1,0 +1,57 @@
+{% load mathfilters %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>
+
+
+<div style="width:680px;font-family:arial,sans-serif">
+<center> 
+<table width="680px;" cellpadding="10">
+   <tr>
+   		 <td><table width="680px;">
+    	 	<td width="520px;"><img src="http://www.letsdrinkup.com/emaillogo.png" alt="emailLogo"></td><td><h2>Receipt</h2></td>
+    	 </table>
+   </td></tr>
+   <tr>
+   		<td><table width="680px;" cellpadding="10">
+   		<tr>
+    	 	<td width="300px;"><b>Billed To</b></td><td><b>Order</b></td>
+    	 </tr>
+    	 	<td width="300px;">{{order.appuser.user.username}}</td><td>{{order.pk}}</td>
+    	<tr>
+    	 	<td width="300px;"><b>Credit Card (last 4 digits)</b></td><td><b>Venue</b></td>
+    	 </tr>
+    	 	<td width="300px;">{{card.last_four}}</td><td>{{order.venue_name}}</td>
+    	</table>
+   </td></tr>
+   <tr>
+      	<td><table width="680px;" cellpadding="10">
+   		<tr>
+    	 	<td width="300px;"><b>Item</b></td><td><b>Quantity</b></td><td><b>Price</b></td><td><b>Total</b></td>
+    	 </tr>
+         {% for drink in drinks_list %}
+            <tr>
+            <td width="300px;">{{drink.drink_name}}</td><td>{{drink.quantity}}</td><td>{{drink.unit_price}}</td><td>{{drink.unit_price|mul:drink.quantity}}</td>
+            </tr>
+         {% endfor %}
+      	</table>
+   </td></tr>
+   <tr>
+     <td><table style="padding-left:480px;clear:left">
+     	<td><h3>Subtotal</h3></td><td>{{order.sub_total}}</td>
+         <tr>
+     		<td><h3>Gratuity</h3></td><td>{{order.tip}}</td>
+     	</tr>
+     	<tr>
+     		<td width="100px;"><h3>Total</h3></td><td>{{order.grand_total}}</td>
+     	</tr>
+     </table>
+     </tr></table>
+   
+
+</center>
+
+</div>
+
+
+</body>
+</html>
