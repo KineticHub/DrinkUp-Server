@@ -11,6 +11,6 @@ class AirshipHelper:
 
 		push = self.airship.create_push()
 		push.audience = ua.or_(ua.alias(user.username))
-		push.notification = ua.notification(alert=message)
+		push.notification = ua.notification(alert=message, badge='+1')
 		push.device_types = ua.device_types('ios', 'android')
 		push.send()
