@@ -127,6 +127,12 @@ TEMPLATE_DIRS = (
     'opt/bitnami/apps/django/django_projects/DrinkUp/DrinkUp/templates',
 )
 
+#AMAZON BUCKETS
+DRINKUP_USER_IMAGES_PROD = 'DrinkUp-Users/'
+DRINKUP_USER_IMAGES_DEV = 'DrinkUp-Users-Dev/'
+
+AMAZON_IMAGE_BASE_URL = 'https://s3.amazonaws.com/' + DRINKUP_USER_IMAGES_PROD
+
 #DJANGO EMAIL VAR
 EMAIL_SENDER_PREFIX = 'DrinkUp'
 MANDRILL_API_KEY = "VXljMAygdNGr9hlhCzNJZA"

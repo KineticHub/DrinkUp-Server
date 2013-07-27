@@ -7,6 +7,7 @@ from decimal import *
 import re
 
 #django view helpers
+from django.conf import settings
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render_to_response
@@ -287,14 +288,8 @@ def LogoutAppUser (request):
 def UserProfilePictureSaved (request):
 	if request.method == 'GET':
 		if request.user.is_authenticated():
-			image_url = request.GET.get('image_url', None)
-
-			if image_url is None:
-				response = json.dumps({'status': 'invalid', })
-				return HttpResponse(response, mimetype="application/json", status=401)
-
 			appuser = AppUser.objects.get(pk=request.user.appuser.pk)
-			appuser.profile_image_url = image_url
+			appuser.profile_image_url = settings.AMAZON_IMAGE_BASE_URL + appuser.user.username
 			appuser.save()
 			response = json.dumps({'status': 'success', })
 			return HttpResponse(response, mimetype="application/json")
