@@ -1,7 +1,7 @@
 # Django settings for DrinkUp project.
 import os
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 #os.environ["DJANGO_SETTINGS_MODULE"] = '/opt/bitnami/apps/django/django_projects/DrinkUp/'
@@ -131,7 +131,9 @@ TEMPLATE_DIRS = (
 DRINKUP_USER_IMAGES_PROD = 'DrinkUp-Users/'
 DRINKUP_USER_IMAGES_DEV = 'DrinkUp-Users-Dev/'
 
-AMAZON_IMAGE_BASE_URL = 'https://s3.amazonaws.com/' + DRINKUP_USER_IMAGES_PROD
+DRINKUP_USER_IMAGES = DRINKUP_USER_IMAGES_DEV if DEBUG else DRINKUP_USER_IMAGES_PROD
+
+AMAZON_IMAGE_BASE_URL = 'https://s3.amazonaws.com/' + DRINKUP_USER_IMAGES
 
 #DJANGO EMAIL VAR
 EMAIL_SENDER_PREFIX = 'DrinkUp'
