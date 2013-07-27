@@ -10,55 +10,54 @@ from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 ###################################################################
 
 @receiver(pre_save, sender=User)
-def user_pre_save(sender, instance, **kwargs):
-    instance.username = instance.username.lower()
-    instance.email = instance.email.lower()
+def user_pre_save (sender, instance, **kwargs):
+	instance.username = instance.username.lower()
+	instance.email = instance.email.lower()
 
 ###################################################################
 
 class AppUser(models.Model):
-
-	Gender_Options = (('male', 'male'), ('female','female'), ('transgender','transgender'))
+	Gender_Options = (('male', 'male'), ('female', 'female'), ('transgender', 'transgender'))
 
 	user = models.OneToOneField(User)
 	bp_account = models.CharField(max_length=255, blank=True)
-	profile_image_saved = models.BooleanField(default=False)
+	profile_image_url = models.URLField(blank=True)
 	birthdate = models.DateField(blank=True, null=True)
 	gender = models.CharField(choices=Gender_Options, max_length=15, blank=True)
 	facebook_user = models.OneToOneField('FacebookAppUser', verbose_name='Facebook Profile', blank=True, null=True)
 	foursquare_user = models.OneToOneField('FourSquareAppUser', verbose_name='Foursquare Profile', blank=True, null=True)
 
-	def save(self, *args, **kwargs):
+	def save (self, *args, **kwargs):
 		if not self.bp_account or len(self.bp_account) == 0:
 			self.createAccount()
 		super(AppUser, self).save(*args, **kwargs)
 
 	# create a new buyer account
-	def createAccount(self):
+	def createAccount (self):
 		helper = BalancedPaymentsHelper()
-                new_account = helper.setupNewBuyerAccount(username=self.user.username, email_address=self.user.email)
-                self.bp_account = new_account.uri
+		new_account = helper.setupNewBuyerAccount(username=self.user.username, email_address=self.user.email)
+		self.bp_account = new_account.uri
 
-	def __unicode__(self):
+	def __unicode__ (self):
 		return self.user.username
 
 ###################################################################		
 
 class FacebookAppUser(BaseModel):
-	fb_uid = models.BigIntegerField(verbose_name = 'facebook id', unique=True)
+	fb_uid = models.BigIntegerField(verbose_name='facebook id', unique=True)
 	fb_email = models.EmailField(max_length=255, blank=True)
 	oauth_token = models.OneToOneField('OAuthToken', verbose_name='OAuth token', blank=True, null=True)
-	
-	def __unicode__(self):
+
+	def __unicode__ (self):
 		return self.fb_email
 
 ###################################################################		
 
 class FourSquareAppUser(BaseModel):
-	fs_uid = models.BigIntegerField(verbose_name = 'foursquare id', unique=True)
+	fs_uid = models.BigIntegerField(verbose_name='foursquare id', unique=True)
 	fs_email = models.EmailField(max_length=255, blank=True)
 	oauth_token = models.OneToOneField('OAuthToken', verbose_name='OAuth token', blank=True, null=True)
-		
+
 ###################################################################
 
 class OAuthToken(models.Model):
@@ -77,32 +76,32 @@ class OAuthToken(models.Model):
 	"""A ``datetime`` object describing when the token expires (or ``None`` if it doesn't)"""
 
 	@property
-	def expired(self):
+	def expired (self):
 		"""Determine whether the OAuth token has expired."""
 		return self.expires_at < now() if self.expires_at else False
 
 	@property
-	def extended(self):
+	def extended (self):
 		"""Determine whether the OAuth token has been extended."""
 		if self.expires_at:
 			return self.expires_at - self.issued_at > timedelta(days=30)
 		else:
 			return False
 
-	def extend_fb_token(self):
+	def extend_fb_token (self):
 		"""Extend the OAuth token."""
 		graph = GraphAPI()
 
 		response = graph.get('oauth/access_token',
-			client_id = FACEBOOK_APPLICATION_ID,
-			client_secret = FACEBOOK_APPLICATION_SECRET_KEY,
-			grant_type = 'fb_exchange_token',
-			fb_exchange_token = self.token
+		                     client_id=FACEBOOK_APPLICATION_ID,
+		                     client_secret=FACEBOOK_APPLICATION_SECRET_KEY,
+		                     grant_type='fb_exchange_token',
+		                     fb_exchange_token=self.token
 		)
 
 		components = parse_qs(response)
 
 		self.token = components['access_token'][0]
-		self.expires_at = now() + timedelta(seconds = int(components['expires'][0]))
+		self.expires_at = now() + timedelta(seconds=int(components['expires'][0]))
 
 		self.save()
