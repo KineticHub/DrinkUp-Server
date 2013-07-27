@@ -699,25 +699,25 @@ def FacebookMobileLogin (request):
 					#response = json.dumps({'status': 'unauthorized',})
 					#return HttpResponse(response, mimetype="application/json", status=401)
 
-				except FacebookAppUser.DoesNotExist:
-				birthday = None
-				if hasattr(me, 'birthday'):
-					birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
-				new_fb_user = FacebookAppUser(user_id=primary_user, fb_uid=me.id, fb_email=me.email, oauth_token=new_token)
-				new_fb_user.save()
+					except FacebookAppUser.DoesNotExist:
+						birthday = None
+						if hasattr(me, 'birthday'):
+							birthday = datetime.strptime(me.birthday, '%m/%d/%Y')
+						new_fb_user = FacebookAppUser(user_id=primary_user, fb_uid=me.id, fb_email=me.email, oauth_token=new_token)
+						new_fb_user.save()
 
-				current_user = request.user
-				current_user.first_name = me.first_name
-				current_user.last_name = me.last_name
-				current_user.save()
+						current_user = request.user
+						current_user.first_name = me.first_name
+						current_user.last_name = me.last_name
+						current_user.save()
 
-				app_user = current_user.appuser
-				app_user.gender = me.gender
-				app_user.birthdate = birthday
-				app_user.facebook_user = new_fb_user
-				app_user.save()
+						app_user = current_user.appuser
+						app_user.gender = me.gender
+						app_user.birthdate = birthday
+						app_user.facebook_user = new_fb_user
+						app_user.save()
 
-				return HttpResponse('profile updated with facebook')
+						return HttpResponse('profile updated with facebook')
 
 
 		return HttpResponse('failed', status=400)
