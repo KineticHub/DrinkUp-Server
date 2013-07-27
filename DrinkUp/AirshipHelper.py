@@ -10,7 +10,7 @@ class AirshipHelper:
 		#self.airship.push({'aps': {'alert': message, 'badge':1, 'sound': 'default'}, 'status':status}, aliases=[user.username])
 
 		push = self.airship.create_push()
-		push.audience = ua.or_(self.airship.alias(user.username))
-		push.notification = self.airship.notification(alert=message)
-		push.device_types = self.airship.device_types('ios', 'android')
+		push.audience = ua.or_(ua.alias(user.username))
+		push.notification = ua.notification(alert=message)
+		push.device_types = ua.device_types('ios', 'android')
 		push.send()
