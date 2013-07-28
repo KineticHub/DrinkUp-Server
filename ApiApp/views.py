@@ -259,6 +259,7 @@ def UserPasswordReset (request, template='registration/password_reset_email.html
 		email = request.POST.get('email', None)
 		if email is not None:
 			form = PasswordResetForm({'email': email})
+			form.clean()
 			form.save(from_email=settings.DEFAULT_FROM_EMAIL, email_template_name=template)
 			response = json.dumps({'status': 'success', })
 			return HttpResponse(response, mimetype="application/json")
