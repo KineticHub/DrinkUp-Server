@@ -262,7 +262,8 @@ def UserPasswordReset (request, template='registration/password_reset_email.html
 			form = PasswordResetForm({'email': email})
 			if form.is_valid():
 				form.clean()
-				form.save(from_email=settings.DEFAULT_FROM_EMAIL, email_template_name=template, token_generator=default_token_generator)
+				form.save(from_email=settings.DEFAULT_FROM_EMAIL, email_template_name=template,
+				          token_generator=default_token_generator, use_https=request.is_secure())
 				response = json.dumps({'status': 'success', })
 				return HttpResponse(response, mimetype="application/json")
 
