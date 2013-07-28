@@ -254,7 +254,7 @@ def LoginAppUser (request):
 			return HttpResponse(response, mimetype="application/json", status=401)
 		# Return an 'invalid login' error message.
 
-def UserPasswordReset (request, template='registration/password_reset_email.html')
+def UserPasswordReset (request, template='registration/password_reset_email.html'):
 	if request.method == 'POST':
 		email = request.POST.get('email', None)
 		if email is not None:
