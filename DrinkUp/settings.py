@@ -143,10 +143,10 @@ EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 #DJANGO_EMAIL_SETTINGS
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'k.alnajar@letsdrinkup.com'
-EMAIL_HOST_PASSWORD = 'Gr@$$h0pper'
+EMAIL_HOST_USER = 'developer@letsdrinkup.com'
+EMAIL_HOST_PASSWORD = 'LetsDrinkUp'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'k.alnajar@letsdrinkup.com'
+DEFAULT_FROM_EMAIL = 'developer@letsdrinkup.com'
 
 #DJANGO_SESSION_SETTINGS
 SESSION_COOKIE_AGE = 15778500 # 6 months
@@ -155,13 +155,6 @@ CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_NAME = 'CSRF-TOKEN'
 
 ACCOUNT_ACTIVATION_DAYS = 7
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = 'sillyservers@gmail.com'
-EMAIL_HOST_PASSWORD = 'S1llyServers'
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'sillyservers@gmail.com'
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
