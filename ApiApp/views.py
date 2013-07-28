@@ -18,6 +18,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.tokens import default_token_generator
 
 #django models
 from django.db.models.loading import get_model
@@ -261,7 +262,7 @@ def UserPasswordReset (request, template='registration/password_reset_email.html
 			form = PasswordResetForm({'email': email})
 			if form.is_valid():
 				form.clean()
-				form.save(from_email=settings.DEFAULT_FROM_EMAIL, email_template_name=template)
+				form.save(from_email=settings.DEFAULT_FROM_EMAIL, email_template_name=template, token_generator=default_token_generator)
 				response = json.dumps({'status': 'success', })
 				return HttpResponse(response, mimetype="application/json")
 
