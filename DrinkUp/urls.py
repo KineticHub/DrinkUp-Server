@@ -12,7 +12,8 @@ urlpatterns = patterns('DrinkUp',
 
 	# Uncomment the next line to enable the admin:
 	url(r'^admin/', include(admin.site.urls)),
-	url(r'^accounts/', include('registration.urls')),
+	#url(r'^accounts/', include('registration.urls')),
+	url(r'^accounts/', include('registration.backends.default.urls')),
 )
 
 urlpatterns += patterns('ApiApp.views',
