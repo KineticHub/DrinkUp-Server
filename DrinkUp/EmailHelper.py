@@ -17,9 +17,9 @@ def send_email_to_user (email_args):
 	msg = EmailMultiAlternatives(
 		subject=subject,
 		body=content,
-		from_email=settings.EMAIL_SENDER_PREFIX + "<team@letsdrinkup.com>",
+		from_email= settings.EMAIL_SENDER_PREFIX + " <team@letsdrinkup.com>",
 		to=user_emails,
-		headers={'Reply-To': "Support <k.alnajar@letsdrinkup.com>"} # optional extra headers
+		headers={'Reply-To': "Support <team@letsdrinkup.com>"} # optional extra headers
 	)
 	msg.attach_alternative(html_content, "text/html")
 
