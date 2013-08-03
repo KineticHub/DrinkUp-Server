@@ -81,7 +81,7 @@ def CurrentLocation (request):
 			city = [list_place[-3], list_place[-2]]
 
 		response = json.dumps(city)
-	return HttpResponse(response, mimetype="application/json")
+		return HttpResponse(response, mimetype="application/json")
 
 
 def AllVenues (request):
