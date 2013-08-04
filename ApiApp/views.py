@@ -100,6 +100,8 @@ def VenuesNearLocation (request):
 		long = request.GET.get('long', None)
 		radius = request.GET.get('radius', '1.0')
 
+		log_messages = []
+
 		if not lat or not long:
 			if zipcode:
 				g = geocoders.GoogleV3()
@@ -110,16 +112,24 @@ def VenuesNearLocation (request):
 
 		all_venues = Venue.objects.all()
 		user_point = (float(lat), float(long))#Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001 (Buruss)
+		log_messages.append('using radius: ' + str(radius))
+		log_messages.append('user_point: ' + str(user_point))
+		log_messages.append('all venues: '+ str(all_venues))
 
+		log_messages.append('starting loop')
 		nearby_venues = []
 		for venue in all_venues:
 			venue_point = (float(venue.latitude), float(venue.longitude))#Point(str(venue.latitude)+";"+str(venue.longitude))
+			log_messages.append('first venue point: ' + str(venue_point))
+			distance_between = float(distance.distance(venue_point, user_point).miles)
+			log_messages.append('distance between user and venue: ' + str(distance_between))
 			if float(distance.distance(venue_point, user_point).miles) < float(radius):
+				log_messages.append('successfully adding')
 				nearby_venues.append(venue)
 
 		if len(nearby_venues) == 0:
 			message = 'No venues near (' + str(lat) + ', ' + str(long) +') within radius of ' + str(radius) + ' given user point ' + str(user_point)
-			response = json.dumps({'status': message, })
+			response = json.dumps({'status': str(log_messages), })
 			return HttpResponse(response, mimetype="application/json")
 
 		json_serializer = serializers.get_serializer("json")()
