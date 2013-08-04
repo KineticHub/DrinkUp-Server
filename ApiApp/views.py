@@ -109,7 +109,7 @@ def VenuesNearLocation (request):
 				return HttpResponse(response, mimetype="application/json")
 
 		all_venues = Venue.objects.all()
-		user_point = (lat, long)#Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001 (Buruss)
+		user_point = (float(lat), float(long))#Point(str(lat)+";"+str(long)) #37.228272, -80.42313630000001 (Buruss)
 
 		nearby_venues = []
 		for venue in all_venues:
