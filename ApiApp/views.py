@@ -113,8 +113,8 @@ def VenuesNearLocation (request):
 
 		nearby_venues = []
 		for venue in all_venues:
-			venue_point = (venue.latitude, venue.longitude)#Point(str(venue.latitude)+";"+str(venue.longitude))
-			if distance.distance(venue_point, user_point).miles < float(radius):
+			venue_point = (float(venue.latitude), float(venue.longitude))#Point(str(venue.latitude)+";"+str(venue.longitude))
+			if float(distance.distance(venue_point, user_point).miles) < float(radius):
 				nearby_venues.append(venue)
 
 		if len(nearby_venues) == 0:
