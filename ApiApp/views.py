@@ -95,9 +95,9 @@ def AllVenues (request):
 
 def VenuesNearLocation (request):
 	if request.method == 'GET':
-		zipcode = request.GET.get('zipcode')
-		lat = request.GET.get('lat')
-		long = request.GET.get('long')
+		zipcode = request.GET.get('zipcode', None)
+		lat = request.GET.get('lat', None)
+		long = request.GET.get('long', None)
 		radius = request.GET.get('radius', '1.0')
 
 		if not lat or not long:
@@ -116,6 +116,11 @@ def VenuesNearLocation (request):
 			venue_point = (venue.latitude, venue.longitude)#Point(str(venue.latitude)+";"+str(venue.longitude))
 			if distance.distance(venue_point, user_point).miles < float(radius):
 				nearby_venues.append(venue)
+
+		if len(nearby_venues) == 0:
+			message = 'No venues near (' + str(lat) + ', ' + str(long) +')'
+			response = json.dumps({'status': message, })
+			return HttpResponse(response, mimetype="application/json")
 
 		json_serializer = serializers.get_serializer("json")()
 		response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
