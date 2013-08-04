@@ -118,7 +118,7 @@ def VenuesNearLocation (request):
 				nearby_venues.append(venue)
 
 		if len(nearby_venues) == 0:
-			message = 'No venues near (' + str(lat) + ', ' + str(long) +')'
+			message = 'No venues near (' + str(lat) + ', ' + str(long) +') within radius of ' + str(radius) + ' given user point ' + user_point
 			response = json.dumps({'status': message, })
 			return HttpResponse(response, mimetype="application/json")
 
