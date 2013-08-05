@@ -127,10 +127,10 @@ def VenuesNearLocation (request):
 				log_messages.append('successfully adding')
 				nearby_venues.append(venue)
 
-		if len(nearby_venues) == 0:
-			message = 'No venues near (' + str(lat) + ', ' + str(long) +') within radius of ' + str(radius) + ' given user point ' + str(user_point)
-			response = json.dumps({'status': str(log_messages), })
-			return HttpResponse(response, mimetype="application/json")
+		# if len(nearby_venues) == 0:
+		# 	message = 'No venues near (' + str(lat) + ', ' + str(long) +') within radius of ' + str(radius) + ' given user point ' + str(user_point)
+		# 	response = json.dumps({'status': str(log_messages), })
+		# 	return HttpResponse(response, mimetype="application/json")
 
 		json_serializer = serializers.get_serializer("json")()
 		response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
