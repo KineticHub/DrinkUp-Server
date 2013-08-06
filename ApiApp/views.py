@@ -127,13 +127,21 @@ def VenuesNearLocation (request):
 				log_messages.append('successfully adding')
 				nearby_venues.append(venue)
 
+		weekday = datetime.today().weekday()
+		open_nearby_venues = []
+
+		for venue in nearby_venues:
+			venue_weekday = VenueOpeningHours.objects.get(pk=venue.pk, weekday=weekday)
+			if venue_weekday.open_hour < datetime.now().time() < venue_weekday.close_hour:
+				open_nearby_venues.append(venue)
+
 		# if len(nearby_venues) == 0:
 		# 	message = 'No venues near (' + str(lat) + ', ' + str(long) +') within radius of ' + str(radius) + ' given user point ' + str(user_point)
 		# 	response = json.dumps({'status': str(log_messages), })
 		# 	return HttpResponse(response, mimetype="application/json")
 
 		json_serializer = serializers.get_serializer("json")()
-		response = json_serializer.serialize(nearby_venues, ensure_ascii=False)
+		response = json_serializer.serialize(open_nearby_venues, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
 
@@ -434,19 +442,6 @@ def CreateNewOrder (request):
 			primary_user = 1
 			bar = VenueBar.objects.get(pk=bar_id)
 			drinks_data = json.loads(drinks)
-
-			############################
-			##SUPER TEMP FIX FOR IPHONE
-			# tax = 0.0
-			# sub_total = tax + float(total)
-			# fees = (0.05 * float(total)) + 0.05
-			#
-			# #Need to figure out what the tip percent was supposed to be
-			# tip_percent = float(tip) / (float(total) + 2.4 + 0.35)
-			#
-			# tip = (float(tax) + float(fees) + float(total)) * tip_percent
-			# grand_total = float(total) + float(tax) + float(fees) + float(tip)
-			############################
 
 			new_order = BarOrder(user_id=primary_user, venue=bar.venue, bar=bar, venue_name=bar.venue.name,
 			                     appuser=appuser, total=total, tax=tax, sub_total=sub_total, tip=tip, fees=fees,
