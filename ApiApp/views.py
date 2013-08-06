@@ -88,8 +88,16 @@ def AllVenues (request):
 	if request.method == 'GET':
 		venues_to_return = Venue.objects.all()
 
+		weekday = datetime.today().weekday()
+		open_venues = []
+
+		for venue in venues_to_return:
+			venue_weekday = VenueOpeningHours.objects.get(venue=venue, weekday=weekday)
+			if venue_weekday.open_hour < datetime.now().time() < venue_weekday.close_hour:
+				open_venues.append(venue)
+
 		json_serializer = serializers.get_serializer("json")()
-		response = json_serializer.serialize(venues_to_return, ensure_ascii=False)
+		response = json_serializer.serialize(open_venues, ensure_ascii=False)
 		return HttpResponse(response, mimetype="application/json")
 
 
