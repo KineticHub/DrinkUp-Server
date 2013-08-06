@@ -10,6 +10,7 @@ from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 
 from geopy import geocoders
 from facepy import GraphAPI
+from timezone_field import TimeZoneField
 
 ###################################################################
 
@@ -21,6 +22,7 @@ class Venue(models.Model):
     street_address = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     postal_code = models.CharField(max_length=5)
+    timezone = TimeZoneField()
     tax_id = models.CharField(max_length=9)
     icon = models.URLField(blank=True)
     facebook_id = models.CharField(max_length=255, blank=True, null=True)

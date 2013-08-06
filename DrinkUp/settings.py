@@ -197,6 +197,7 @@ INSTALLED_APPS = (
     'grappelli',
     'mathfilters',
     'djrill',
+    'timezone_field',
     #'admin_bootstrap',
     #'bootstrap_admin',
     # Uncomment the next line to enable the admin:
