@@ -140,11 +140,13 @@ def VenuesNearLocation (request):
 				log_messages.append('successfully adding')
 				nearby_venues.append(venue)
 
-		weekday = datetime.today().weekday()
 		open_nearby_venues = []
-
 		for venue in nearby_venues:
-			venue_weekday = VenueOpeningHours.objects.get(pk=venue.pk, weekday=weekday)
+			weekday = convert_current_UTC_to_venue_local_datetime(venue).weekday()
+			try:
+				venue_weekday = VenueOpeningHours.objects.get(venue=venue, weekday=weekday)
+			except VenueOpeningHours.DoesNotExist:
+				continue
 			if venue_weekday.open_hour < convert_current_UTC_to_venue_local_time(venue) < venue_weekday.close_hour:
 				open_nearby_venues.append(venue)
 
