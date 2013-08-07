@@ -56,6 +56,9 @@ from datetime import datetime
 #BalancedPayments
 from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 
+#Utility Helper
+from DrinkUp.UtilitiesHelper import convert_current_UTC_to_venue_local_time
+
 
 def CurrentLocation (request):
 	if request.method == 'GET':
@@ -93,7 +96,7 @@ def AllVenues (request):
 
 		for venue in venues_to_return:
 			venue_weekday = VenueOpeningHours.objects.get(venue=venue, weekday=weekday)
-			if venue_weekday.open_hour < datetime.now().time() < venue_weekday.close_hour:
+			if venue_weekday.open_hour < convert_current_UTC_to_venue_local_time(venue) < venue_weekday.close_hour:
 				open_venues.append(venue)
 
 		json_serializer = serializers.get_serializer("json")()
@@ -140,7 +143,7 @@ def VenuesNearLocation (request):
 
 		for venue in nearby_venues:
 			venue_weekday = VenueOpeningHours.objects.get(pk=venue.pk, weekday=weekday)
-			if venue_weekday.open_hour < datetime.now().time() < venue_weekday.close_hour:
+			if venue_weekday.open_hour < convert_current_UTC_to_venue_local_time(venue) < venue_weekday.close_hour:
 				open_nearby_venues.append(venue)
 
 		# if len(nearby_venues) == 0:
@@ -460,7 +463,7 @@ def CreateNewOrder (request):
 				drink_type = VenueDrinkType.objects.get(pk=int(drink['drink_type']))
 				price = Decimal(drink['price'])
 				is_happyhour = False
-				if bar.happyhour_start < datetime.now().time() < bar.happyhour_end:
+				if bar.happyhour_start < convert_current_UTC_to_venue_local_time(bar.venue) < bar.happyhour_end:
 					price = Decimal(drink['happyhour_price'])
 					is_happyhour = True
 				new_drink_ordered = BarDrinkOrdered(order=new_order, drink_name=drink['name'],

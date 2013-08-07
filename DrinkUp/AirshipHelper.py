@@ -6,8 +6,9 @@ class AirshipHelper:
 	def __init__(self):
 		self.airship = ua.Airship(settings.UA_APP_KEY_PROD, settings.UA_APP_MASTER_SECRET_PROD)
 
-	def pushMessageForUser(self, message, user, status):
-		#self.airship.push({'aps': {'alert': message, 'badge':1, 'sound': 'default'}, 'status':status}, aliases=[user.username])
+	def push_message_for_user(self, message, user, status):
+		#self.airship.push({'aps': {'alert': message, 'badge':1, 'sound': 'default'},
+		# 'status':status}, aliases=[user.username])
 
 		push = self.airship.create_push()
 		push.audience = ua.or_(ua.alias(user.username))
