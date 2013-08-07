@@ -98,7 +98,8 @@ def AllVenues (request):
 				venue_weekday = VenueOpeningHours.objects.get(venue=venue, weekday=weekday)
 			except VenueOpeningHours.DoesNotExist:
 				continue
-			if venue_weekday.open_hour < convert_current_UTC_to_venue_local_time(venue) < venue_weekday.close_hour:
+			if venue_weekday.open_hour < convert_current_UTC_to_venue_local_time(venue) < venue_weekday.close_hour\
+						and not venue_weekday.closed:
 				open_venues.append(venue)
 
 		json_serializer = serializers.get_serializer("json")()
@@ -147,7 +148,8 @@ def VenuesNearLocation (request):
 				venue_weekday = VenueOpeningHours.objects.get(venue=venue, weekday=weekday)
 			except VenueOpeningHours.DoesNotExist:
 				continue
-			if venue_weekday.open_hour < convert_current_UTC_to_venue_local_time(venue) < venue_weekday.close_hour:
+			if venue_weekday.open_hour < convert_current_UTC_to_venue_local_time(venue) < venue_weekday.close_hour\
+						and not venue_weekday.closed:
 				open_nearby_venues.append(venue)
 
 		# if len(nearby_venues) == 0:
