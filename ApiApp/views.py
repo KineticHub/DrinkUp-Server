@@ -90,11 +90,10 @@ def CurrentLocation (request):
 def AllVenues (request):
 	if request.method == 'GET':
 		venues_to_return = Venue.objects.all()
-
-		weekday = convert_current_UTC_to_venue_local_datetime.weekday()
 		open_venues = []
 
 		for venue in venues_to_return:
+			weekday = convert_current_UTC_to_venue_local_datetime(venue).weekday()
 			venue_weekday = VenueOpeningHours.objects.get(venue=venue, weekday=weekday)
 			if venue_weekday.open_hour < convert_current_UTC_to_venue_local_time(venue) < venue_weekday.close_hour:
 				open_venues.append(venue)
