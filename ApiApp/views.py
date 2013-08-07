@@ -57,7 +57,7 @@ from datetime import datetime
 from DrinkUp.BalancedHelper import BalancedPaymentsHelper
 
 #Utility Helper
-from DrinkUp.UtilitiesHelper import convert_current_UTC_to_venue_local_time
+from DrinkUp.UtilitiesHelper import *
 
 
 def CurrentLocation (request):
@@ -91,7 +91,7 @@ def AllVenues (request):
 	if request.method == 'GET':
 		venues_to_return = Venue.objects.all()
 
-		weekday = datetime.today().weekday()
+		weekday = convert_current_UTC_to_venue_local_datetime.weekday()
 		open_venues = []
 
 		for venue in venues_to_return:
