@@ -522,8 +522,8 @@ def GetOrdersForBarWithStatus (request, bar_id=0, status=0):
 		if bar_id == 0:
 			bar_id = bartender.bar.pk
 
-		drinkOrders = BarDrinkOrdered.objects.select_related("order").order_by("order__updated").filter(order__bar=bar_id).filter(
-			order__current_status=status).reverse()[:6]
+		drinkOrders = BarDrinkOrdered.objects.select_related("order").filter(order__bar=bar_id).filter(
+			order__current_status=status)
 
 		all_orders = []
 		from itertools import groupby
