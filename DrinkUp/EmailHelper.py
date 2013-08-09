@@ -30,7 +30,7 @@ def send_email_to_user (email_args):
 	# Now create the MIME container for the image
 	img = MIMEImage(img_data, 'jpg')
 	img.add_header('Content-Id', '<email_logo>')  # angle brackets are important
-	msg.attach(filename='email_logo', content=img_data)
+	msg.attach(img)
 	msg.send()
 
 	# Optional Mandrill-specific extensions:
