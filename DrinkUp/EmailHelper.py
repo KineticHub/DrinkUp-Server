@@ -23,14 +23,14 @@ def send_email_to_user (email_args):
 		headers={'Reply-To': "Support <team@letsdrinkup.com>"} # optional extra headers
 	)
 	msg.attach_alternative(html_content, "text/html")
-	msg.mixed_subtype = 'related'
+	# msg.mixed_subtype = 'related'
 
-	# Load the image you want to send at bytes
-	img_data = open(settings.SETTINGS_PATH + "/resources/resource_images/email_logo.jpg", 'rb').read()
-	# Now create the MIME container for the image
-	img = MIMEImage(img_data, 'jpg')
-	img.add_header('Content-Id', '<email_logo>')  # angle brackets are important
-	msg.attach(img)
+	# # Load the image you want to send at bytes
+	# img_data = open(settings.SETTINGS_PATH + "/resources/resource_images/email_logo.jpg", 'rb').read()
+	# # Now create the MIME container for the image
+	# img = MIMEImage(img_data, 'jpg')
+	# img.add_header('Content-Id', '<email_logo>')  # angle brackets are important
+	# msg.attach(img)
 	msg.send()
 
 	# Optional Mandrill-specific extensions:
