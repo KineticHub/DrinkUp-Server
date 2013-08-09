@@ -28,9 +28,9 @@ def send_email_to_user (email_args):
 	# Load the image you want to send at bytes
 	img_data = open(settings.SETTINGS_PATH + "/resources/resource_images/email_logo.jpg", 'rb').read()
 	# Now create the MIME container for the image
-	img = MIMEImage(img_data, 'jpeg')
-	img.add_header('Content-Id', '<company_logo>')  # angle brackets are important
-	msg.attach(img)
+	img = MIMEImage(img_data, 'jpg')
+	img.add_header('Content-Id', '<email_logo>')  # angle brackets are important
+	msg.attach(filename='email_logo', content=img)
 	msg.send()
 
 	# Optional Mandrill-specific extensions:
