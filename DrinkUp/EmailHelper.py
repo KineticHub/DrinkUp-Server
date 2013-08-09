@@ -29,7 +29,7 @@ def send_email_to_user (email_args):
 	img_data = open(settings.SETTINGS_PATH + "/resources/resource_images/email_logo.jpg", 'rb').read()
 	# Now create the MIME container for the image
 	img = MIMEImage(img_data, 'jpeg')
-	img.add_header('Content-Id', '<email_logo.jpg>')  # angle brackets are important
+	img.add_header('Content-Id', '<company_logo>')  # angle brackets are important
 	msg.attach(img)
 	msg.send()
 
