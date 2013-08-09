@@ -1,4 +1,5 @@
 __author__ = 'Kinetic'
+from email.mime.image import MIMEImage
 
 from django.conf import settings
 from django import template
@@ -22,6 +23,15 @@ def send_email_to_user (email_args):
 		headers={'Reply-To': "Support <team@letsdrinkup.com>"} # optional extra headers
 	)
 	msg.attach_alternative(html_content, "text/html")
+	msg.mixed_subtype = 'related'
+
+	# Load the image you want to send at bytes
+	img_data = open(settings.SETTINGS_PATH + "/resources/resource_images/email_logo.jpg", 'rb').read()
+	# Now create the MIME container for the image
+	img = MIMEImage(img_data, 'jpeg')
+	img.add_header('Content-Id', '<email_logo.jpg>')  # angle brackets are important
+	msg.attach(img)
+	msg.send()
 
 	# Optional Mandrill-specific extensions:
 	#msg.tags = ["one tag", "two tag", "red tag", "blue tag"]
