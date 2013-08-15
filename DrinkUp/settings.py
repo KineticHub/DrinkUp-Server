@@ -15,7 +15,7 @@ AUTH_PROFILE_MODULE = 'DrinkUp.VenueOwnerUserProfile'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3', #'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'drinkup_db',                      # Or path to database file if using sqlite3.
         'USER': 'drinkup_db_user',                      # Not used with sqlite3.
         'PASSWORD': 'Gr@$$h0pper',                  # Not used with sqlite3.

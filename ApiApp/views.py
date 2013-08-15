@@ -43,7 +43,7 @@ from DrinkUp.settings import FACEBOOK_APP_ID, FACEBOOK_SECRET_KEY, FACEBOOK_REDI
 
 #django registration
 from registration.views import *
-from registration.backends import get_backend
+#from registration.backends import get_backend
 #from registration.backends import default as registration_backend_default
 
 #geopy imports
