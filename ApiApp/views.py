@@ -90,17 +90,7 @@ def CurrentLocation (request):
 def AllVenues (request):
 	if request.method == 'GET':
 		venues_to_return = Venue.objects.all()
-		open_venues = []
-
-		for venue in venues_to_return:
-			weekday = convert_current_UTC_to_venue_local_datetime(venue).weekday()
-			try:
-				venue_weekday = VenueOpeningHours.objects.get(venue=venue, weekday=weekday)
-			except VenueOpeningHours.DoesNotExist:
-				continue
-			if venue_weekday.open_hour < convert_current_UTC_to_venue_local_time(venue) < venue_weekday.close_hour\
-						and not venue_weekday.closed:
-				open_venues.append(venue)
+		open_venues = determine_open_venues(venues_to_return)
 
 		json_serializer = serializers.get_serializer("json")()
 		response = json_serializer.serialize(open_venues, ensure_ascii=False)
@@ -141,16 +131,7 @@ def VenuesNearLocation (request):
 				log_messages.append('successfully adding')
 				nearby_venues.append(venue)
 
-		open_nearby_venues = []
-		for venue in nearby_venues:
-			weekday = convert_current_UTC_to_venue_local_datetime(venue).weekday()
-			try:
-				venue_weekday = VenueOpeningHours.objects.get(venue=venue, weekday=weekday)
-			except VenueOpeningHours.DoesNotExist:
-				continue
-			if venue_weekday.open_hour < convert_current_UTC_to_venue_local_time(venue) < venue_weekday.close_hour\
-						and not venue_weekday.closed:
-				open_nearby_venues.append(venue)
+		open_nearby_venues = determine_open_venues(nearby_venues)
 
 		# if len(nearby_venues) == 0:
 		# 	message = 'No venues near (' + str(lat) + ', ' + str(long) +') within radius of ' + str(radius) + ' given user point ' + str(user_point)
