@@ -4,12 +4,12 @@ from django.conf import settings
 class BalancedPaymentsHelper:
 
 	def __init__(self):
-			balanced.configure(settings.BALANCED_API_KEY_LIVE)
+			balanced.configure(settings.BALANCED_API_KEY)
 			if not balanced.Marketplace.my_marketplace:
 				raise Exception("Marketplace.my_marketplace should not be nil")
 
 	def setupMarketplace(self):
-		balanced.configure(settings.BALANCED_API_KEY_LIVE)
+		balanced.configure(settings.BALANCED_API_KEY)
 		if not balanced.Marketplace.my_marketplace:
 			raise Exception("Marketplace.my_marketplace should not be nil")
 		return balanced.Marketplace.my_marketplace

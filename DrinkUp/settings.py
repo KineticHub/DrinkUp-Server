@@ -1,6 +1,7 @@
 # Django settings for DrinkUp project.
 import os
 
+LOCAL = False
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -13,9 +14,11 @@ ADMINS = (
 MANAGERS = ADMINS
 AUTH_PROFILE_MODULE = 'DrinkUp.VenueOwnerUserProfile'
 
+DATABASE_ENGINE = 'django.db.backends.sqlite3' if LOCAL else 'django.db.backends.postgresql_psycopg2'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', #'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': DATABASE_ENGINE,  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'drinkup_db',                      # Or path to database file if using sqlite3.
         'USER': 'drinkup_db_user',                      # Not used with sqlite3.
         'PASSWORD': 'Gr@$$h0pper',                  # Not used with sqlite3.
@@ -60,7 +63,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = '~/apps/django/django_projects/DrinkUp/DrinkUp/static'
+STATIC_ROOT = '~/apps/django/django_projects/DrinkUp/DrinkUp/static_root'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -155,11 +158,12 @@ SESSION_COOKIE_SECURE = True # only send via HTTPS
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_NAME = 'CSRF-TOKEN'
 
-ACCOUNT_ACTIVATION_DAYS = 7
+if LOCAL:
+    CSRF_COOKIE_DOMAIN = '127.0.0.1'
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_NAME = 'CSRF-TOKEN'
+ACCOUNT_ACTIVATION_DAYS = 7
 
 GRAPPELLI_ADMIN_TITLE = 'DrinkUp'
 
@@ -169,6 +173,7 @@ SERIALIZATION_MODULES = {
 
 BALANCED_API_KEY_LIVE='d22efde4d52611e2bf68026ba7f8ec28'
 BALANCED_API_KEY_TEST='5f3e2ee0a3b211e28fc8026ba7f8ec28'
+BALANCED_API_KEY = BALANCED_API_KEY_TEST if DEBUG else BALANCED_API_KEY_LIVE
 
 UA_APP_KEY_DEV = 'eKW8DeUHRBeIUkcKKAbc1g'
 UA_APP_SECRET_DEV = 'gV7KroWvRu-pd2QdUETegw'
@@ -177,6 +182,10 @@ UA_APP_MASTER_SECRET_DEV = 'BY3UQjEwR9W4bnggTiOafA'
 UA_APP_KEY_PROD = 'KqdTDnAMSsmtk2SDyV5YVg'
 UA_APP_SECRET_PROD = 'PyGiTKt6S-Cg8d0mHhOwWw'
 UA_APP_MASTER_SECRET_PROD = 'X8yvJw9pSVGjahDEOYCJzA'
+
+UA_APP_KEY = UA_APP_KEY_DEV if DEBUG else UA_APP_KEY_PROD
+UA_APP_SECRET = UA_APP_SECRET_DEV if DEBUG else UA_APP_SECRET_PROD
+UA_APP_MASTER_SECRET = UA_APP_MASTER_SECRET_DEV if DEBUG else UA_APP_MASTER_SECRET_PROD
 
 INSTALLED_APPS = (
     'django.contrib.auth',

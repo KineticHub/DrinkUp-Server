@@ -4,7 +4,7 @@ from django.conf import settings
 
 class AirshipHelper:
 	def __init__(self):
-		self.airship = ua.Airship(settings.UA_APP_KEY_PROD, settings.UA_APP_MASTER_SECRET_PROD)
+		self.airship = ua.Airship(settings.UA_APP_KEY, settings.UA_APP_MASTER_SECRET)
 
 	def push_message_for_user(self, message, user, status):
 		#self.airship.push({'aps': {'alert': message, 'badge':1, 'sound': 'default'},
