@@ -1,7 +1,7 @@
 # Django settings for DrinkUp project.
 import os
 
-LOCAL = False
+LOCAL = True
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -171,8 +171,8 @@ SERIALIZATION_MODULES = {
     'json': 'wadofstuff.django.serializers.json'
 }
 
-BALANCED_API_KEY_LIVE='d22efde4d52611e2bf68026ba7f8ec28'
-BALANCED_API_KEY_TEST='5f3e2ee0a3b211e28fc8026ba7f8ec28'
+BALANCED_API_KEY_LIVE = 'd22efde4d52611e2bf68026ba7f8ec28'
+BALANCED_API_KEY_TEST = '5f3e2ee0a3b211e28fc8026ba7f8ec28'
 BALANCED_API_KEY = BALANCED_API_KEY_TEST if DEBUG else BALANCED_API_KEY_LIVE
 
 UA_APP_KEY_DEV = 'eKW8DeUHRBeIUkcKKAbc1g'
