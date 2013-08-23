@@ -1,20 +1,23 @@
 #DrinkUp/VenueApp
 import datetime
 from urllib import urlencode
+
 from django.db import models
-from ApiApp.models import BaseModel
 from django.contrib.auth.models import User, UserManager
-from django.db.models.signals import post_save
-
-from DrinkUp.BalancedHelper import BalancedPaymentsHelper
-
-from geopy import geocoders
-from facepy import GraphAPI
 from timezone_field import TimeZoneField
+
+from ApiApp.models import BaseModel
+from DrinkUp.Helpers.BalancedHelper import BalancedPaymentsHelper
+from VenueApp.processor import VenueAppProcessor
+
 
 ###################################################################
 
+
+
 class Venue(models.Model):
+    venue_app_processor = VenueAppProcessor()
+
     name = models.CharField(max_length=255)
     bp_merchant = models.CharField(max_length=255, blank=True)
     contact_email = models.EmailField(max_length=255)
@@ -34,27 +37,8 @@ class Venue(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-            #if not self.pk or not self.latitude or not self.longitude:
-            self.set_coords()
-                                        #pass
-            super(Venue, self).save(*args, **kwargs)
-
-        # set coordinates
-    def set_coords(self):
-            address = self.street_address +', '+self.city
-
-            domain = 'maps.googleapis.com'
-            params = {'address':address}
-
-            url = 'http://%(domain)s/maps/api/geocode/json?%(params)s&sensor=false' % ({'domain': domain,
-                                                                                        'params': urlencode(params)})
-
-            g = geocoders.GoogleV3()
-            place, (lat, lng) = g.geocode_url(url, False)[0]
-            #place_area, (lat, lng) = g.geocode(self.postal_code)
-            #place, (lat, lng) = g.geocode(self.street_address +', '+self.city)
-            self.latitude = lat
-            self.longitude = lng
+        self.latitude, self.longitude = self.venue_app_processor.setCoordinatesForVenue(self)
+        super(Venue, self).save(*args, **kwargs)
 
 ###################################################################
 
@@ -78,13 +62,13 @@ class VenueOpeningHours(BaseModel):
         closed = models.BooleanField(default=False)
 
         class Meta:
-                unique_together = ('venue', 'weekday')
-
-        def get_weekday_from_display(self):
-                return WEEKDAYS[self.weekday_from]
+            unique_together = ('venue', 'weekday')
 
         def get_weekday_to_display(self):
-                return WEEKDAYS[self.weekday_to]
+            return WEEKDAYS[self.weekday][1]
+
+        def __unicode__(self):
+            return self.venue.name + ' ' + self.get_weekday_to_display() + ' hours'
 
 class VenueSpecialDays(BaseModel):
         venue = models.ForeignKey(Venue)
@@ -94,7 +78,10 @@ class VenueSpecialDays(BaseModel):
         to_hour = models.TimeField(null=True, blank=True)
 
         class Meta:
-                unique_together = ('venue', 'holiday_date')
+            unique_together = ('venue', 'holiday_date')
+
+        def __unicode__(self):
+            return self.venue + ' ' + self.holiday_date
 
 ###################################################################
 
@@ -172,7 +159,7 @@ class VenueBankAccount(BaseModel):
         self.bp_uri = bank_account.uri
 
     def __unicode__(self):
-	    return self.account_type + ' ' + self.account_number[-4:]
+        return self.account_type + ' ' + self.account_number[-4:]
 
     class Meta:
         verbose_name = "Venue Bank Account"

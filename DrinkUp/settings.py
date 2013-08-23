@@ -18,12 +18,12 @@ DATABASE_ENGINE = 'django.db.backends.sqlite3' if LOCAL else 'django.db.backends
 
 DATABASES = {
     'default': {
-        'ENGINE': DATABASE_ENGINE,  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'drinkup_db',                      # Or path to database file if using sqlite3.
-        'USER': 'drinkup_db_user',                      # Not used with sqlite3.
-        'PASSWORD': 'Gr@$$h0pper',                  # Not used with sqlite3.
-        'HOST': '127.0.0.1',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': DATABASE_ENGINE, # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'drinkup_db', # Or path to database file if using sqlite3.
+        'USER': 'drinkup_db_user', # Not used with sqlite3.
+        'PASSWORD': 'Gr@$$h0pper', # Not used with sqlite3.
+        'HOST': '127.0.0.1', # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '', # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -199,9 +199,9 @@ INSTALLED_APPS = (
     'django_extensions',
     'registration',
     'ApiApp',
-	'VenueApp',
-	'BarApp',
-	'UsersApp',
+    'VenueApp',
+    'BarApp',
+    'UsersApp',
     'south',
     'grappelli',
     'mathfilters',

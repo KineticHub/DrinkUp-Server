@@ -10,25 +10,13 @@ import re
 from django.conf import settings
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
-from django.shortcuts import render_to_response
-from django.core.context_processors import csrf
-from django.template import RequestContext
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import redirect
-from django.conf import settings
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
 
 #django models
-from django.db.models.loading import get_model
-from django.db.models import Q
-from django.forms.models import model_to_dict
-from django.db import models
 
 #django authentication
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -42,22 +30,18 @@ from pyfb import Pyfb
 from DrinkUp.settings import FACEBOOK_APP_ID, FACEBOOK_SECRET_KEY, FACEBOOK_REDIRECT_URL
 
 #django registration
-from registration.views import *
 #from registration.backends import get_backend
 #from registration.backends import default as registration_backend_default
 
 #geopy imports
 from geopy import geocoders
 from geopy import distance
-from geopy.point import Point
-
-from datetime import datetime
 
 #BalancedPayments
-from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+from DrinkUp.Helpers.BalancedHelper import BalancedPaymentsHelper
 
 #Utility Helper
-from DrinkUp.UtilitiesHelper import *
+from DrinkUp.Helpers.ViewsHelper import *
 
 
 def CurrentLocation (request):

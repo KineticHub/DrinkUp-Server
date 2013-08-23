@@ -1,12 +1,11 @@
 #DrinkUp/BarApp
 from django.db import models
 from ApiApp.models import BaseModel
-from VenueApp.models import Venue, VenueDrinkType
-from UsersApp.models import AppUser
+from DrinkUp.Helpers import AirshipHelper
+from VenueApp.models import Venue
 
-from DrinkUp.BalancedHelper import BalancedPaymentsHelper
-from DrinkUp.AirshipHelper import AirshipHelper
-from DrinkUp.EmailHelper import send_order_receipt_email
+from DrinkUp.Helpers.BalancedHelper import BalancedPaymentsHelper
+from DrinkUp.Helpers.EmailHelper import send_order_receipt_email
 
 ###################################################################
 

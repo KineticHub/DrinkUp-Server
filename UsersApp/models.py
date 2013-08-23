@@ -1,22 +1,23 @@
 #DrinkUp/UsersApp
 from django.db import models
-from ApiApp.models import BaseModel
-from django.contrib.auth.models import User, UserManager
-from django.db.models.signals import post_save, pre_save
+from django.contrib.auth.models import User
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
-from DrinkUp.BalancedHelper import BalancedPaymentsHelper
+from ApiApp.models import BaseModel
+from UsersApp.processor import UsersAppProcessor
+
 
 ###################################################################
-
 @receiver(pre_save, sender=User)
-def user_pre_save (sender, instance, **kwargs):
+def user_pre_save(sender, instance, **kwargs):
     instance.username = instance.username.lower()
     instance.email = instance.email.lower()
 
 ###################################################################
 
 class AppUser(models.Model):
+    users_app_processor = UsersAppProcessor()
     Gender_Options = (('male', 'male'), ('female', 'female'), ('transgender', 'transgender'))
 
     user = models.OneToOneField(User)
@@ -30,14 +31,8 @@ class AppUser(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.bp_account or len(self.bp_account) == 0:
-            self.createAccount()
+            self.bp_account = AppUser.users_app_processor.createNewBalancedPaymentsAccountForAppUser(self)
         super(AppUser, self).save(*args, **kwargs)
-
-    # create a new buyer account
-    def createAccount(self):
-        helper = BalancedPaymentsHelper()
-        new_account = helper.setupNewBuyerAccount(username=self.user.username, email_address=self.user.email)
-        self.bp_account = new_account.uri
 
     def __unicode__(self):
         return self.user.username
@@ -77,19 +72,19 @@ class OAuthToken(models.Model):
     """A ``datetime`` object describing when the token expires (or ``None`` if it doesn't)"""
 
     @property
-    def expired (self):
+    def expired(self):
         """Determine whether the OAuth token has expired."""
         return self.expires_at < now() if self.expires_at else False
 
     @property
-    def extended (self):
+    def extended(self):
         """Determine whether the OAuth token has been extended."""
         if self.expires_at:
             return self.expires_at - self.issued_at > timedelta(days=30)
         else:
             return False
 
-    def extend_fb_token (self):
+    def extend_fb_token(self):
         """Extend the OAuth token."""
         graph = GraphAPI()
 
