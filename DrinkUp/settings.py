@@ -2,7 +2,7 @@
 import os
 
 LOCAL = False
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 #os.environ["DJANGO_SETTINGS_MODULE"] = '/opt/bitnami/apps/django/django_projects/DrinkUp/'
