@@ -6,6 +6,7 @@ from VenueApp.models import Venue
 
 from DrinkUp.Helpers.BalancedHelper import BalancedPaymentsHelper
 from DrinkUp.Helpers.EmailHelper import send_order_receipt_email
+from DrinkUp.Helpers.AirshipHelper import AirshipHelper
 
 ###################################################################
 
