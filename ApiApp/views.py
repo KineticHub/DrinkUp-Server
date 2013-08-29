@@ -44,7 +44,7 @@ from DrinkUp.Helpers.BalancedHelper import BalancedPaymentsHelper
 from DrinkUp.Helpers.ViewsHelper import *
 
 
-def CurrentLocation (request):
+def CurrentLocation(request):
     if request.method == 'GET':
         zipcode = request.GET.get('zipcode')
         lat = request.GET.get('lat')
@@ -71,7 +71,7 @@ def CurrentLocation (request):
         return HttpResponse(response, mimetype="application/json")
 
 
-def AllVenues (request):
+def AllVenues(request):
     if request.method == 'GET':
         venues_to_return = Venue.objects.all()
         open_venues = determine_open_venues(venues_to_return)
@@ -81,7 +81,7 @@ def AllVenues (request):
         return HttpResponse(response, mimetype="application/json")
 
 
-def VenuesNearLocation (request):
+def VenuesNearLocation(request):
     if request.method == 'GET':
         zipcode = request.GET.get('zipcode', None)
         lat = request.GET.get('lat', None)
@@ -128,7 +128,7 @@ def VenuesNearLocation (request):
         return HttpResponse(response, mimetype="application/json")
 
 
-def VenueBars (request, venue_id):
+def VenueBars(request, venue_id):
     if request.method == 'GET':
         bars_to_return = VenueBar.objects.filter(venue=venue_id)
         json_serializer = serializers.get_serializer("json")()
@@ -136,7 +136,7 @@ def VenueBars (request, venue_id):
         return HttpResponse(response, mimetype="application/json")
 
 
-def VenueInfo (request, venue_id):
+def VenueInfo(request, venue_id):
     if request.method == 'GET':
         venue_to_return = Venue.objects.filter(pk=venue_id)
         json_serializer = serializers.get_serializer("json")()
@@ -144,7 +144,7 @@ def VenueInfo (request, venue_id):
         return HttpResponse(response, mimetype="application/json")
 
 
-def BarDrinkTypes (request, bar_id):
+def BarDrinkTypes(request, bar_id):
     if request.method == 'GET':
         drinks = BarDrink.objects.filter(bar=bar_id)
         types_to_return = VenueDrinkType.objects.filter(bardrink__in=drinks).distinct()
@@ -153,7 +153,7 @@ def BarDrinkTypes (request, bar_id):
         return HttpResponse(response, mimetype="application/json")
 
 
-def BarDrinksOfType (request, bar_id, type_id):
+def BarDrinksOfType(request, bar_id, type_id):
     if request.method == 'GET':
         drinks_to_return = BarDrink.objects.filter(bar=bar_id) if type_id == '0' else BarDrink.objects.filter(
             bar=bar_id, drink_type=type_id)
@@ -162,7 +162,7 @@ def BarDrinksOfType (request, bar_id, type_id):
         return HttpResponse(response, mimetype="application/json")
 
 
-def CreateAppUser (request):
+def CreateAppUser(request):
     if request.method == 'POST':
         username = request.POST['username'].lower()
         email = request.POST['email'].lower()
@@ -223,7 +223,7 @@ def CreateAppUser (request):
                 return HttpResponse(serialized_response, mimetype="application/json")
 
 
-def UserAccountInfo (request):
+def UserAccountInfo(request):
     if request.method == 'GET':
         serialized_response = serializers.serialize('json', [request.user.appuser, request.user])
         return HttpResponse(serialized_response, mimetype="application/json")
@@ -231,7 +231,7 @@ def UserAccountInfo (request):
         return HttpResponseForbidden()
 
 
-def LoginAppUser (request):
+def LoginAppUser(request):
     if request.method == 'POST':
         username = request.POST['username'].lower()
         password = request.POST['password']
@@ -255,14 +255,14 @@ def LoginAppUser (request):
             else:
                 response = json.dumps({'status': 'inactive', })
                 return HttpResponse(response, mimetype="application/json", status=401)
-            # Return a 'disabled account' error message
+                # Return a 'disabled account' error message
         else:
             response = json.dumps({'status': 'unauthorized', })
             return HttpResponse(response, mimetype="application/json", status=401)
-        # Return an 'invalid login' error message.
+            # Return an 'invalid login' error message.
 
 
-def UserPasswordReset (request, template='registration/password_reset_email.html'):
+def UserPasswordReset(request, template='registration/password_reset_email.html'):
     if request.method == 'POST':
         email = request.POST.get('email', None)
         if email is not None:
@@ -276,7 +276,7 @@ def UserPasswordReset (request, template='registration/password_reset_email.html
                 return HttpResponse(response, mimetype="application/json")
 
 
-def LoginBarAdmin (request):
+def LoginBarAdmin(request):
     if request.method == 'POST':
         username = request.POST['username'].lower()
         password = request.POST['password']
@@ -295,20 +295,20 @@ def LoginBarAdmin (request):
             else:
                 response = json.dumps({'status': 'inactive', })
                 return HttpResponse(response, mimetype="application/json", status=401)
-            # Return a 'disabled account' error message
+                # Return a 'disabled account' error message
         else:
             response = json.dumps({'status': 'unauthorized', })
             return HttpResponse(response, mimetype="application/json", status=401)
-        # Return an 'invalid login' error message.
+            # Return an 'invalid login' error message.
 
 
-def LogoutAppUser (request):
+def LogoutAppUser(request):
     logout(request)
     response = json.dumps({'status': 'success', })
     return HttpResponse(response, mimetype="application/json")
 
 
-def UserProfilePictureSaved (request):
+def UserProfilePictureSaved(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             appuser = AppUser.objects.get(pk=request.user.appuser.pk)
@@ -322,7 +322,7 @@ def UserProfilePictureSaved (request):
             return HttpResponse(response, mimetype="application/json", status=401)
 
 
-def UserProfilePictureRemoved (request):
+def UserProfilePictureRemoved(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             appuser = AppUser.objects.get(pk=request.user.appuser.pk)
@@ -336,7 +336,7 @@ def UserProfilePictureRemoved (request):
             return HttpResponse(response, mimetype="application/json", status=401)
 
 
-def InvalidateUserCard (request):
+def InvalidateUserCard(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             helper = BalancedPaymentsHelper()
@@ -345,7 +345,7 @@ def InvalidateUserCard (request):
             return HttpResponse(response, mimetype="application/json")
 
 
-def UpdateUserCard (request):
+def UpdateUserCard(request):
     if request.method == 'POST':
         if request.user.is_authenticated():
             cc_uri = request.POST.get('uri', None)
@@ -364,7 +364,7 @@ def UpdateUserCard (request):
     return HttpResponse(response, mimetype="application/json", status=401)
 
 
-def CurrentUserCard (request):
+def CurrentUserCard(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             helper = BalancedPaymentsHelper()
@@ -379,7 +379,7 @@ def CurrentUserCard (request):
             return HttpResponse(response, mimetype="application/json")
 
 
-def GetUserOrderHistory (request):
+def GetUserOrderHistory(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             orders = BarOrder.objects.filter(appuser=request.user.appuser).order_by('-id')[:100]
@@ -388,12 +388,12 @@ def GetUserOrderHistory (request):
             return HttpResponse(serialized_response, mimetype="application/json")
 
 
-def EmptyTokenCall (request):
+def EmptyTokenCall(request):
     request.META["CSRF_COOKIE_USED"] = True
     return HttpResponse('success')
 
 
-def CheckAppUserAuthenticated (request):
+def CheckAppUserAuthenticated(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             response = json.dumps({'status': 'success', })
@@ -407,7 +407,7 @@ def CheckAppUserAuthenticated (request):
 
 #NEED TO VERIFY THAT USER IS A BARTENDER
 
-def CreateNewOrder (request):
+def CreateNewOrder(request):
     if not request.user.is_authenticated():
         return HttpResponseForbidden()
 
@@ -449,8 +449,20 @@ def CreateNewOrder (request):
             return HttpResponse(serialized_response, mimetype="application/json")
 
 
+def GetStatusForOrder(request):
+    if not request.user.is_authenticated():
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id', None)
+        if order_id is not None:
+            order = BarOrder.objects.get(pk=order_id)
+            response = json.dumps({'order': order_id, 'status': order.current_status})
+            return HttpResponse(response, mimetype="application/json")
+
+
 @staff_member_required
-def GetNewOrdersForBarSince (request, bar_id=0, since_time=0, status=0):
+def GetNewOrdersForBarSince(request, bar_id=0, since_time=0, status=0):
     if request.method == 'GET':
 
         bartender = BarAdminUser.objects.get(pk=request.user.id)
@@ -481,7 +493,7 @@ def GetNewOrdersForBarSince (request, bar_id=0, since_time=0, status=0):
 
 
 @staff_member_required
-def GetOrdersForBarWithStatus (request, bar_id=0, status=0):
+def GetOrdersForBarWithStatus(request, bar_id=0, status=0):
     if request.method == 'GET':
         #orders = Order.objects.filter(bar=bar_id).filter(current_status=status)
 
@@ -512,7 +524,7 @@ def GetOrdersForBarWithStatus (request, bar_id=0, status=0):
 
 
 @staff_member_required
-def GetOrdersForBarWithStatusInTimeRange (request, bar_id=0, status=0, time_start=0, time_end=datetime.today()):
+def GetOrdersForBarWithStatusInTimeRange(request, bar_id=0, status=0, time_start=0, time_end=datetime.today()):
     if request.method == 'GET':
 
         bartender = BarAdminUser.objects.get(pk=request.user.id)
@@ -543,7 +555,7 @@ def GetOrdersForBarWithStatusInTimeRange (request, bar_id=0, status=0, time_star
 
 
 @staff_member_required
-def UpdateOrderStatus (request):
+def UpdateOrderStatus(request):
 #if not request.user.is_authenticated():
 #return HttpResponseForbidden()
 
@@ -560,7 +572,7 @@ def UpdateOrderStatus (request):
             return HttpResponse(serialized_response, mimetype="application/json")
 
 
-def DrinksForOrder (request):
+def DrinksForOrder(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
             order_id = request.GET.get('order_id', None)
@@ -578,17 +590,17 @@ def DrinksForOrder (request):
 ##################
 ##################
 #BEGIN FB VIEWS
-def index (request):
+def index(request):
     return HttpResponse("""<button onclick="location.href='/facebook/login/'">Facebook Login</button>""")
 
 #This view redirects the user to facebook in order to get the code that allows
 #pyfb to obtain the access_token in the facebook_login_success view
-def FacebookLogin (request):
+def FacebookLogin(request):
     facebook = Pyfb(FACEBOOK_APP_ID)
     return HttpResponseRedirect(facebook.get_auth_code_url(redirect_uri=FACEBOOK_REDIRECT_URL))
 
 #This view must be refered in your FACEBOOK_REDIRECT_URL. For example: http://www.mywebsite.com/facebook_login_success/
-def FacebookLoginSuccess (request):
+def FacebookLoginSuccess(request):
     code = request.GET.get('code')
 
     facebook = Pyfb(FACEBOOK_APP_ID)
@@ -602,7 +614,7 @@ def FacebookLoginSuccess (request):
     return HttpResponse(welcome % me.username)
 
 
-def FacebookMobileLogin (request):
+def FacebookMobileLogin(request):
     if request.method == 'POST':
 
         primary_user = 1

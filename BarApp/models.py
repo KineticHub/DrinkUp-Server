@@ -1,7 +1,6 @@
 #DrinkUp/BarApp
 from django.db import models
 from ApiApp.models import BaseModel
-from DrinkUp.Helpers import AirshipHelper
 from VenueApp.models import Venue
 
 from DrinkUp.Helpers.BalancedHelper import BalancedPaymentsHelper
@@ -101,7 +100,7 @@ class BarOrder(BaseModel):
 
     def updateReady(self):
         uahelper = AirshipHelper()
-        uahelper.push_message_for_user(message='Your order is ready! Go get it and DrinkUp!', user=self.appuser.user,
+        uahelper.push_message_for_user(message='Order ready!  Pickup @ the DrinkUp sign!', user=self.appuser.user,
                                        status=3, order_id=self.pk)
 
     def captureHold(self):
