@@ -1,6 +1,7 @@
 #DrinkUp.URLS
 from django.conf.urls.defaults import *
 from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -63,8 +64,6 @@ urlpatterns += patterns('ApiApp.views',
 urlpatterns += patterns('',
                         (r'^$', 'django.views.generic.simple.redirect_to', {'url': '/admin/'}),
                         (r'^grappelli/', include('grappelli.urls')),
-)
-
-urlpatterns += patterns('django.contrib.flatpages.views',
-                        url(r'^info/privacy/$', 'flatpage', {'url': 'info/privacy/'}, name='privacy'),
+                        url(r'^info/privacy/$', TemplateView.as_view(template_name="privacy.html")),
+                        url(r'^info/terms/$', TemplateView.as_view(template_name="terms.html")),
 )

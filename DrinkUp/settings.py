@@ -195,7 +195,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'django.contrib.flatpages',
+    # 'django.contrib.flatpages',
     'django_extensions',
     'registration',
     'ApiApp',
