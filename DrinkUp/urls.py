@@ -64,6 +64,6 @@ urlpatterns += patterns('ApiApp.views',
 urlpatterns += patterns('',
                         (r'^$', 'django.views.generic.simple.redirect_to', {'url': '/admin/'}),
                         (r'^grappelli/', include('grappelli.urls')),
-                        url(r'^info/privacy/$', TemplateView.as_view(template_name="privacy.html")),
-                        url(r'^info/terms/$', TemplateView.as_view(template_name="terms.html")),
+                        # url(r'^info/privacy/$', TemplateView.as_view(template_name="privacy.html")),
+                        # url(r'^info/terms/$', TemplateView.as_view(template_name="terms.html")),
 )
