@@ -109,7 +109,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    # 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -128,7 +128,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(SETTINGS_PATH, 'templates/'),
     '/templates/',
-    'opt/bitnami/apps/django/django_projects/DrinkUp/DrinkUp/templates',
+    # 'opt/bitnami/apps/django/django_projects/DrinkUp/DrinkUp/templates',
 )
 
 #AMAZON BUCKETS
