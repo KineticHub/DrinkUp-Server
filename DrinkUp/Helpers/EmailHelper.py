@@ -29,7 +29,7 @@ def send_email_to_user (email_args):
     # img = MIMEImage(img_data, 'jpg')
     # img.add_header('Content-Id', '<email_logo>')  # angle brackets are important
     # msg.attach(img)
-    msg.send()
+    # msg.send()
 
     # Optional Mandrill-specific extensions:
     #msg.tags = ["one tag", "two tag", "red tag", "blue tag"]
