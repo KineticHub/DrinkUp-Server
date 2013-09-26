@@ -8,7 +8,7 @@ TEMPLATE_DEBUG = DEBUG
 #os.environ["DJANGO_SETTINGS_MODULE"] = '/opt/bitnami/apps/django/django_projects/DrinkUp/'
 
 ADMINS = (
-    ('K. Alnajar', 'kalnajar@gmail.com'),
+    ('K. Alnajar', 'kalnajar09@gmail.com'),
 )
 
 MANAGERS = ADMINS
